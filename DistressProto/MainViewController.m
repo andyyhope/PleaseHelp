@@ -26,6 +26,7 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+    //Test
 }
 
 #pragma mark - Settings View
