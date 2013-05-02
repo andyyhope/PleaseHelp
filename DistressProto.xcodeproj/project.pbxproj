@@ -1,0 +1,428 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3A96BE4E172D171E0092B2C4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A96BE4D172D171E0092B2C4 /* UIKit.framework */; };
+		3A96BE50172D171E0092B2C4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A96BE4F172D171E0092B2C4 /* Foundation.framework */; };
+		3A96BE52172D171E0092B2C4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A96BE51172D171E0092B2C4 /* CoreGraphics.framework */; };
+		3A96BE58172D171E0092B2C4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3A96BE56172D171E0092B2C4 /* InfoPlist.strings */; };
+		3A96BE5A172D171E0092B2C4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A96BE59172D171E0092B2C4 /* main.m */; };
+		3A96BE5E172D171E0092B2C4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A96BE5D172D171E0092B2C4 /* AppDelegate.m */; };
+		3A96BE60172D171E0092B2C4 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A96BE5F172D171E0092B2C4 /* Default.png */; };
+		3A96BE62172D171E0092B2C4 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A96BE61172D171E0092B2C4 /* Default@2x.png */; };
+		3A96BE64172D171E0092B2C4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A96BE63172D171E0092B2C4 /* Default-568h@2x.png */; };
+		3A96BE67172D171E0092B2C4 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A96BE66172D171E0092B2C4 /* MainViewController.m */; };
+		3A96BE6D172D171E0092B2C4 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A96BE6B172D171E0092B2C4 /* MainViewController.xib */; };
+		3A96BE84172D1A9D0092B2C4 /* PasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A96BE82172D1A9D0092B2C4 /* PasscodeViewController.m */; };
+		3A96BE85172D1A9D0092B2C4 /* PasscodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A96BE83172D1A9D0092B2C4 /* PasscodeViewController.xib */; };
+		3A96BE89172D1AB70092B2C4 /* JCMSegmentPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A96BE88172D1AB70092B2C4 /* JCMSegmentPageController.m */; };
+		3A96BE8C172D1AD50092B2C4 /* ContactItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A96BE8B172D1AD50092B2C4 /* ContactItem.m */; };
+		3A96BE99172D1AFC0092B2C4 /* ContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A96BE90172D1AFC0092B2C4 /* ContactsViewController.m */; };
+		3A96BE9A172D1AFC0092B2C4 /* ContactsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A96BE91172D1AFC0092B2C4 /* ContactsViewController.xib */; };
+		3A96BE9B172D1AFC0092B2C4 /* AddContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A96BE93172D1AFC0092B2C4 /* AddContactViewController.m */; };
+		3A96BE9C172D1AFC0092B2C4 /* AddContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A96BE94172D1AFC0092B2C4 /* AddContactViewController.xib */; };
+		3A96BE9D172D1AFC0092B2C4 /* EditContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A96BE96172D1AFC0092B2C4 /* EditContactViewController.m */; };
+		3A96BE9E172D1AFC0092B2C4 /* EditContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A96BE97172D1AFC0092B2C4 /* EditContactViewController.xib */; };
+		3A96BEA0172D1B1C0092B2C4 /* contacts.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3A96BE9F172D1B1C0092B2C4 /* contacts.plist */; };
+		D00227691730198D00755C5A /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D00227671730198C00755C5A /* AddressBook.framework */; };
+		D002276A1730198D00755C5A /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D00227681730198D00755C5A /* AddressBookUI.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		3A96BE4A172D171E0092B2C4 /* DistressProto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DistressProto.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A96BE4D172D171E0092B2C4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		3A96BE4F172D171E0092B2C4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		3A96BE51172D171E0092B2C4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		3A96BE55172D171E0092B2C4 /* DistressProto-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DistressProto-Info.plist"; sourceTree = "<group>"; };
+		3A96BE57172D171E0092B2C4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3A96BE59172D171E0092B2C4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		3A96BE5B172D171E0092B2C4 /* DistressProto-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DistressProto-Prefix.pch"; sourceTree = "<group>"; };
+		3A96BE5C172D171E0092B2C4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		3A96BE5D172D171E0092B2C4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		3A96BE5F172D171E0092B2C4 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		3A96BE61172D171E0092B2C4 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		3A96BE63172D171E0092B2C4 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		3A96BE65172D171E0092B2C4 /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		3A96BE66172D171E0092B2C4 /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		3A96BE6C172D171E0092B2C4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainViewController.xib; sourceTree = "<group>"; };
+		3A96BE81172D1A9D0092B2C4 /* PasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasscodeViewController.h; sourceTree = "<group>"; };
+		3A96BE82172D1A9D0092B2C4 /* PasscodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasscodeViewController.m; sourceTree = "<group>"; };
+		3A96BE83172D1A9D0092B2C4 /* PasscodeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PasscodeViewController.xib; sourceTree = "<group>"; };
+		3A96BE87172D1AB70092B2C4 /* JCMSegmentPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCMSegmentPageController.h; sourceTree = "<group>"; };
+		3A96BE88172D1AB70092B2C4 /* JCMSegmentPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCMSegmentPageController.m; sourceTree = "<group>"; };
+		3A96BE8A172D1AD50092B2C4 /* ContactItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactItem.h; sourceTree = "<group>"; };
+		3A96BE8B172D1AD50092B2C4 /* ContactItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactItem.m; sourceTree = "<group>"; };
+		3A96BE8F172D1AFC0092B2C4 /* ContactsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsViewController.h; sourceTree = "<group>"; };
+		3A96BE90172D1AFC0092B2C4 /* ContactsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsViewController.m; sourceTree = "<group>"; };
+		3A96BE91172D1AFC0092B2C4 /* ContactsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactsViewController.xib; sourceTree = "<group>"; };
+		3A96BE92172D1AFC0092B2C4 /* AddContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddContactViewController.h; sourceTree = "<group>"; };
+		3A96BE93172D1AFC0092B2C4 /* AddContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddContactViewController.m; sourceTree = "<group>"; };
+		3A96BE94172D1AFC0092B2C4 /* AddContactViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddContactViewController.xib; sourceTree = "<group>"; };
+		3A96BE95172D1AFC0092B2C4 /* EditContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditContactViewController.h; sourceTree = "<group>"; };
+		3A96BE96172D1AFC0092B2C4 /* EditContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditContactViewController.m; sourceTree = "<group>"; };
+		3A96BE97172D1AFC0092B2C4 /* EditContactViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditContactViewController.xib; sourceTree = "<group>"; };
+		3A96BE9F172D1B1C0092B2C4 /* contacts.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = contacts.plist; sourceTree = "<group>"; };
+		D00227671730198C00755C5A /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		D00227681730198D00755C5A /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3A96BE47172D171E0092B2C4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D00227691730198D00755C5A /* AddressBook.framework in Frameworks */,
+				D002276A1730198D00755C5A /* AddressBookUI.framework in Frameworks */,
+				3A96BE4E172D171E0092B2C4 /* UIKit.framework in Frameworks */,
+				3A96BE50172D171E0092B2C4 /* Foundation.framework in Frameworks */,
+				3A96BE52172D171E0092B2C4 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3A96BE41172D171E0092B2C4 = {
+			isa = PBXGroup;
+			children = (
+				3A96BE53172D171E0092B2C4 /* DistressProto */,
+				3A96BE4C172D171E0092B2C4 /* Frameworks */,
+				3A96BE4B172D171E0092B2C4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3A96BE4B172D171E0092B2C4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3A96BE4A172D171E0092B2C4 /* DistressProto.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3A96BE4C172D171E0092B2C4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D00227671730198C00755C5A /* AddressBook.framework */,
+				D00227681730198D00755C5A /* AddressBookUI.framework */,
+				3A96BE4D172D171E0092B2C4 /* UIKit.framework */,
+				3A96BE4F172D171E0092B2C4 /* Foundation.framework */,
+				3A96BE51172D171E0092B2C4 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3A96BE53172D171E0092B2C4 /* DistressProto */ = {
+			isa = PBXGroup;
+			children = (
+				3A96BE77172D19470092B2C4 /* ControlCode */,
+				3A96BE76172D19390092B2C4 /* Categories */,
+				3A96BE5C172D171E0092B2C4 /* AppDelegate.h */,
+				3A96BE5D172D171E0092B2C4 /* AppDelegate.m */,
+				3A96BE65172D171E0092B2C4 /* MainViewController.h */,
+				3A96BE66172D171E0092B2C4 /* MainViewController.m */,
+				3A96BE6B172D171E0092B2C4 /* MainViewController.xib */,
+				3A96BE54172D171E0092B2C4 /* Supporting Files */,
+			);
+			path = DistressProto;
+			sourceTree = "<group>";
+		};
+		3A96BE54172D171E0092B2C4 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3A96BE55172D171E0092B2C4 /* DistressProto-Info.plist */,
+				3A96BE56172D171E0092B2C4 /* InfoPlist.strings */,
+				3A96BE59172D171E0092B2C4 /* main.m */,
+				3A96BE5B172D171E0092B2C4 /* DistressProto-Prefix.pch */,
+				3A96BE5F172D171E0092B2C4 /* Default.png */,
+				3A96BE61172D171E0092B2C4 /* Default@2x.png */,
+				3A96BE63172D171E0092B2C4 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3A96BE76172D19390092B2C4 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				3A96BE7B172D196C0092B2C4 /* MainView */,
+				3A96BE7A172D19680092B2C4 /* Settings */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		3A96BE77172D19470092B2C4 /* ControlCode */ = {
+			isa = PBXGroup;
+			children = (
+				3A96BE86172D1AAD0092B2C4 /* SegmentController */,
+			);
+			name = ControlCode;
+			sourceTree = "<group>";
+		};
+		3A96BE78172D19590092B2C4 /* Passcode */ = {
+			isa = PBXGroup;
+			children = (
+				3A96BE81172D1A9D0092B2C4 /* PasscodeViewController.h */,
+				3A96BE82172D1A9D0092B2C4 /* PasscodeViewController.m */,
+				3A96BE83172D1A9D0092B2C4 /* PasscodeViewController.xib */,
+			);
+			name = Passcode;
+			sourceTree = "<group>";
+		};
+		3A96BE79172D19610092B2C4 /* Contacts */ = {
+			isa = PBXGroup;
+			children = (
+				3A96BE9F172D1B1C0092B2C4 /* contacts.plist */,
+				3A96BE8A172D1AD50092B2C4 /* ContactItem.h */,
+				3A96BE8B172D1AD50092B2C4 /* ContactItem.m */,
+				3A96BE8F172D1AFC0092B2C4 /* ContactsViewController.h */,
+				3A96BE90172D1AFC0092B2C4 /* ContactsViewController.m */,
+				3A96BE91172D1AFC0092B2C4 /* ContactsViewController.xib */,
+				3A96BE92172D1AFC0092B2C4 /* AddContactViewController.h */,
+				3A96BE93172D1AFC0092B2C4 /* AddContactViewController.m */,
+				3A96BE94172D1AFC0092B2C4 /* AddContactViewController.xib */,
+				3A96BE95172D1AFC0092B2C4 /* EditContactViewController.h */,
+				3A96BE96172D1AFC0092B2C4 /* EditContactViewController.m */,
+				3A96BE97172D1AFC0092B2C4 /* EditContactViewController.xib */,
+			);
+			name = Contacts;
+			sourceTree = "<group>";
+		};
+		3A96BE7A172D19680092B2C4 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				3A96BE79172D19610092B2C4 /* Contacts */,
+				3A96BE78172D19590092B2C4 /* Passcode */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		3A96BE7B172D196C0092B2C4 /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = MainView;
+			sourceTree = "<group>";
+		};
+		3A96BE86172D1AAD0092B2C4 /* SegmentController */ = {
+			isa = PBXGroup;
+			children = (
+				3A96BE87172D1AB70092B2C4 /* JCMSegmentPageController.h */,
+				3A96BE88172D1AB70092B2C4 /* JCMSegmentPageController.m */,
+			);
+			name = SegmentController;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3A96BE49172D171E0092B2C4 /* DistressProto */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3A96BE73172D171F0092B2C4 /* Build configuration list for PBXNativeTarget "DistressProto" */;
+			buildPhases = (
+				3A96BE46172D171E0092B2C4 /* Sources */,
+				3A96BE47172D171E0092B2C4 /* Frameworks */,
+				3A96BE48172D171E0092B2C4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DistressProto;
+			productName = DistressProto;
+			productReference = 3A96BE4A172D171E0092B2C4 /* DistressProto.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3A96BE42172D171E0092B2C4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = ECU;
+			};
+			buildConfigurationList = 3A96BE45172D171E0092B2C4 /* Build configuration list for PBXProject "DistressProto" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 3A96BE41172D171E0092B2C4;
+			productRefGroup = 3A96BE4B172D171E0092B2C4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3A96BE49172D171E0092B2C4 /* DistressProto */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3A96BE48172D171E0092B2C4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A96BE58172D171E0092B2C4 /* InfoPlist.strings in Resources */,
+				3A96BE60172D171E0092B2C4 /* Default.png in Resources */,
+				3A96BE62172D171E0092B2C4 /* Default@2x.png in Resources */,
+				3A96BE64172D171E0092B2C4 /* Default-568h@2x.png in Resources */,
+				3A96BE6D172D171E0092B2C4 /* MainViewController.xib in Resources */,
+				3A96BE85172D1A9D0092B2C4 /* PasscodeViewController.xib in Resources */,
+				3A96BE9A172D1AFC0092B2C4 /* ContactsViewController.xib in Resources */,
+				3A96BE9C172D1AFC0092B2C4 /* AddContactViewController.xib in Resources */,
+				3A96BE9E172D1AFC0092B2C4 /* EditContactViewController.xib in Resources */,
+				3A96BEA0172D1B1C0092B2C4 /* contacts.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3A96BE46172D171E0092B2C4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A96BE5A172D171E0092B2C4 /* main.m in Sources */,
+				3A96BE5E172D171E0092B2C4 /* AppDelegate.m in Sources */,
+				3A96BE67172D171E0092B2C4 /* MainViewController.m in Sources */,
+				3A96BE84172D1A9D0092B2C4 /* PasscodeViewController.m in Sources */,
+				3A96BE89172D1AB70092B2C4 /* JCMSegmentPageController.m in Sources */,
+				3A96BE8C172D1AD50092B2C4 /* ContactItem.m in Sources */,
+				3A96BE99172D1AFC0092B2C4 /* ContactsViewController.m in Sources */,
+				3A96BE9B172D1AFC0092B2C4 /* AddContactViewController.m in Sources */,
+				3A96BE9D172D1AFC0092B2C4 /* EditContactViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		3A96BE56172D171E0092B2C4 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3A96BE57172D171E0092B2C4 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		3A96BE6B172D171E0092B2C4 /* MainViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3A96BE6C172D171E0092B2C4 /* en */,
+			);
+			name = MainViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3A96BE71172D171F0092B2C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		3A96BE72172D171F0092B2C4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3A96BE74172D171F0092B2C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DistressProto/DistressProto-Prefix.pch";
+				INFOPLIST_FILE = "DistressProto/DistressProto-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		3A96BE75172D171F0092B2C4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DistressProto/DistressProto-Prefix.pch";
+				INFOPLIST_FILE = "DistressProto/DistressProto-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3A96BE45172D171E0092B2C4 /* Build configuration list for PBXProject "DistressProto" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A96BE71172D171F0092B2C4 /* Debug */,
+				3A96BE72172D171F0092B2C4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3A96BE73172D171F0092B2C4 /* Build configuration list for PBXNativeTarget "DistressProto" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A96BE74172D171F0092B2C4 /* Debug */,
+				3A96BE75172D171F0092B2C4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3A96BE42172D171E0092B2C4 /* Project object */;
+}
