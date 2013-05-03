@@ -16,8 +16,6 @@
 		3A96BE60172D171E0092B2C4 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A96BE5F172D171E0092B2C4 /* Default.png */; };
 		3A96BE62172D171E0092B2C4 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A96BE61172D171E0092B2C4 /* Default@2x.png */; };
 		3A96BE64172D171E0092B2C4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A96BE63172D171E0092B2C4 /* Default-568h@2x.png */; };
-		3A96BE67172D171E0092B2C4 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A96BE66172D171E0092B2C4 /* MainViewController.m */; };
-		3A96BE6D172D171E0092B2C4 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A96BE6B172D171E0092B2C4 /* MainViewController.xib */; };
 		3A96BE84172D1A9D0092B2C4 /* PasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A96BE82172D1A9D0092B2C4 /* PasscodeViewController.m */; };
 		3A96BE85172D1A9D0092B2C4 /* PasscodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A96BE83172D1A9D0092B2C4 /* PasscodeViewController.xib */; };
 		3A96BE89172D1AB70092B2C4 /* JCMSegmentPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A96BE88172D1AB70092B2C4 /* JCMSegmentPageController.m */; };
@@ -31,6 +29,31 @@
 		3A96BEA0172D1B1C0092B2C4 /* contacts.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3A96BE9F172D1B1C0092B2C4 /* contacts.plist */; };
 		D00227691730198D00755C5A /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D00227671730198C00755C5A /* AddressBook.framework */; };
 		D002276A1730198D00755C5A /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D00227681730198D00755C5A /* AddressBookUI.framework */; };
+		D002276C17326F9E00755C5A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D002276B17326F9E00755C5A /* CoreLocation.framework */; };
+		D002276E17326FA400755C5A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D002276D17326FA400755C5A /* QuartzCore.framework */; };
+		D002277017326FA900755C5A /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D002276F17326FA900755C5A /* MessageUI.framework */; };
+		D00227921732725300755C5A /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D00227911732725300755C5A /* CoreTelephony.framework */; };
+		D00227A31732728300755C5A /* settingsButton.png in Resources */ = {isa = PBXBuildFile; fileRef = D00227931732728300755C5A /* settingsButton.png */; };
+		D00227A41732728300755C5A /* settingsButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D00227941732728300755C5A /* settingsButton@2x.png */; };
+		D00227A51732728300755C5A /* NavigationBarBG.png in Resources */ = {isa = PBXBuildFile; fileRef = D00227951732728300755C5A /* NavigationBarBG.png */; };
+		D00227A61732728300755C5A /* default_profile_image.gif in Resources */ = {isa = PBXBuildFile; fileRef = D00227961732728300755C5A /* default_profile_image.gif */; };
+		D00227A71732728300755C5A /* Contact01.png in Resources */ = {isa = PBXBuildFile; fileRef = D00227971732728300755C5A /* Contact01.png */; };
+		D00227A81732728300755C5A /* Contact01@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D00227981732728300755C5A /* Contact01@2x.png */; };
+		D00227A91732728300755C5A /* Contact02.png in Resources */ = {isa = PBXBuildFile; fileRef = D00227991732728300755C5A /* Contact02.png */; };
+		D00227AA1732728300755C5A /* Contact02@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D002279A1732728300755C5A /* Contact02@2x.png */; };
+		D00227AB1732728300755C5A /* Contact03.png in Resources */ = {isa = PBXBuildFile; fileRef = D002279B1732728300755C5A /* Contact03.png */; };
+		D00227AC1732728300755C5A /* Contact03@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D002279C1732728300755C5A /* Contact03@2x.png */; };
+		D00227AD1732728300755C5A /* Contact04.png in Resources */ = {isa = PBXBuildFile; fileRef = D002279D1732728300755C5A /* Contact04.png */; };
+		D00227AE1732728300755C5A /* Contact04@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D002279E1732728300755C5A /* Contact04@2x.png */; };
+		D00227AF1732728300755C5A /* Contact05.png in Resources */ = {isa = PBXBuildFile; fileRef = D002279F1732728300755C5A /* Contact05.png */; };
+		D00227B01732728300755C5A /* Contact05@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D00227A01732728300755C5A /* Contact05@2x.png */; };
+		D00227B11732728300755C5A /* Contact06.png in Resources */ = {isa = PBXBuildFile; fileRef = D00227A11732728300755C5A /* Contact06.png */; };
+		D00227B21732728300755C5A /* Contact06@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D00227A21732728300755C5A /* Contact06@2x.png */; };
+		D00227B6173273BF00755C5A /* CallingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D00227B5173273BF00755C5A /* CallingViewController.m */; };
+		D00227B9173273FD00755C5A /* OptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D00227B8173273FC00755C5A /* OptionViewController.m */; };
+		D00227BC1732742F00755C5A /* ContactsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D00227BB1732742E00755C5A /* ContactsTableViewCell.m */; };
+		D00227BF1732747000755C5A /* MainContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D00227BE1732746E00755C5A /* MainContactViewController.m */; };
+		D1A417061733707D00304DC1 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A417051733707D00304DC1 /* Icon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,9 +70,6 @@
 		3A96BE5F172D171E0092B2C4 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		3A96BE61172D171E0092B2C4 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		3A96BE63172D171E0092B2C4 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		3A96BE65172D171E0092B2C4 /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
-		3A96BE66172D171E0092B2C4 /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
-		3A96BE6C172D171E0092B2C4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainViewController.xib; sourceTree = "<group>"; };
 		3A96BE81172D1A9D0092B2C4 /* PasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasscodeViewController.h; sourceTree = "<group>"; };
 		3A96BE82172D1A9D0092B2C4 /* PasscodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasscodeViewController.m; sourceTree = "<group>"; };
 		3A96BE83172D1A9D0092B2C4 /* PasscodeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PasscodeViewController.xib; sourceTree = "<group>"; };
@@ -69,6 +89,36 @@
 		3A96BE9F172D1B1C0092B2C4 /* contacts.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = contacts.plist; sourceTree = "<group>"; };
 		D00227671730198C00755C5A /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		D00227681730198D00755C5A /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		D002276B17326F9E00755C5A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		D002276D17326FA400755C5A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		D002276F17326FA900755C5A /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		D00227911732725300755C5A /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		D00227931732728300755C5A /* settingsButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settingsButton.png; sourceTree = "<group>"; };
+		D00227941732728300755C5A /* settingsButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settingsButton@2x.png"; sourceTree = "<group>"; };
+		D00227951732728300755C5A /* NavigationBarBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NavigationBarBG.png; sourceTree = "<group>"; };
+		D00227961732728300755C5A /* default_profile_image.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = default_profile_image.gif; sourceTree = "<group>"; };
+		D00227971732728300755C5A /* Contact01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Contact01.png; sourceTree = "<group>"; };
+		D00227981732728300755C5A /* Contact01@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Contact01@2x.png"; sourceTree = "<group>"; };
+		D00227991732728300755C5A /* Contact02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Contact02.png; sourceTree = "<group>"; };
+		D002279A1732728300755C5A /* Contact02@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Contact02@2x.png"; sourceTree = "<group>"; };
+		D002279B1732728300755C5A /* Contact03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Contact03.png; sourceTree = "<group>"; };
+		D002279C1732728300755C5A /* Contact03@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Contact03@2x.png"; sourceTree = "<group>"; };
+		D002279D1732728300755C5A /* Contact04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Contact04.png; sourceTree = "<group>"; };
+		D002279E1732728300755C5A /* Contact04@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Contact04@2x.png"; sourceTree = "<group>"; };
+		D002279F1732728300755C5A /* Contact05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Contact05.png; sourceTree = "<group>"; };
+		D00227A01732728300755C5A /* Contact05@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Contact05@2x.png"; sourceTree = "<group>"; };
+		D00227A11732728300755C5A /* Contact06.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Contact06.png; sourceTree = "<group>"; };
+		D00227A21732728300755C5A /* Contact06@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Contact06@2x.png"; sourceTree = "<group>"; };
+		D00227B3173272A900755C5A /* AppearanceConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppearanceConstants.h; sourceTree = "<group>"; };
+		D00227B4173273BE00755C5A /* CallingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallingViewController.h; sourceTree = "<group>"; };
+		D00227B5173273BF00755C5A /* CallingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallingViewController.m; sourceTree = "<group>"; };
+		D00227B7173273FB00755C5A /* OptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionViewController.h; sourceTree = "<group>"; };
+		D00227B8173273FC00755C5A /* OptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionViewController.m; sourceTree = "<group>"; };
+		D00227BA1732742D00755C5A /* ContactsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsTableViewCell.h; sourceTree = "<group>"; };
+		D00227BB1732742E00755C5A /* ContactsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsTableViewCell.m; sourceTree = "<group>"; };
+		D00227BD1732746D00755C5A /* MainContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainContactViewController.h; sourceTree = "<group>"; };
+		D00227BE1732746E00755C5A /* MainContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainContactViewController.m; sourceTree = "<group>"; };
+		D1A417051733707D00304DC1 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +126,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D00227921732725300755C5A /* CoreTelephony.framework in Frameworks */,
+				D002277017326FA900755C5A /* MessageUI.framework in Frameworks */,
+				D002276E17326FA400755C5A /* QuartzCore.framework in Frameworks */,
+				D002276C17326F9E00755C5A /* CoreLocation.framework in Frameworks */,
 				D00227691730198D00755C5A /* AddressBook.framework in Frameworks */,
 				D002276A1730198D00755C5A /* AddressBookUI.framework in Frameworks */,
 				3A96BE4E172D171E0092B2C4 /* UIKit.framework in Frameworks */,
@@ -107,6 +161,10 @@
 		3A96BE4C172D171E0092B2C4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D00227911732725300755C5A /* CoreTelephony.framework */,
+				D002276F17326FA900755C5A /* MessageUI.framework */,
+				D002276D17326FA400755C5A /* QuartzCore.framework */,
+				D002276B17326F9E00755C5A /* CoreLocation.framework */,
 				D00227671730198C00755C5A /* AddressBook.framework */,
 				D00227681730198D00755C5A /* AddressBookUI.framework */,
 				3A96BE4D172D171E0092B2C4 /* UIKit.framework */,
@@ -119,13 +177,11 @@
 		3A96BE53172D171E0092B2C4 /* DistressProto */ = {
 			isa = PBXGroup;
 			children = (
+				D1A417051733707D00304DC1 /* Icon.png */,
 				3A96BE77172D19470092B2C4 /* ControlCode */,
 				3A96BE76172D19390092B2C4 /* Categories */,
 				3A96BE5C172D171E0092B2C4 /* AppDelegate.h */,
 				3A96BE5D172D171E0092B2C4 /* AppDelegate.m */,
-				3A96BE65172D171E0092B2C4 /* MainViewController.h */,
-				3A96BE66172D171E0092B2C4 /* MainViewController.m */,
-				3A96BE6B172D171E0092B2C4 /* MainViewController.xib */,
 				3A96BE54172D171E0092B2C4 /* Supporting Files */,
 			);
 			path = DistressProto;
@@ -203,6 +259,16 @@
 		3A96BE7B172D196C0092B2C4 /* MainView */ = {
 			isa = PBXGroup;
 			children = (
+				D00227B3173272A900755C5A /* AppearanceConstants.h */,
+				D00227BD1732746D00755C5A /* MainContactViewController.h */,
+				D00227BE1732746E00755C5A /* MainContactViewController.m */,
+				D00227B4173273BE00755C5A /* CallingViewController.h */,
+				D00227B5173273BF00755C5A /* CallingViewController.m */,
+				D00227B7173273FB00755C5A /* OptionViewController.h */,
+				D00227B8173273FC00755C5A /* OptionViewController.m */,
+				D00227BA1732742D00755C5A /* ContactsTableViewCell.h */,
+				D00227BB1732742E00755C5A /* ContactsTableViewCell.m */,
+				D002277A1732701C00755C5A /* Images */,
 			);
 			name = MainView;
 			sourceTree = "<group>";
@@ -214,6 +280,29 @@
 				3A96BE88172D1AB70092B2C4 /* JCMSegmentPageController.m */,
 			);
 			name = SegmentController;
+			sourceTree = "<group>";
+		};
+		D002277A1732701C00755C5A /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				D00227931732728300755C5A /* settingsButton.png */,
+				D00227941732728300755C5A /* settingsButton@2x.png */,
+				D00227951732728300755C5A /* NavigationBarBG.png */,
+				D00227961732728300755C5A /* default_profile_image.gif */,
+				D00227971732728300755C5A /* Contact01.png */,
+				D00227981732728300755C5A /* Contact01@2x.png */,
+				D00227991732728300755C5A /* Contact02.png */,
+				D002279A1732728300755C5A /* Contact02@2x.png */,
+				D002279B1732728300755C5A /* Contact03.png */,
+				D002279C1732728300755C5A /* Contact03@2x.png */,
+				D002279D1732728300755C5A /* Contact04.png */,
+				D002279E1732728300755C5A /* Contact04@2x.png */,
+				D002279F1732728300755C5A /* Contact05.png */,
+				D00227A01732728300755C5A /* Contact05@2x.png */,
+				D00227A11732728300755C5A /* Contact06.png */,
+				D00227A21732728300755C5A /* Contact06@2x.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,12 +360,28 @@
 				3A96BE60172D171E0092B2C4 /* Default.png in Resources */,
 				3A96BE62172D171E0092B2C4 /* Default@2x.png in Resources */,
 				3A96BE64172D171E0092B2C4 /* Default-568h@2x.png in Resources */,
-				3A96BE6D172D171E0092B2C4 /* MainViewController.xib in Resources */,
 				3A96BE85172D1A9D0092B2C4 /* PasscodeViewController.xib in Resources */,
 				3A96BE9A172D1AFC0092B2C4 /* ContactsViewController.xib in Resources */,
 				3A96BE9C172D1AFC0092B2C4 /* AddContactViewController.xib in Resources */,
 				3A96BE9E172D1AFC0092B2C4 /* EditContactViewController.xib in Resources */,
 				3A96BEA0172D1B1C0092B2C4 /* contacts.plist in Resources */,
+				D00227A31732728300755C5A /* settingsButton.png in Resources */,
+				D00227A41732728300755C5A /* settingsButton@2x.png in Resources */,
+				D00227A51732728300755C5A /* NavigationBarBG.png in Resources */,
+				D00227A61732728300755C5A /* default_profile_image.gif in Resources */,
+				D00227A71732728300755C5A /* Contact01.png in Resources */,
+				D00227A81732728300755C5A /* Contact01@2x.png in Resources */,
+				D00227A91732728300755C5A /* Contact02.png in Resources */,
+				D00227AA1732728300755C5A /* Contact02@2x.png in Resources */,
+				D00227AB1732728300755C5A /* Contact03.png in Resources */,
+				D00227AC1732728300755C5A /* Contact03@2x.png in Resources */,
+				D00227AD1732728300755C5A /* Contact04.png in Resources */,
+				D00227AE1732728300755C5A /* Contact04@2x.png in Resources */,
+				D00227AF1732728300755C5A /* Contact05.png in Resources */,
+				D00227B01732728300755C5A /* Contact05@2x.png in Resources */,
+				D00227B11732728300755C5A /* Contact06.png in Resources */,
+				D00227B21732728300755C5A /* Contact06@2x.png in Resources */,
+				D1A417061733707D00304DC1 /* Icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,13 +394,16 @@
 			files = (
 				3A96BE5A172D171E0092B2C4 /* main.m in Sources */,
 				3A96BE5E172D171E0092B2C4 /* AppDelegate.m in Sources */,
-				3A96BE67172D171E0092B2C4 /* MainViewController.m in Sources */,
 				3A96BE84172D1A9D0092B2C4 /* PasscodeViewController.m in Sources */,
 				3A96BE89172D1AB70092B2C4 /* JCMSegmentPageController.m in Sources */,
 				3A96BE8C172D1AD50092B2C4 /* ContactItem.m in Sources */,
 				3A96BE99172D1AFC0092B2C4 /* ContactsViewController.m in Sources */,
 				3A96BE9B172D1AFC0092B2C4 /* AddContactViewController.m in Sources */,
 				3A96BE9D172D1AFC0092B2C4 /* EditContactViewController.m in Sources */,
+				D00227B6173273BF00755C5A /* CallingViewController.m in Sources */,
+				D00227B9173273FD00755C5A /* OptionViewController.m in Sources */,
+				D00227BC1732742F00755C5A /* ContactsTableViewCell.m in Sources */,
+				D00227BF1732747000755C5A /* MainContactViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,14 +416,6 @@
 				3A96BE57172D171E0092B2C4 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		3A96BE6B172D171E0092B2C4 /* MainViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3A96BE6C172D171E0092B2C4 /* en */,
-			);
-			name = MainViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
