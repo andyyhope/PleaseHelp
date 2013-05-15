@@ -13,9 +13,13 @@
 @property NSString *uuid;
 @property NSString *name;
 @property NSString *phone;
+@property NSString *relation;
 @property UIImage *image;
 
-+ (ContactItem *)createUserWithName:(NSString *)name andPhone:(NSString *)phone;
-+ (ContactItem *)createUserWithName:(NSString *)name andPhone:(NSString *)phone andImage:(UIImage *)image;
++ (ContactItem *)createUserWithName:(NSString *)name andPhone:(NSString *)phone andRelation:(NSString *)relation;
++ (ContactItem *)createUserWithName:(NSString *)name andPhone:(NSString *)phone andRelation:(NSString *)relation andImage:(UIImage *)image;
+
+//+ (ContactItem *)createUserWithName:(NSString *)name andPhone:(NSString *)phone;
+//+ (ContactItem *)createUserWithName:(NSString *)name andPhone:(NSString *)phone andImage:(UIImage *)image;
 
 @end

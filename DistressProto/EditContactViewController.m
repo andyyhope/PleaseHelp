@@ -11,7 +11,7 @@
 
 #import "ContactItem.h"
 
-@interface EditContactViewController () <UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface EditContactViewController () <UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate>
 
 @property ContactItem *contact;
 @property AddContactViewController *addContactView;

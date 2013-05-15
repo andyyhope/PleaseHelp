@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "KVPasscodeViewController.h"
 
-@interface PasscodeViewController : UIViewController
+@interface PasscodeViewController : UIViewController <KVPasscodeViewControllerDelegate>
 
 @end

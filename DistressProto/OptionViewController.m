@@ -7,6 +7,7 @@
 //
 #import "AppDelegate.h"
 #import "AppearanceConstants.h"
+#import "Appearance.h"
 #import "OptionViewController.h"
 
 @interface OptionViewController ()
@@ -50,8 +51,8 @@
     
     textPersonLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 30)];
     textPersonLabel.font = kLOCATION_HEADER_FONT;
-    textPersonLabel.textColor = kVIEW_ALT_BACKGROUND_COLOR;
-    textPersonLabel.text = @"TEXT YOUR ADDRESS TO";
+    textPersonLabel.textColor = [UIColor whiteColor];
+    textPersonLabel.text = @"TEXT MESSAGE";
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
     textPersonLabel.textAlignment = UITextAlignmentCenter;
 #else
@@ -64,8 +65,8 @@
     
     callNextLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 170, self.view.frame.size.width, 30)];
     callNextLabel.font = kLOCATION_HEADER_FONT;
-    callNextLabel.textColor = kVIEW_ALT_BACKGROUND_COLOR;
-    callNextLabel.text = @"CALL NEXT PERSON";
+    callNextLabel.textColor = [UIColor whiteColor];
+    callNextLabel.text = @"CALL";
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
     callNextLabel.textAlignment = UITextAlignmentCenter;
 #else
@@ -77,26 +78,13 @@
 	
     self.view.backgroundColor = kLOCATION_HEADER_FONT_COLOR;
     
-    stopButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    stopButton.frame = CGRectMake(10, self.view.frame.size.height - 10 - 60, 300, 60);
-    stopButton.backgroundColor = [UIColor redColor];
-    [stopButton setTitle:@"STOP" forState:UIControlStateNormal];
-    stopButton.titleLabel.font = kCELL_HEADER_FONT;
-    stopButton.layer.cornerRadius = kCELL_CORNER_RADIUS;
-    [stopButton addTarget:self action:@selector(dismissCallingView) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:stopButton];
+
+    // Add Stop button to bottom of view
+    [Appearance addStopButtonToView:self];
     
+    // Apply skin to Location label
     locationAddressLabel.frame = CGRectMake(0, self.view.frame.size.height - 200, self.view.frame.size.width, 100);
-    locationAddressLabel.backgroundColor = [UIColor clearColor];
-    locationAddressLabel.font = [UIFont boldSystemFontOfSize:18];
-    locationAddressLabel.textColor = [UIColor whiteColor];
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    locationAddressLabel.textAlignment = UITextAlignmentCenter;
-#else
-    locationAddressLabel.textAlignment = NSTextAlignmentCenter;
-#endif
-    //locationAddressLabel.textAlignment = NSTextAlignmentCenter;
-    locationAddressLabel.numberOfLines = 0;
+    [Appearance applySkinToLocationLabel:locationAddressLabel];
     [self.view addSubview:locationAddressLabel];
 }
 
@@ -151,7 +139,9 @@
     [textButton setFrame:contactFrame.frame];
     [textButton addTarget:self action:@selector(messageContact) forControlEvents:UIControlEventTouchUpInside];
     
-    
+    UIImageView *smsImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"smsIcon"]];
+    smsImage.frame = CGRectMake(contactFrame.frame.size.width - 40, contactFrame.frame.size.height - 40, 30, 30);
+    [contactFrame addSubview:smsImage];
     
     [self.view addSubview:textButton];
 }
@@ -189,6 +179,10 @@
     [nextButton setFrame:contactFrame.frame];
     [nextButton addTarget:self action:@selector(callNextContact) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:nextButton];
+    
+    UIImageView *callImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"callIcon"]];
+    callImage.frame = CGRectMake(contactFrame.frame.size.width - 40, contactFrame.frame.size.height - 40, 30, 30);
+    [contactFrame addSubview:callImage];
 }
 
 - (void)callNextContact
@@ -204,7 +198,7 @@
 
 - (void)messageContact
 {
-    
+    NSLog(@"Message button press");
     
     MFMessageComposeViewController *messageComposeViewController = [[MFMessageComposeViewController alloc] init];
     messageComposeViewController.messageComposeDelegate = self;
@@ -214,14 +208,17 @@
         [messageComposeViewController setBody:@"Halp"];
         
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-        [self.navigationController presentModalViewController:messageComposeViewController animated:NO];
+        [self.navigationController presentModalViewController:messageComposeViewController animated:YES];
 #else
-        [self presentViewController:messageComposeViewController animated:NO completion:^{
-            //code
+        [self presentViewController:messageComposeViewController animated:YES completion:^{
+            NSLog(@"present message");
         }];
 #endif
 
         
+    } else
+    {
+        NSLog(@"Cannot send text");
     }
 }
 

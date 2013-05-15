@@ -24,6 +24,10 @@
     OptionViewController *optionViewController;
     CTCallCenter *callCenter;
     
+    NSMutableArray *contactsArray;
+    
+    NSDictionary *policeDictionary;
+    
     NSArray *contacts;
     NSArray *contactsNames;
     NSArray *contactsRelation;
@@ -51,7 +55,7 @@
 
 @property (nonatomic, readwrite) NSInteger *testInt;
 @property (nonatomic, readonly) NSInteger currentIndex;
-
+-(void)checkContactItems;
 -(void)startCallCycleAt:(NSInteger)startIndex;
 -(void)callNextPerson;
 -(void)presentOptionViewWithIndex:(NSInteger)positionIndex;

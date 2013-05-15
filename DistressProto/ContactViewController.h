@@ -7,7 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
+#import "ContactEditViewController.h"
+#import "ContactAddViewController.h"
 
 @interface ContactViewController : UITableViewController
+<ContactAddViewControllerDelegate, ContactEditViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
+{
+    
+}
 
 @end

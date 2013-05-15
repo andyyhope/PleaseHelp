@@ -12,3 +12,9 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 #endif
+
+//AppDelegate
+#define kHELP_MESSAGE_TEXT @"I'm in the vicinity of %@\n\nLat:%@\nLong%@"
+
+//ContactAddViewController
+#define SCROLLVIEW_CONTENT_HEIGHT 510

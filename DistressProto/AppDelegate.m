@@ -7,15 +7,13 @@
 //
 
 #import "AppDelegate.h"
-
+#import "AppearanceConstants.h"
 #import "ContactItem.h"
 
 #import "MainContactViewController.h"
 #import "CallingViewController.h"
 #import "OptionViewController.h"
-
-//Constants
-#define kHELP_MESSAGE_TEXT @"I'm in the vicinity of %@\n\nLat:%@\nLong%@"
+#import "ContactItem.h"
 
 @implementation AppDelegate
 
@@ -25,6 +23,9 @@
 {
     // Check for contacts in saved plist
     [self checkContactItems];
+    
+    policeDictionary = [[NSDictionary alloc] initWithObjects:@[@"Police", @"131444", [UIImage imageNamed:@"PoliceImage.png"]]
+                                                     forKeys:@[@"name", @"number", @"image"]];
     
     contacts = @[@"0488544186", @"0421523454",@"0488544186", @"0421523454",@"0488544186", @"0421523454"];
     contactsNames = @[@"Adrian Jurcevic", @"Andyy Hope", @"Marissa Mayer", @"Steve Jobs", @"Bill Gates", @"Steve Ballmer"];
@@ -38,7 +39,7 @@
     
     currentIndex = 0;
     phoneHasEnteredBackground = false;
-    
+        
     callCenter = [[CTCallCenter alloc] init];
     
     // Init location
@@ -50,13 +51,15 @@
     
     contactsViewController = [[MainContactViewController alloc] init];
     
+
+    
     contactsViewController.contacts = contacts;
     contactsViewController.contactsNames = contactsNames;
     contactsViewController.contactsRelation = contactsRelation;
     contactsViewController.contactsImages = contactsImages;
     
-    callingViewController = [[CallingViewController alloc] init];
-    optionViewController = [[OptionViewController alloc] init];
+    
+    
     
     navController = [[UINavigationController alloc] initWithRootViewController:contactsViewController];
     
@@ -65,15 +68,28 @@
     self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
     return YES;
-
-    
-    [self.window makeKeyAndVisible];
-    return YES;
 }
-
 #pragma Contact List
 
--(void)checkContactItems{
+-(void)retrieveContacts
+{
+    NSString *filePath = [self pathForItems];
+    NSLog(@"loading");
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        contactsArray = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+        NSLog(@"%d", [contactsArray count]);
+    } else {
+        contactsArray = [NSMutableArray array];
+    }
+}
+- (NSString *)pathForItems {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documents = [paths lastObject];
+    
+    return [documents stringByAppendingPathComponent:@"items.plist"];
+}
+
+- (void)checkContactItems{
     NSLog(@"checking");
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     if ([ud boolForKey:@"UserDefaultContacts"]) { // change to NOT to make it only occur once
@@ -99,10 +115,8 @@
         for (int i = 0; i < [contactItems count]; i++) {
             NSDictionary *dictionary = [contactItems objectAtIndex:i];
             
-            // Create an item
-            // ContactItem *item = [ContactItem createUserWithName:[dictionary objectForKey:@"name"] andPhone:[dictionary objectForKey:@"phone"]];
-            // NSLog(@"items::%@",items);
-            ContactItem *item = [ContactItem createUserWithName:[dictionary objectForKey:@"name"] andPhone:[dictionary objectForKey:@"phone"] andImage:[dictionary objectForKey:@"image"]];
+            // Create an item            
+            ContactItem *item = [ContactItem createUserWithName:[dictionary objectForKey:@"name"] andPhone:[dictionary objectForKey:@"phone"] andRelation:[dictionary objectForKey:@"relation"] andImage:[dictionary objectForKey:@"image"]];
             NSLog(@"item::%@",item);
             
             // Add item to array
@@ -118,6 +132,10 @@
         if ([NSKeyedArchiver archiveRootObject:items toFile:itemsPath]) {
             [ud setBool:YES forKey:@"UserDefaultContacts"];
         }
+    } else
+    {
+        NSLog(@"Contacts exist");
+        [self retrieveContacts];
     }
 }
 
@@ -181,36 +199,6 @@
 }
 
 #pragma mark Calling Functions
-
-- (void)ctCallStateDidChange:(NSNotification *)notification
-{
-    NSString *call = [[notification userInfo] objectForKey:@"callState"];
-    
-    
-    if ([call isEqualToString:CTCallStateDisconnected])
-    {
-        NSLog(@"Call has been disconnected");
-        
-    }
-    else if([call isEqualToString:CTCallStateDialing])
-    {
-        
-        NSLog(@"Call start");
-    }
-    else if ([call isEqualToString:CTCallStateConnected])
-    {
-        NSLog(@"Call has just been connected");
-    }
-    else if([call isEqualToString:CTCallStateIncoming])
-    {
-        NSLog(@"Call is incoming");
-    }
-    else
-    {
-        NSLog(@"None");
-    }
-}
-
 - (void)callStateIdentifier
 {
     __block id selfDelegate = self;
@@ -255,11 +243,22 @@
     // Reverse Geocoding
     NSLog(@"Resolving the Address");
     [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
-        NSLog(@"Found placemarks: %@, error: %@", placemarks, error);
         if (error == nil && [placemarks count] > 0) {
             placemark = [placemarks lastObject];
+            
+            NSString *subThoroughfare = [NSString stringWithFormat:@"%@", placemark.subThoroughfare];
+            NSString *thoroughfare = [NSString stringWithFormat:@"%@", placemark.thoroughfare];
+            
+            if ([subThoroughfare length] == 0) {
+                subThoroughfare = @"";
+            }
+            
+            if ([thoroughfare length] == 0) {
+                thoroughfare = @"";
+            }
+            
             locationAddressString = [NSString stringWithFormat:@"%@ %@\n%@ %@\n%@\n%@",
-                                     placemark.subThoroughfare, placemark.thoroughfare,
+                                     subThoroughfare, thoroughfare,
                                      placemark.postalCode, placemark.locality,
                                      placemark.administrativeArea,
                                      placemark.country];
@@ -284,24 +283,37 @@
 
 -(void)startCallCycleAt:(NSInteger)startIndex
 {
+   
+
+    ContactItem *contactItem = [contactsArray objectAtIndex:startIndex];
+    callingViewController = [[CallingViewController alloc] init];
+     NSLog(@"Start calling cycle\n contactItem: %@", locationAddressString);
+    
     currentIndex = startIndex;
-    callingViewController.contactNameLabel.text = [contactsNames objectAtIndex:startIndex];
-    callingViewController.contactImage = [contactsImages objectAtIndex:startIndex];
+    callingViewController.contactName = contactItem.name;
     callingViewController.locationAddressLabel.text = locationAddressString;
-    callingViewController.contactNumber = [contacts objectAtIndex:startIndex];
-    [callingViewController updateContactImageWith:[contactsImages objectAtIndex:startIndex]];
+    callingViewController.contactNumber = contactItem.phone;
+    callingViewController.contactImage = contactItem.image;
+    [callingViewController updateContactImageWith:contactItem.image];
+    
+    //Possible issue for calling not working
+//#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
+//    [contactsViewController presentModalViewController:callingViewController animated:YES];
+//#else
     [contactsViewController presentViewController:callingViewController animated:YES completion:^{
         //startingIndex = startIndex;
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
-                                                    [NSString stringWithFormat:@"telprompt:%@", [contacts objectAtIndex:startIndex]]]];
+                                                    [NSString stringWithFormat:@"telprompt:%@", contactItem.phone]]];
         
     }];
+//#endif
+
 }
 
 - (void)callNextPerson
 {
     // Check all contacts have been cycled through
-    if (currentIndex < [contacts count])
+    if (currentIndex < [contactsArray count])
     {
         // Contacts remain in cycle.
         NSLog(@"Still contacts left in cycle");
@@ -318,16 +330,40 @@
 
 -(void)presentOptionViewWithIndex:(NSInteger)positionIndex
 {
-    optionViewController.contactNameLabel.text = [contactsNames objectAtIndex:positionIndex];
-    optionViewController.nextContactNameLabel.text = [contactsNames objectAtIndex:positionIndex + 1];
+    
+    ContactItem *contactItem = [contactsArray objectAtIndex:positionIndex];
+    optionViewController = [[OptionViewController alloc] init];
+    optionViewController.contactNameLabel.text = contactItem.name;
     optionViewController.locationAddressLabel.text = locationAddressString;
     
-    [optionViewController updateContactImageWith:[contactsImages objectAtIndex:positionIndex]
-                         andNextContactImageWith:[contactsImages objectAtIndex:positionIndex + 1]];
-    
-    [contactsViewController presentViewController:optionViewController animated:YES completion:^{
+    if (positionIndex + 1 < [contactsArray count])
+    { // Call cycle still running
+        ContactItem *nextContactItem = [contactsArray objectAtIndex:positionIndex + 1];
+        optionViewController.nextContactNameLabel.text = nextContactItem.name;
         
+        [optionViewController updateContactImageWith:contactItem.image
+                             andNextContactImageWith:nextContactItem.image];
+    } else
+    { // End of call cycle
+        
+        optionViewController.nextContactNameLabel.text = [policeDictionary objectForKey:@"name"];
+        
+        [optionViewController updateContactImageWith:contactItem.image
+                             andNextContactImageWith:[policeDictionary objectForKey:@"image"]];
+        
+    }
+    
+    
+    
+    //Possible issue for calling not working - need to test
+//#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
+  //  [contactsViewController presentModalViewController:optionViewController animated:YES];
+//#else
+    [contactsViewController presentViewController:optionViewController animated:YES completion:^{
+
     }];
+//#endif
+
 }
 
 - (void)endCallCycle
@@ -345,10 +381,11 @@
     [[UINavigationBar appearance] setTitleTextAttributes:
      [NSDictionary dictionaryWithObjectsAndKeys:
       [UIColor whiteColor], UITextAttributeTextColor,
-      [UIColor colorWithWhite:0 alpha:0.5], UITextAttributeTextShadowColor,
+      [UIColor colorWithWhite:0 alpha:0.2], UITextAttributeTextShadowColor,
       [NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
       [UIFont fontWithName:@"HelveticaNeue-CondensedBold" size:22], UITextAttributeFont,
       nil]];
+    [[UIBarButtonItem appearance] setTintColor:kVIEW_ALT_BACKGROUND_COLOR];
 }
 
 @end

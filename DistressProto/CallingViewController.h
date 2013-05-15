@@ -23,11 +23,13 @@
     UIButton *stopButton;
     
     NSString *contactNumber;
+    NSString *contactName;
 }
 
 @property (nonatomic, retain) UILabel *locationHeaderLabel;
 @property (nonatomic, retain) UILabel *locationAddressLabel;
 @property (nonatomic, retain) UILabel *contactNameLabel;
+@property (nonatomic, retain) NSString *contactName;
 @property (nonatomic, retain) UIImage *contactImage;
 @property (nonatomic, retain) NSString *contactNumber;
 

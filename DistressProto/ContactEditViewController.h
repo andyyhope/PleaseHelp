@@ -8,6 +8,15 @@
 
 #import "ContactAddViewController.h"
 
+@class ContactItem;
+@protocol ContactEditViewControllerDelegate;
+
 @interface ContactEditViewController : ContactAddViewController
 
+- (id)initWithContact:(ContactItem *)item andDelegate:(id<ContactEditViewControllerDelegate>)delegate;
+
+@end
+
+@protocol ContactEditViewControllerDelegate <NSObject>
+- (void)controller:(ContactEditViewController *)controller didUpdateContact:(ContactItem *)contact;
 @end

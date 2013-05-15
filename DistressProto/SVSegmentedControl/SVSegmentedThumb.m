@@ -11,6 +11,7 @@
 #import "SVSegmentedThumb.h"
 #import <QuartzCore/QuartzCore.h>
 #import "SVSegmentedControl.h"
+#import "AppearanceConstants.h"
 
 @interface SVSegmentedThumb ()
 
@@ -49,14 +50,14 @@
     if (self) {
 		self.userInteractionEnabled = NO;
         self.clipsToBounds = YES;
-		self.backgroundColor = [UIColor clearColor];
 		self.textColor = [UIColor whiteColor];
 		self.textShadowColor = [UIColor blackColor];
 		self.textShadowOffset = CGSizeMake(0, -1);
-		self.tintColor = [UIColor grayColor];
-        self.shouldCastShadow = YES;
-        self.backgroundColor = [UIColor clearColor];
-        self.gradientIntensity = 0.15;
+		self.tintColor = kVIEW_ALT_BACKGROUND_COLOR;
+        self.shouldCastShadow = NO;
+        self.backgroundColor = kVIEW_BACKGROUND_COLOR;
+        self.gradientIntensity = 0;
+        self.font = [UIFont boldSystemFontOfSize:14];
     }
 	
     return self;
@@ -152,7 +153,7 @@
     CGRect thumbRect = CGRectMake(self.segmentedControl.thumbEdgeInset.left,
                                   self.segmentedControl.thumbEdgeInset.top,
                                   rect.size.width-self.segmentedControl.thumbEdgeInset.left-self.segmentedControl.thumbEdgeInset.right,
-                                  rect.size.height-self.segmentedControl.thumbEdgeInset.top-self.segmentedControl.thumbEdgeInset.bottom+1); // 1 is for segmented bottom gloss
+                                  rect.size.height-self.segmentedControl.thumbEdgeInset.top-self.segmentedControl.thumbEdgeInset.bottom); // 1 is for segmented bottom gloss
     
     thumbRect = CGRectInset(thumbRect, 5, 0); // 5 is for thumb shadow
     
@@ -168,7 +169,7 @@
         
         CGContextRef context = UIGraphicsGetCurrentContext();
         CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
-        CGPathRef strokePath= [UIBezierPath bezierPathWithRoundedRect:thumbRect cornerRadius:cornerRadius-1.5].CGPath;
+        CGPathRef strokePath= [UIBezierPath bezierPathWithRoundedRect:thumbRect cornerRadius:2].CGPath;
         
         if(self.shouldCastShadow) {
             CGContextAddRect(context, rect);
@@ -368,7 +369,7 @@
 	selected = s;
 	
 	if(selected && !self.segmentedControl.crossFadeLabelsOnDrag && !self.highlightedBackgroundImage)
-		self.alpha = 0.8;
+		self.alpha = 1;
 	else
 		self.alpha = 1;
 	

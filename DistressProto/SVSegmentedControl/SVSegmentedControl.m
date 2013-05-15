@@ -68,7 +68,7 @@
         self.accessibilityElements = [NSMutableArray arrayWithCapacity:self.sectionTitles.count];
         
         self.backgroundColor = [UIColor clearColor];
-        self.backgroundTintColor = [UIColor colorWithWhite:0 alpha:0.5];
+        self.backgroundTintColor = [UIColor colorWithWhite:0.5 alpha:0];
         self.clipsToBounds = YES;
         self.userInteractionEnabled = YES;
         self.animateToInitialSelection = NO;
@@ -77,8 +77,8 @@
         self.minimumOverlapToChange = 0.66;
         
         self.font = [UIFont boldSystemFontOfSize:15];
-        self.textColor = [UIColor grayColor];
-        self.textShadowColor = [UIColor blackColor];
+        self.textColor = [UIColor whiteColor];
+        self.textShadowColor = [UIColor colorWithWhite:0.0f alpha:0.3f];
         self.textShadowOffset = CGSizeMake(0, -1);
         
         self.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);
@@ -516,7 +516,8 @@
     else {
         // bottom gloss
         CGRect insetRect = CGRectMake(0, 0, rect.size.width, rect.size.height-1);
-        CGContextSetFillColorWithColor(context, [UIColor colorWithWhite:1 alpha:0.1].CGColor);
+        // OFF TEXT COLOUR
+        CGContextSetFillColorWithColor(context, [UIColor colorWithWhite:1 alpha:1].CGColor);
 
         UIBezierPath *bottomGlossPath = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:self.cornerRadius];
         [bottomGlossPath appendPath:[UIBezierPath bezierPathWithRoundedRect:insetRect cornerRadius:self.cornerRadius]];

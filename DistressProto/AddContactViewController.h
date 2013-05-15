@@ -7,24 +7,31 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
 @protocol AddContactViewControllerDelegate;
 
-@interface AddContactViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
-
+@interface AddContactViewController : UIViewController
+{
+    UIImageView *imageView;
+    UIImage *image;
+    UIButton *addPhotoButton;
+    UITextField *nameTextField;
+    UITextField *phoneTextField;
+    UITextField *relationTextField;
+}
 @property (weak) id<AddContactViewControllerDelegate> delegate;
 
-@property IBOutlet UITextField *nameTextField;
-@property IBOutlet UITextField *phoneTextField;
-@property IBOutlet UIButton *addPhotoButton;
-@property IBOutlet UIImageView *imageView;
 
--(IBAction)addPhoto:(id)sender;
+
+
+
+-(IBAction)addPhoto;
 
 @end
 
 @protocol AddContactViewControllerDelegate <NSObject>
-- (void)controller:(AddContactViewController *)controller didSaveContactWithName:(NSString *)name andPhone:(NSString *)phone;
-- (void)controller:(AddContactViewController *)controller didSaveContactWithName:(NSString *)name andPhone:(NSString *)phone andImage:(UIImage *)image;
+- (void)controller:(AddContactViewController *)controller didSaveContactWithName:(NSString *)name phone:(NSString *)phone relation:(NSString *)relation;
+- (void)controller:(AddContactViewController *)controller didSaveContactWithName:(NSString *)name phone:(NSString *)phone relation:(NSString *)relation andImage:(UIImage *)image;
 
 @end

@@ -11,13 +11,14 @@
 #import "CallingViewController.h"
 #import "OptionViewController.h"
 #import "MainContactViewController.h"
-#import "ContactsViewController.h"
 #import "ContactViewController.h"
 #import "PasscodeViewController.h"
-#import "JCMSegmentPageController.h"
 #import "SettingsViewController.h"
+#import "ContactItem.h"
 
-@interface MainContactViewController () <JCMSegmentPageControllerDelegate>
+@interface MainContactViewController () 
+
+@property NSMutableArray *items;
 
 @end
 
@@ -42,7 +43,7 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"DISTRESS";
+    self.navigationItem.title = @"Please Help";
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = kVIEW_BACKGROUND_COLOR;
     
@@ -51,9 +52,17 @@
     // create table header
     [self createTableHeader];
     
-    /// TESTING
-    //[self pushSettingsView];
+    [self retrieveContacts];
 }
+
+-(void)viewWillAppear:(BOOL)animated{
+    [self retrieveContacts];
+    AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate checkContactItems];
+    
+}
+
+#pragma mark - Settings Button
 
 - (void)createSettingsButton
 {
@@ -117,6 +126,20 @@
 
 }
 
+#pragma mark - Retrieve contacts
+-(void)retrieveContacts
+{
+    NSString *filePath = [self pathForItems];
+    NSLog(@"loading");
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        self.items = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    } else {
+        self.items = [NSMutableArray array];
+    }
+    
+    [self.tableView reloadData];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -134,7 +157,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [contacts count];
+    //return [contacts count];
+    return [self.items count];
+
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -151,10 +176,21 @@
     }
     
     
-    cell.contactName.text = [contactsNames objectAtIndex:indexPath.row];
-    cell.contactRelation.text = [contactsRelation objectAtIndex:indexPath.row];
-    cell.imageView.image = [contactsImages objectAtIndex:indexPath.row];
+    // Fetch Item
+    ContactItem *cellItem = [self.items objectAtIndex:[indexPath row]];
     
+    // Configure Cell
+    cell.contactName.text = cellItem.name;
+    cell.contactRelation.text = cellItem.relation;
+    
+    if (cellItem.image == nil)
+    {
+        cell.imageView.image = [UIImage imageNamed:@"defaultProfile.png"];
+    }
+    else
+    {
+        cell.imageView.image = cellItem.image;
+    }
     return cell;
 }
 
@@ -228,7 +264,7 @@
         NSLog(@"Call next person");
         [appDelegate callNextPerson];
     } else {
-        NSLog(@"Not call next perso");
+        NSLog(@"Not call next person");
     }
 }
 
@@ -238,18 +274,36 @@
 
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *string = [defaults valueForKey:@"Passcode"];
+    NSString *recoveryString = [defaults valueForKey:@"RecoveryHint"];
+    NSString *message = [[NSString alloc] initWithFormat:@"Your recovery hint is: %@", recoveryString];
+    
+    if (recoveryString == nil) {
+        message = @"You have not set a hint for your passcode.";
+    }
 
     if ([passCode isEqualToString:string]) {
         //User authorised
-        NSLog(@"Authorised");
+        //NSLog(@"Authorised");
         [self displaySettingsController];
         [controller dismissModalViewControllerAnimated:YES];
     }
     else
     {
-    //Add Number of attempts action here
+        controller.instructionLabel.text = [NSString stringWithFormat:NSLocalizedString(@"You entered: '%@'. Please try again.\n\n%@", @""), passCode, message];
+        [controller resetWithAnimation:KVPasscodeAnimationStyleInvalid];
     }
 }
+
+#pragma mark -
+#pragma mark Path to items.plist
+
+- (NSString *)pathForItems {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documents = [paths lastObject];
+    
+    return [documents stringByAppendingPathComponent:@"items.plist"];
+}
+
 
 @end
 

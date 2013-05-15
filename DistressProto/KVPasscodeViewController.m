@@ -29,6 +29,8 @@
 //
 
 #import "KVPasscodeViewController.h"
+#import "AppearanceConstants.h"
+#import "Appearance.h"
 
 #import <QuartzCore/QuartzCore.h>
 #import <AudioToolbox/AudioServices.h>
@@ -36,15 +38,13 @@
 @interface KVPasscodeViewController ()
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag;
-- (void)internalResetWithAnimation:(NSNumber *)animationStyleNumber;
 - (void)notifyDelegate:(NSString *)passcode;
 
 @end
 
 @implementation KVPasscodeViewController
 
-@synthesize delegate;
-
+@synthesize passDelegate = _passDelegate;
 @synthesize animationView;
 
 @synthesize titleLabel;
@@ -55,25 +55,14 @@
 @synthesize bulletField2;
 @synthesize bulletField3;
 
+@synthesize clearButton;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
     }
     return self;
-}
-
-- (void)dealloc {
-    [animationView release], animationView = nil;
-    
-    [titleLabel release], titleLabel = nil;
-    [instructionLabel release], instructionLabel = nil;
-    
-    [bulletField0 release], bulletField0 = nil;
-    [bulletField1 release], bulletField1 = nil;
-    [bulletField2 release], bulletField2 = nil;
-    [bulletField3 release], bulletField3 = nil;
-    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -87,18 +76,85 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
+    [Appearance addCancelButtonToViewController:self];
+    
+    // Do any additional setup after loading the view from its nib.
+    self.navigationItem.title = NSLocalizedString(@"Passcode", @"");
+    self.view.backgroundColor = kVIEW_BACKGROUND_COLOR;
+    
+    [self applySkinToBulletField:bulletField0];
+    [self applySkinToBulletField:bulletField1];
+    [self applySkinToBulletField:bulletField2];
+    [self applySkinToBulletField:bulletField3];
+    
+    [self createButtons];
+    [self checkAccess];
+}
+-(void)applySkinToBulletField:(UITextField *)bulletField
+{
+    bulletField.backgroundColor = [UIColor whiteColor];
+    bulletField.borderStyle = UITextBorderStyleLine;
+    bulletField.layer.masksToBounds = YES;
+    bulletField.layer.borderColor = [UIColor whiteColor].CGColor;
+    bulletField.layer.cornerRadius = 3;
+    bulletField.layer.borderWidth = 1.0f;
+}
+-(void)createButtons
+{
     fakeField = [[UITextField alloc] initWithFrame:CGRectZero];
     fakeField.delegate = self;
     fakeField.keyboardType = UIKeyboardTypeNumberPad;
     fakeField.secureTextEntry = YES;
+    fakeField.returnKeyType = UIReturnKeyDone;
     fakeField.text = @"";
     [fakeField becomeFirstResponder];
     [self.view addSubview:fakeField];
-    [fakeField release];
     
-    // Do any additional setup after loading the view from its nib.
-    self.navigationItem.title = NSLocalizedString(@"Passcode", @"");
+    clearButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    clearButton.frame = CGRectMake(30, 150, 260, 50);
+    
+
+    [clearButton addTarget:self action:@selector(resetPasscode) forControlEvents:UIControlEventTouchUpInside];
+    [Appearance applySkinToSettingsButton:clearButton withTitle:@"Remove Passcode"];
+    [clearButton setBackgroundColor:kVIEW_ALT2_BACKGROUND_COLOR];
+    [clearButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.view addSubview:clearButton];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if (![defaults boolForKey:@"Admin"]) {
+        clearButton.hidden = YES;
+    }
+    else{
+        clearButton.hidden = NO;
+    }
+}
+//[defaults setValue:@"NO" forKey:@"EnterSettings"];
+//[defaults setBool:NO forKey:@"Admin"];
+
+
+//TESTING METHOD
+-(void)checkAccess
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        if ([defaults boolForKey:@"PasscodeSet"])
+        {
+            NSString *string = [defaults valueForKey:@"Passcode"];
+            NSLog(@"Passcode.%@", string);
+        }
+        else
+        {
+            
+        }
+        
+        if (![defaults boolForKey:@"RecoverSet"])
+        {
+            NSString *string = [defaults valueForKey:@"RecoveryHint"];
+            NSLog(@"Recovery.%@", string);
+            
+        }
+        else
+        {
+        }
 }
 
 - (void)viewDidUnload {
@@ -118,6 +174,24 @@
     self.bulletField3 = nil;
 }
 
+
+-(void)resetPasscode
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    [defaults setValue:nil forKey:@"Passcode"];
+    [defaults setBool:NO forKey:@"PasscodeSet"];
+    [defaults setValue:nil forKey:@"RecoveryHint"];
+    [defaults setBool:NO forKey:@"RecoverSet"];
+    [defaults synchronize];
+    [self dismissView];
+}
+
+-(void)dismissView
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
@@ -125,15 +199,14 @@
 
 - (void)internalResetWithAnimation:(NSNumber *)animationStyleNumber {    
     KVPasscodeAnimationStyle animationStyle = [animationStyleNumber intValue];
+    
     switch (animationStyle) {
-        case KVPasscodeAnimationStyleInvalid:
-            ;
-            
-            // Vibrate to indicate error
+        case 1:
+        {
             AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
             
             CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
-            [animation setDelegate:self]; 
+            [animation setDelegate:self];
             [UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:)];
             [animation setDuration:0.025];
             [animation setRepeatCount:8];
@@ -143,45 +216,66 @@
             [animation setToValue:[NSValue valueWithCGPoint:
                                    CGPointMake([animationView center].x + 14.0f, [animationView center].y)]];
             [[animationView layer] addAnimation:animation forKey:@"position"];
+        }
             break;
-        case KVPasscodeAnimationStyleConfirm:
-            ;
             
-            // This will cause the 'new' fields to appear without bullets already in them
+        case 2:
+        {
+            AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+            
+            CABasicAnimation *animations = [CABasicAnimation animationWithKeyPath:@"position"];
+            [animations setDelegate:self];
+            [UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:)];
+            [animations setDuration:0.025];
+            [animations setRepeatCount:8];
+            [animations setAutoreverses:YES];
+            [animations setFromValue:[NSValue valueWithCGPoint:
+                                     CGPointMake([animationView center].x - 14.0f, [animationView center].y)]];
+            [animations setToValue:[NSValue valueWithCGPoint:
+                                   CGPointMake([animationView center].x + 14.0f, [animationView center].y)]];
+            [[animationView layer] addAnimation:animations forKey:@"position"];
+        }
+            break;
+            
+            case 3:
+        {
             self.bulletField0.text = nil;
             self.bulletField1.text = nil;
             self.bulletField2.text = nil;
             self.bulletField3.text = nil;
             
-            CATransition *transition = [CATransition animation]; 
-            [transition setDelegate:self]; 
+            CATransition *transition = [CATransition animation];
+            [transition setDelegate:self];
             [UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:)];
-            [transition setType:kCATransitionPush]; 
-            [transition setSubtype:kCATransitionFromRight]; 
+            [transition setType:kCATransitionPush];
+            [transition setSubtype:kCATransitionFromRight];
             [transition setDuration:0.5f];
-            [transition setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]]; 
-            [self.view exchangeSubviewAtIndex:0 withSubviewAtIndex:1]; 
+            [transition setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+            [self.view exchangeSubviewAtIndex:0 withSubviewAtIndex:1];
             [[animationView layer] addAnimation:transition forKey:@"swipe"];
+        }
             break;
-        case KVPasscodeAnimationStyleNone:
-        default:
+            
+            default:
+        {
             self.bulletField0.text = nil;
             self.bulletField1.text = nil;
             self.bulletField2.text = nil;
             self.bulletField3.text = nil;
             
             fakeField.text = @"";
+        }
             break;
     }
 }
 
-- (void)resetWithAnimation:(KVPasscodeAnimationStyle)animationStyle {   
+- (void)resetWithAnimation:(KVPasscodeAnimationStyle)animationStyle {
     // Do the animation a little later (for better animation) as it's likely this method is called in our delegate method
     [self performSelector:@selector(internalResetWithAnimation:) withObject:[NSNumber numberWithInt:animationStyle] afterDelay:0];
 }
 
 - (void)notifyDelegate:(NSString *)passcode {
-    [self.delegate passcodeController:self passcodeEntered:passcode];
+    [self.passDelegate passcodeController:self passcodeEntered:passcode];
     fakeField.text = @"";
 }
 

@@ -39,13 +39,13 @@
 @end
 
 typedef enum {
-    KVPasscodeAnimationStyleNone,
-    KVPasscodeAnimationStyleInvalid,
-    KVPasscodeAnimationStyleConfirm
+    KVPasscodeAnimationStyleNone = 1,
+    KVPasscodeAnimationStyleInvalid = 2,
+    KVPasscodeAnimationStyleConfirm = 3
 } KVPasscodeAnimationStyle;
 
 @interface KVPasscodeViewController : UIViewController <UITextFieldDelegate> {
-    id <KVPasscodeViewControllerDelegate> delegate;
+    id <KVPasscodeViewControllerDelegate> passDelegate;
     
     IBOutlet UIView *animationView;
     
@@ -56,11 +56,13 @@ typedef enum {
     IBOutlet UITextField *bulletField1;
     IBOutlet UITextField *bulletField2;
     IBOutlet UITextField *bulletField3;
+    
+    IBOutlet UIButton *clearButton;
  
     UITextField *fakeField;
 }
 
-@property (nonatomic, assign) id <KVPasscodeViewControllerDelegate> delegate; 
+@property (nonatomic, weak) id <KVPasscodeViewControllerDelegate> passDelegate;
 
 @property (nonatomic, retain) IBOutlet UIView *animationView;
 
@@ -72,6 +74,9 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UITextField *bulletField2;
 @property (nonatomic, retain) IBOutlet UITextField *bulletField3;
 
+@property (nonatomic, retain) UIButton *clearButton;
+
 - (void)resetWithAnimation:(KVPasscodeAnimationStyle)animationStyle;
+- (void)internalResetWithAnimation:(NSNumber *)animationStyleNumber;
 
 @end

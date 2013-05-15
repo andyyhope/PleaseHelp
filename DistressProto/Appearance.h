@@ -7,7 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <QuartzCore/QuartzCore.h>
 
 @interface Appearance : NSObject
 
++ (void)addStopButtonToView:(UIViewController *)viewController;
++ (void)applySkinToSettingsButton:(UIButton *)button withTitle:(NSString *)title;
++ (void)applySkinToLocationLabel:(UILabel *)label;
++ (void)applySkinToContactFrame:(UIView *)frame withName:(NSString *)name andImage:(UIImage *)image;
++ (void)applySkinToTextField:(UITextField *)textField withPlaceHolderText:(NSString *)placeHolderText;
++ (void)addBackButtonToViewController:(UIViewController *)viewController;
++ (void)addCancelButtonToViewController:(UIViewController *)viewController;
++ (void)addSaveButtonToViewController:(UIViewController *)viewController;
++ (void)addSaveButtonToEditViewController:(UIViewController *)viewController;
 @end
