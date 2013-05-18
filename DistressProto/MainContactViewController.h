@@ -11,10 +11,12 @@
 
 @interface MainContactViewController : UITableViewController <KVPasscodeViewControllerDelegate>
 {
-    NSArray *contacts;
+    /*
+     NSArray *contacts;
     NSArray *contactsNames;
     NSArray *contactsRelation;
     NSArray *contactsImages;
+     */
     NSString *locationAddressString;
     UILabel *locationAddressLabel;
     
@@ -24,11 +26,12 @@
 
 @property (nonatomic, retain) NSString *locationAddressString;
 
+/*
 @property (nonatomic, retain) NSArray *contacts;
 @property (nonatomic, retain) NSArray *contactsNames;
 @property (nonatomic, retain) NSArray *contactsRelation;
 @property (nonatomic, retain) NSArray *contactsImages;
-
+*/
 @property (nonatomic, readwrite) NSInteger cycleStartIndex;
 @property (nonatomic, readwrite) NSInteger cycleCurrentIndex;
 

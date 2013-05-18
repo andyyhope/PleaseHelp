@@ -25,17 +25,19 @@
 @implementation MainContactViewController
 
 @synthesize locationAddressString;
-@synthesize contacts, contactsNames, contactsRelation, contactsImages;
+//@synthesize contacts, contactsNames, contactsRelation, contactsImages;
 @synthesize cycleCurrentIndex, cycleStartIndex;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
+       /*
         contacts = [[NSArray alloc] init];
         contactsNames = [[NSArray alloc] init];
         contactsRelation = [[NSArray alloc] init];
         contactsImages = [[NSArray alloc] init];
+        */
     }
     return self;
 }

@@ -28,10 +28,11 @@
     
     NSDictionary *policeDictionary;
     
-    NSArray *contacts;
+    /*NSArray *contacts;
     NSArray *contactsNames;
     NSArray *contactsRelation;
     NSArray *contactsImages;
+     */
     NSString *locationAddressString;
     
     CLLocationManager *locationManager;

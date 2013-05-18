@@ -25,3 +25,6 @@
 #define kSTOP_BACKGROUND_COLOR      [UIColor colorWithRed:193/255.0f green:57/255.0f blue:43/255.0f alpha:1]
 
 #define kCELL_CORNER_RADIUS         3
+
+#define kSMS_MESSAGE_TEXT           @"I need help, could you please get in contact with me. Click on the link to see where I am."
+#define kSMS_MESSAGE_LINK           @"http://maps.google.com/maps?f=q&hl=em&q=-%@,%@&ie=UTF8&z=16&iwloc=addr&om=1"

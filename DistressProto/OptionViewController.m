@@ -178,14 +178,15 @@
 
 - (void)messageContact
 {
-    NSLog(@"Message button press");
+    NSLog(@"Message button pressed");
     
     MFMessageComposeViewController *messageComposeViewController = [[MFMessageComposeViewController alloc] init];
     messageComposeViewController.messageComposeDelegate = self;
     if ([MFMessageComposeViewController canSendText]) {
         [messageComposeViewController setRecipients:@[@"0421523454"]];
         //        [messageComposeViewController setBody:[NSString stringWithFormat:kHELP_MESSAGE_TEXT, locationAddressString, latitude, longitude]];
-        [messageComposeViewController setBody:@"Halp"];
+       //[messageComposeViewController setBody:[NSString stringWithFormat:kSMS_MESSAGE_TEXT, kSMS_MESSAGE_LINK, latitude, longitude]];  <-- need to send the lat/long to this viewcontroller
+        [messageComposeViewController setBody:@"Help"];
         
         [self presentViewController:messageComposeViewController animated:YES completion:^{
             NSLog(@"present message");

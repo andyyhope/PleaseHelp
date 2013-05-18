@@ -14,17 +14,20 @@ Passcode from mainscreen (passcode enabled)
 
 Option View Controller 
 - Message View is broken, i think it has something to do with the iOS Version #ifdef, cannot call [self ] methods from within
+- need to push the lat/long to this view controller to populate the pre-defined message correctly
 
 Appearance/UI
 - use a #define for all the [UIColor whiteColor]
     forgot why i was doing this...
     -- was to make all colour options within the app to be in one file i believe
-    
 
 Source Code
 - Tidy up all source code with correct spaces, indentations etc...
 - Enter comments for all methods
 - Remove uneccessary code
+
+App Delegate
+- need to look into why it has an object in the array when a fresh build is done, it doesnt come up with the uialertview to show to add a contact
 
 
 ##############################################
@@ -46,7 +49,6 @@ App Delegate
     (Call me and i can explain it better)
     Note: This seems to be working now, but the code is a bit untidy perhaps?
 
-
 Passcode From Main Screen (Enabled)
 - Label which displays passcode hint
 
@@ -63,7 +65,6 @@ ContactAddViewController
 - format number string to remove spaces, ie "0421 121 212" - Cannot make calls when the number has spaces
 - Error handle - if nuRll value and save is selected then put a red astericks next to field with a note saying it needs to be filled - possibly a notification from navbar - photo is not needed, however needs to show the default profile image here
 
-
 ContactEditViewController
 - Adjust navbar and remove the 'Cancel' and '+' when it should only have the back button for saving.
 - Back Button no longer saves.
@@ -79,8 +80,11 @@ Settings Contact View
     // Changed to defaultProfile.png + @2x
 - When importing a contact from AddressBook, show the ContactEditViewController, with all the fields imported, and highlight "Relation"
 
-
 Appearance/UI
 - Create a custom class for all the buttons
 - use a #define for all the [UIColor whiteColor]
 - Set a tintColor for UIBarButtonItem
+
+
+
+

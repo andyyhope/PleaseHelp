@@ -52,10 +52,12 @@
     
     contactsViewController = [[MainContactViewController alloc] init];
     
-    contactsViewController.contacts = contacts;
+    /*
+     contactsViewController.contacts = contacts;
     contactsViewController.contactsNames = contactsNames;
     contactsViewController.contactsRelation = contactsRelation;
     contactsViewController.contactsImages = contactsImages;
+     */
     
     navController = [[UINavigationController alloc] initWithRootViewController:contactsViewController];
     
