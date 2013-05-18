@@ -57,7 +57,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    [self retrieveContacts];
+   [self retrieveContacts];
 }
 
 #pragma mark - Settings Button
@@ -123,13 +123,16 @@
 #pragma mark - Retrieve contacts
 -(void)retrieveContacts
 {
-    NSString *filePath = [self pathForItems];
+    
+    /*NSString *filePath = [self pathForItems];
     //NSLog(@"loading");
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
         self.items = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
     } else {
         self.items = [NSMutableArray array];
-    }
+    }*/
+    AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate retrieveContacts];
     
     [self.tableView reloadData];
 }
@@ -152,8 +155,10 @@
 {
     // Return the number of rows in the section.
     //return [contacts count];
-    return [self.items count];
-
+//    return [self.items count];
+    AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    return [appDelegate.contactsArray count];
+    
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -169,9 +174,11 @@
         
     }
     
-    
+    AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    ContactItem *cellItem = [appDelegate.contactsArray objectAtIndex:[indexPath row]];
+
     // Fetch Item
-    ContactItem *cellItem = [self.items objectAtIndex:[indexPath row]];
+   //ContactItem *cellItem = [self.items objectAtIndex:[indexPath row]];
     
     // Configure Cell
     cell.contactName.text = cellItem.name;
@@ -195,6 +202,7 @@
     AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate startCallCycleAt:indexPath.row];
 }
+
 - (void)createTableHeader
 {
     UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 100)];
@@ -268,7 +276,8 @@
     if ([passCode isEqualToString:string]) {
         //User authorised
         [self displaySettingsController];
-        [controller dismissModalViewControllerAnimated:YES];
+        //[controller dismissModalViewControllerAnimated:YES];
+        [controller dismissViewControllerAnimated:YES completion:nil];
     }
     else
     {

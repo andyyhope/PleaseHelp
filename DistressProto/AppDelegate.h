@@ -55,10 +55,14 @@
 
 @property (nonatomic, readwrite) NSInteger *testInt;
 @property (nonatomic, readonly) NSInteger currentIndex;
+@property (nonatomic, retain) NSMutableArray *contactsArray;
+
 -(void)checkContactItems;
 -(void)startCallCycleAt:(NSInteger)startIndex;
 -(void)callNextPerson;
 -(void)presentOptionViewWithIndex:(NSInteger)positionIndex;
 -(void)endCallCycle;
+
+-(void)retrieveContacts;
 
 @end

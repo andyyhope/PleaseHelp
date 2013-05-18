@@ -226,7 +226,9 @@
     [notifyPasscode show];
     
     //remove the PasscodeViewController
-    [controller dismissModalViewControllerAnimated:YES];
+//    [controller dismissModalViewControllerAnimated:YES];
+    [controller dismissViewControllerAnimated:YES completion:nil];
+
 }
 
 @end

@@ -297,15 +297,19 @@
     NSString *name = [nameTextField text];
     NSString *phone = [phoneTextField text];
     NSString *relation = [[relationTextField text] stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSData *jpgData = UIImageJPEGRepresentation(image, 1);
-
+    UIImage *capImage = self.contactImage;
+    
+        
+    /*
+        NSData *jpgData = UIImageJPEGRepresentation(image, 1);
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsPath = [paths objectAtIndex:0]; //Get the docs directory
     NSString *filePath = [documentsPath stringByAppendingPathComponent:@"image.jpg"]; //Add the file name
     [jpgData writeToFile:filePath atomically:YES]; //Write the file
     NSData *pData = [NSData dataWithContentsOfFile:filePath];
     UIImage *capImage = [UIImage imageWithData:pData];
-    
+    */
+        
     // Notify Delegate: name, phone, relation and image
     [self.delegate controller:self didSaveContactWithName:name andPhone:phone andRelation:relation andImage:capImage];
     
@@ -327,7 +331,8 @@
 
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-	[picker dismissModalViewControllerAnimated:YES];
+    //[picker dismissModalViewControllerAnimated:YES];
+    [picker dismissViewControllerAnimated:YES completion:nil];
     image = [self imageWithImage:[info objectForKey:@"UIImagePickerControllerOriginalImage"] scaledToSize:CGSizeMake(200, 200)];
 	imageView.image = image;
 }
@@ -452,7 +457,6 @@
     self.imageView.image = imageSave;
     
     //[self.delegate controller:self didSaveContactWithName:name andPhone:phone andRelation:relation andImage:imageSave];
-    
 }
 
 

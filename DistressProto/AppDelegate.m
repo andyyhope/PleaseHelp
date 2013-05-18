@@ -18,6 +18,7 @@
 @implementation AppDelegate
 
 @synthesize userHasStartedCall, currentIndex;
+@synthesize contactsArray;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -282,8 +283,7 @@
 
 -(void)startCallCycleAt:(NSInteger)startIndex
 {
-   
-
+    
     ContactItem *contactItem = [contactsArray objectAtIndex:startIndex];
     callingViewController = [[CallingViewController alloc] init];
      NSLog(@"Start calling cycle\n contactItem: %@", locationAddressString);

@@ -7,9 +7,6 @@
 AllViews
 - Enlarge the text
 
-ContactAddViewController
-- Error handle - if nuRll value and save is selected then put a red astericks next to field with a note saying it needs to be filled - possibly a notification from navbar - photo is not needed, however needs to show the default profile image here
-
 Passcode from mainscreen (passcode enabled)
 - Include (X) unsuccessful attempt limit with (X) minute lockout
 - I created a timer in one of the first early prototypes, it should be in AndyyPrototypes folder somewhere
@@ -18,20 +15,17 @@ Passcode from mainscreen (passcode enabled)
 Option View Controller 
 - Message View is broken, i think it has something to do with the iOS Version #ifdef, cannot call [self ] methods from within
 
-Settings Contact View
-- When importing a contact from AddressBook, show the ContactEditViewController, with all the fields imported, and highlight "Relation"
-
-App Delegate
-- ###### IMPORTANT ######
-    The Contacts plist needs to come from the AppDelegate,
-    At the moment you have the MainContactViewController hosting this information for table rows. Ive created a temporary workaround by copying the methods into App Delegate, but you may need to check them to have a look.
-    (Call me and i can explain it better)
-    Note: This seems to be working now, but the code is a bit untidy perhaps?
-
 Appearance/UI
 - use a #define for all the [UIColor whiteColor]
     forgot why i was doing this...
     -- was to make all colour options within the app to be in one file i believe
+    
+
+Source Code
+- Tidy up all source code with correct spaces, indentations etc...
+- Enter comments for all methods
+- Remove uneccessary code
+
 
 ##############################################
 
@@ -46,6 +40,12 @@ App Delegate
 - Location string: where street name says "(null)", replace with empty string
 - Call cycle, figure out why it isnt working
 - implement loop counter, ie. reached the end of the cycle.
+- ###### IMPORTANT ######
+    The Contacts plist needs to come from the AppDelegate,
+    At the moment you have the MainContactViewController hosting this information for table rows. Ive created a temporary workaround by copying the methods into App Delegate, but you may need to check them to have a look.
+    (Call me and i can explain it better)
+    Note: This seems to be working now, but the code is a bit untidy perhaps?
+
 
 Passcode From Main Screen (Enabled)
 - Label which displays passcode hint
@@ -61,6 +61,8 @@ Main View
 ContactAddViewController
 - Add place holders
 - format number string to remove spaces, ie "0421 121 212" - Cannot make calls when the number has spaces
+- Error handle - if nuRll value and save is selected then put a red astericks next to field with a note saying it needs to be filled - possibly a notification from navbar - photo is not needed, however needs to show the default profile image here
+
 
 ContactEditViewController
 - Adjust navbar and remove the 'Cancel' and '+' when it should only have the back button for saving.
@@ -75,6 +77,8 @@ Settings Contact View
 - Refresh the uitableview when going to add a new record - to stop error images on new records
 - Any contact that is imported without an image, use the default_profile_image.gif file
     // Changed to defaultProfile.png + @2x
+- When importing a contact from AddressBook, show the ContactEditViewController, with all the fields imported, and highlight "Relation"
+
 
 Appearance/UI
 - Create a custom class for all the buttons
