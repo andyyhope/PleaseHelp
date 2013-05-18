@@ -10,11 +10,12 @@
 #import <QuartzCore/QuartzCore.h>
 #import "ContactEditViewController.h"
 #import "ContactAddViewController.h"
+#import "AppDelegate.h"
+#import "ContactItem.h"
+#import "AppearanceConstants.h"
+#import "Appearance.h"
 
 @interface ContactViewController : UITableViewController
 <ContactAddViewControllerDelegate, ContactEditViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
-{
-    
-}
 
 @end

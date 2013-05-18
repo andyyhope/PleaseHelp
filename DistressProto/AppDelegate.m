@@ -22,8 +22,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Check for contacts in saved plist
-    [self checkContactItems];
-    
+    /*
     policeDictionary = [[NSDictionary alloc] initWithObjects:@[@"Police", @"131444", [UIImage imageNamed:@"PoliceImage.png"]]
                                                      forKeys:@[@"name", @"number", @"image"]];
     
@@ -36,6 +35,7 @@
                        [UIImage imageNamed:@"Contact04"],
                        [UIImage imageNamed:@"Contact05"],
                        [UIImage imageNamed:@"Contact06"]];
+    */
     
     currentIndex = 0;
     phoneHasEnteredBackground = false;
@@ -51,20 +51,16 @@
     
     contactsViewController = [[MainContactViewController alloc] init];
     
-
-    
     contactsViewController.contacts = contacts;
     contactsViewController.contactsNames = contactsNames;
     contactsViewController.contactsRelation = contactsRelation;
     contactsViewController.contactsImages = contactsImages;
     
-    
-    
-    
     navController = [[UINavigationController alloc] initWithRootViewController:contactsViewController];
     
     [self updateAppearanceOfUIKit];
-    
+    [self checkContactItems];
+
     self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
     return YES;
@@ -77,11 +73,14 @@
     NSLog(@"loading");
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
         contactsArray = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
-        NSLog(@"%d", [contactsArray count]);
+        NSLog(@"count of objects: %d", [contactsArray count]);
     } else {
         contactsArray = [NSMutableArray array];
     }
 }
+
+
+
 - (NSString *)pathForItems {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documents = [paths lastObject];
@@ -90,7 +89,7 @@
 }
 
 - (void)checkContactItems{
-    NSLog(@"checking");
+    //NSLog(@"checking");
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     if ([ud boolForKey:@"UserDefaultContacts"]) { // change to NOT to make it only occur once
         
@@ -117,11 +116,11 @@
             
             // Create an item            
             ContactItem *item = [ContactItem createUserWithName:[dictionary objectForKey:@"name"] andPhone:[dictionary objectForKey:@"phone"] andRelation:[dictionary objectForKey:@"relation"] andImage:[dictionary objectForKey:@"image"]];
-            NSLog(@"item::%@",item);
+           //NSLog(@"item::%@",item);
             
             // Add item to array
             [items addObject:item];
-            NSLog(@"items::%@",items);
+            //NSLog(@"items::%@",items);
 
         }
         
@@ -296,17 +295,12 @@
     callingViewController.contactImage = contactItem.image;
     [callingViewController updateContactImageWith:contactItem.image];
     
-    //Possible issue for calling not working
-//#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-//    [contactsViewController presentModalViewController:callingViewController animated:YES];
-//#else
     [contactsViewController presentViewController:callingViewController animated:YES completion:^{
         //startingIndex = startIndex;
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
                                                     [NSString stringWithFormat:@"telprompt:%@", contactItem.phone]]];
         
     }];
-//#endif
 
 }
 
@@ -352,18 +346,9 @@
                              andNextContactImageWith:[policeDictionary objectForKey:@"image"]];
         
     }
-    
-    
-    
-    //Possible issue for calling not working - need to test
-//#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-  //  [contactsViewController presentModalViewController:optionViewController animated:YES];
-//#else
     [contactsViewController presentViewController:optionViewController animated:YES completion:^{
 
     }];
-//#endif
-
 }
 
 - (void)endCallCycle

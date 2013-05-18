@@ -78,14 +78,8 @@
     changeImageLabel.textColor = kCELL_HEADER_FONT_COLOR;
     changeImageLabel.backgroundColor = nameLabel.backgroundColor;
     changeImageLabel.text = @"Change Photo";
-    
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    changeImageLabel.textAlignment = UITextAlignmentCenter;
-#else
     changeImageLabel.textAlignment = NSTextAlignmentCenter;
-#endif
-
-//    changeImageLabel.textAlignment = UITextAlignmentCenter;
+    
     [photoView addSubview:changeImageLabel];
     [photoView addSubview:imageView];
     [self.view addSubview:photoView];

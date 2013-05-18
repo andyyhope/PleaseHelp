@@ -62,15 +62,8 @@
     _recoveryButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [Appearance applySkinToSettingsButton:_recoveryButton withTitle:nil];
     _recoveryButton.frame = CGRectMake(20, 90, 280, 50);
-    //if (![defaults boolForKey:@"RecoverSet"]) {
     [_recoveryButton setTitle:@"Set Recovery Hint" forState:UIControlStateNormal];
     [_recoveryButton setTitle:@"Set Recovery Hint" forState:UIControlStateSelected];
-    //}
-    /*else
-    {
-    [_recoveryButton setTitle:@"Reset Recovery Hint" forState:UIControlStateNormal];
-    [_recoveryButton setTitle:@"Reset Recovery Hint" forState:UIControlStateSelected];
-    }*/
     [_recoveryButton addTarget:self action:@selector(checkRecoveryHint) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_recoveryButton];
 }
@@ -120,13 +113,9 @@
     UINavigationController *passcodeNavigationController = [[UINavigationController alloc]
                                                             initWithRootViewController:passcodeController];
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-        [self.navigationController presentModalViewController:passcodeNavigationController animated:YES];
-#else
         [self presentViewController:passcodeNavigationController animated:YES completion:^{
             //code here
         }];
-#endif
 }
 
 #pragma Recovery Hint Button Functions
@@ -159,11 +148,7 @@
     textField.placeholder = @"Enter hint for the passcode";
     [textField becomeFirstResponder];
     textField.backgroundColor = [UIColor whiteColor];
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    textField.textAlignment = UITextAlignmentCenter;
-#else
     textField.textAlignment = NSTextAlignmentCenter;
-#endif
     [recoveryAlert addSubview:textField];
     [recoveryAlert show];
 
@@ -186,11 +171,7 @@
     textField.placeholder = @"Change hint for the passcode";
     [textField becomeFirstResponder];
     textField.backgroundColor = [UIColor whiteColor];
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    textField.textAlignment = UITextAlignmentCenter;
-#else
     textField.textAlignment = NSTextAlignmentCenter;
-#endif
     [displayAlert addSubview:textField];
     [displayAlert show];
 

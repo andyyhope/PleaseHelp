@@ -42,12 +42,7 @@
     label.font = [UIFont boldSystemFontOfSize:18];
     label.textColor = [UIColor whiteColor];
     label.numberOfLines = 0;
-    
-    #if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    label.textAlignment = UITextAlignmentCenter;
-    #else
     label.textAlignment = NSTextAlignmentCenter;
-    #endif
 }
 + (void)applySkinToContactFrame:(UIView *)frame withName:(NSString *)name andImage:(UIImage *)image
 {
@@ -60,11 +55,7 @@
     contactNameLabel.backgroundColor = [UIColor clearColor];
     contactNameLabel.font = kCELL_HEADER_FONT;
     contactNameLabel.textColor = kCELL_HEADER_FONT_COLOR;
-    #if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    contactNameLabel.textAlignment = UITextAlignmentCenter;
-    #else
     contactNameLabel.textAlignment = NSTextAlignmentCenter;
-    #endif
     
     UIImageView *contactImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 90, 90)];
     contactImageView.layer.cornerRadius = kCELL_CORNER_RADIUS;

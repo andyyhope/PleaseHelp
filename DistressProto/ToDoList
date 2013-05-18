@@ -8,8 +8,7 @@ AllViews
 - Enlarge the text
 
 ContactAddViewController
-- Error handle - if null value and save is selected then put a red astericks next to field with a note saying it needs to be filled - possibly a notification from navbar - photo is not needed, however needs to show the default profile image here
-
+- Error handle - if nuRll value and save is selected then put a red astericks next to field with a note saying it needs to be filled - possibly a notification from navbar - photo is not needed, however needs to show the default profile image here
 
 Passcode from mainscreen (passcode enabled)
 - Include (X) unsuccessful attempt limit with (X) minute lockout
@@ -32,13 +31,16 @@ App Delegate
 Appearance/UI
 - use a #define for all the [UIColor whiteColor]
     forgot why i was doing this...
-
+    -- was to make all colour options within the app to be in one file i believe
 
 ##############################################
 
     COMPLETED
     
 ##############################################
+
+All Views
+- Remove any reference for ios5 iphone versions. 
 
 App Delegate
 - Location string: where street name says "(null)", replace with empty string

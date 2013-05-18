@@ -7,8 +7,6 @@
 //
 
 #import "ContactEditViewController.h"
-#import "ContactItem.h"
-#import "Appearance.h"
 
 @interface ContactEditViewController ()
 

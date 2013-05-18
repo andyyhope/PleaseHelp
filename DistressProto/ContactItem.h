@@ -19,7 +19,4 @@
 + (ContactItem *)createUserWithName:(NSString *)name andPhone:(NSString *)phone andRelation:(NSString *)relation;
 + (ContactItem *)createUserWithName:(NSString *)name andPhone:(NSString *)phone andRelation:(NSString *)relation andImage:(UIImage *)image;
 
-//+ (ContactItem *)createUserWithName:(NSString *)name andPhone:(NSString *)phone;
-//+ (ContactItem *)createUserWithName:(NSString *)name andPhone:(NSString *)phone andImage:(UIImage *)image;
-
 @end

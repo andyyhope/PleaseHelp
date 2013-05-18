@@ -38,17 +38,9 @@
         
         self.contactName.font = kCELL_HEADER_FONT;
         self.contactRelation.font = kCELL_TEXT_FONT;
-        
-        //self.contactName.textAlignment = NSTextAlignmentCenter;
-        //self.contactRelation.textAlignment = NSTextAlignmentCenter;
-        
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-        self.contactName.textAlignment = UITextAlignmentCenter;
-        self.contactRelation.textAlignment = UITextAlignmentCenter;
-#else
+      
         self.contactName.textAlignment = NSTextAlignmentCenter;
         self.contactRelation.textAlignment = NSTextAlignmentCenter;
-#endif
 
         self.contactName.textColor = kCELL_HEADER_FONT_COLOR;
         self.contactRelation.textColor = kCELL_TEXT_FONT_COLOR;

@@ -53,12 +53,7 @@
     textPersonLabel.font = kLOCATION_HEADER_FONT;
     textPersonLabel.textColor = [UIColor whiteColor];
     textPersonLabel.text = @"TEXT MESSAGE";
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    textPersonLabel.textAlignment = UITextAlignmentCenter;
-#else
     textPersonLabel.textAlignment = NSTextAlignmentCenter;
-#endif
-    //textPersonLabel.textAlignment = NSTextAlignmentCenter;
     textPersonLabel.backgroundColor = [UIColor clearColor];
     [self.view addSubview:textPersonLabel];
     
@@ -67,12 +62,7 @@
     callNextLabel.font = kLOCATION_HEADER_FONT;
     callNextLabel.textColor = [UIColor whiteColor];
     callNextLabel.text = @"CALL";
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    callNextLabel.textAlignment = UITextAlignmentCenter;
-#else
     callNextLabel.textAlignment = NSTextAlignmentCenter;
-#endif
-    //callNextLabel.textAlignment = NSTextAlignmentCenter;
     callNextLabel.backgroundColor = [UIColor clearColor];
     [self.view addSubview:callNextLabel];
 	
@@ -118,11 +108,6 @@
     self.contactNameLabel.numberOfLines = 1;
     self.contactNameLabel.backgroundColor = [UIColor clearColor];
     self.contactNameLabel.font = kCELL_HEADER_FONT;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    locationAddressLabel.textAlignment = UITextAlignmentCenter;
-#else
-    locationAddressLabel.textAlignment = NSTextAlignmentCenter;
-#endif
     self.contactNameLabel.textAlignment = NSTextAlignmentCenter;
     self.contactNameLabel.textColor = kCELL_HEADER_FONT_COLOR;
     
@@ -158,12 +143,7 @@
     self.nextContactNameLabel.numberOfLines = 1;
     self.nextContactNameLabel.backgroundColor = [UIColor clearColor];
     self.nextContactNameLabel.font = kCELL_HEADER_FONT;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    self.nextContactNameLabel.textAlignment = UITextAlignmentCenter;
-#else
     self.nextContactNameLabel.textAlignment = NSTextAlignmentCenter;
-#endif
-    //self.nextContactNameLabel.textAlignment = NSTextAlignmentCenter;
     self.nextContactNameLabel.textColor = kCELL_HEADER_FONT_COLOR;
     
     nextContactImageView.frame = CGRectMake(10, 10, 90, 90);
@@ -207,13 +187,9 @@
         //        [messageComposeViewController setBody:[NSString stringWithFormat:kHELP_MESSAGE_TEXT, locationAddressString, latitude, longitude]];
         [messageComposeViewController setBody:@"Halp"];
         
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-        [self.navigationController presentModalViewController:messageComposeViewController animated:YES];
-#else
         [self presentViewController:messageComposeViewController animated:YES completion:^{
             NSLog(@"present message");
         }];
-#endif
 
         
     } else
@@ -231,14 +207,10 @@
         // this is the real message
         //        [messageComposeViewController setBody:[NSString stringWithFormat:kHELP_MESSAGE_TEXT, locationAddressString, latitude, longitude]];
         [messageComposeViewController setBody:@"Help"];
-        //[contactsViewController presentViewController:messageComposeViewController animated:YES completion:nil];
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-        [self.navigationController presentModalViewController:messageComposeViewController animated:NO];
-#else
+
         [self presentViewController:messageComposeViewController animated:NO completion:^{
             //code
         }];
-#endif
 
     }
 }

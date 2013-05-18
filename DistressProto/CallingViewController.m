@@ -70,7 +70,6 @@
     UIView *contactFrame = [[UIView alloc] initWithFrame:CGRectMake(10, 10, self.view.frame.size.width - 20, 110)];
     [Appearance applySkinToContactFrame:contactFrame withName:contactName andImage:contactImage];
     
-    
     [self.view addSubview:contactFrame];
     
 }

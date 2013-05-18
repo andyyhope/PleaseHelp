@@ -33,6 +33,7 @@
     UIImage *nextContactImage;
     NSString *nextContactNumber;
 }
+
 @property (nonatomic, retain) UILabel *locationAddressLabel;
 
 @property (nonatomic, retain) UILabel *contactNameLabel;

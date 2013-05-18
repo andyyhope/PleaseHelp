@@ -5,18 +5,10 @@
 //  Created by Andyy Hope on 6/05/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
 //
-#import "AppDelegate.h"
+
 #import "ContactViewController.h"
-#import "ContactItem.h"
-#import "ContactAddViewController.h"
-#import "ContactEditViewController.h"
-#import "AppearanceConstants.h"
-#import "Appearance.h"
 
-#import <AddressBook/AddressBook.h>
-#import <AddressBookUI/AddressBookUI.h>
-
-@interface ContactViewController () <UIActionSheetDelegate, ABPeoplePickerNavigationControllerDelegate>
+@interface ContactViewController () <UIActionSheetDelegate>//, ABPeoplePickerNavigationControllerDelegate>
 {
     UIButton *rearrangeContactsButton;
     UIButton *addContactsButton;
@@ -27,27 +19,30 @@
 @property NSMutableArray *items;
 
 //Import Contacts - AddressBookUI
-@property NSString *fullName;
+/*
+ @property NSString *fullName;
 @property NSString *lastName;
 @property NSString *phoneNumber;
 @property NSString *relationship;
 @property UIImage *contactImage;
+*/
 
-
-@property (nonatomic, retain) ABPeoplePickerNavigationController *contacts;
+//@property (nonatomic, retain) ABPeoplePickerNavigationController *contacts;
 @property ContactAddViewController *contactAddViewController;
 
-- (void)addContact;
--(void)createNewContact;
+// (void)addContact;
+-(void)createContact;
 
 @end
 
 
 @implementation ContactViewController
-@synthesize fullName = _fullName;
+/*
+ @synthesize fullName = _fullName;
 @synthesize phoneNumber = _phoneNumber;
 @synthesize relationship = _relationship;
 @synthesize contactImage = _contactImage;
+ */
 @synthesize contactAddViewController = _contactAddViewController;
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -74,8 +69,6 @@
     self.view.backgroundColor = kVIEW_BACKGROUND_COLOR;
     self.tableView.layer.borderWidth = 0;
     self.tableView.layer.shadowColor = [UIColor clearColor].CGColor;
-    
-    
 }
 
 - (void)createTableHeader
@@ -91,7 +84,7 @@
                                          self.view.frame.size.width / 2 - 15,
                                          50);
     [Appearance applySkinToSettingsButton:addContactsButton withTitle:@"ADD"];
-    [addContactsButton addTarget:self action:@selector(addContact) forControlEvents:UIControlEventTouchUpInside];
+    [addContactsButton addTarget:self action:@selector(createContact) forControlEvents:UIControlEventTouchUpInside];
     [tableHeader addSubview:addContactsButton];
     
     rearrangeContactsButton.frame = CGRectMake(addContactsButton.frame.size.width + addContactsButton.frame.origin.x + 10,
@@ -148,7 +141,6 @@
     [cell.textLabel setText:[item name]];
     [cell.detailTextLabel setText:[item phone]];
     [cell.imageView setImage:[UIImage imageNamed:@"transparentSquare.png"]];
-    
 
     // CBF subclassing UITableViewCell to round corners of thumbnail imae >_>
     UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 30, 30)];
@@ -169,11 +161,8 @@
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
     
     NSString *item = [self.items objectAtIndex:fromIndexPath.row];
-    
     [self.items removeObject:item];
-    
     [self.items insertObject:item atIndex:toIndexPath.row];
-    
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -205,8 +194,10 @@
     contactEditViewController.navigationItem.title = @"Edit Contact";
     
     [self.parentViewController.navigationController pushViewController:contactEditViewController animated:YES];
+    
 }
 
+/*
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 0) {
         //Import Contact from address book button selected
@@ -217,34 +208,34 @@
         [self createNewContact];
     }
 }
+ */
 
+/*
 -(void)addContact
 {
+    [self createNewContact];
+   // ContactAddViewController *contactAddViewController = [[ContactAddViewController alloc] init];
+    //[contactAddViewController createAddView];
+    
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil
                                  delegate:self
                         cancelButtonTitle:@"Cancel"
                    destructiveButtonTitle:nil
                        otherButtonTitles:@"Import from Contacts", @"Create New", nil];
     [sheet showInView:self.view];
-}
+     
+}*/
 
--(void)createNewContact
+-(void)createContact
 {
     ContactAddViewController *contactAddViewController = [[ContactAddViewController alloc] init];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:contactAddViewController];
     [contactAddViewController setDelegate:self];
-    contactAddViewController.navigationItem.title = @"Add Contact";
-
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    [self.navigationController presentModalViewController:navController animated:YES];
-#else
+    contactAddViewController.navigationItem.title = @"ADD CONTACT";
     [self.parentViewController.navigationController presentViewController:navController animated:YES completion:^{
-        //code
     }];
-#endif
-
 }
-
+/*
 -(void)importContact
 {
     _contacts = [[ABPeoplePickerNavigationController alloc] init];
@@ -255,15 +246,8 @@
     // Set the phone property as the one that we want to be displayed in the Address Book.
     [_contacts setDisplayedProperties:[NSArray arrayWithObject:[NSNumber numberWithInt:kABPersonPhoneProperty]]];
     
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    [self.navigationController presentModalViewController:_contacts animated:YES];
-#else
     [self presentViewController:_contacts animated:YES completion:^{
-        
     }];
-#endif
-
-    
 }
 
 -(BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier{
@@ -323,6 +307,7 @@
     // Notify Delegate: name and phone
     [self controller:_contactAddViewController didSaveContactWithName:name andPhone:phone andRelation:relation andImage:image];
 }
+*/
 
 - (void)editItems{
     if (isEditing)
@@ -354,14 +339,8 @@
     [self.items addObject:item];
     
     // Add Row to Table View
-    //needs to change for iOS5 phones
-//#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-//    NSMutableArray *paths = [[NSMutableArray alloc] initWithArray:self.items];
-//    [self.tableView insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationNone];
-//#else
     NSIndexPath *newIndexPath = [NSIndexPath indexPathForItem:([self.items count] - 1) inSection:0];
     [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationNone];
-//#endif
     
     // Save Items
     [self saveContacts];
@@ -376,7 +355,6 @@
     [self.items addObject:item];
     
     // Add Row to Table View
-    //needs to change for iOS5 phones
     [self.tableView beginUpdates];
     
     NSIndexPath *newIndexPath = [NSIndexPath indexPathForItem:([self.items count] - 1) inSection:0];

@@ -21,6 +21,7 @@
     NSInteger cycleStartIndex;
     NSInteger cycleCurrentIndex;
 }
+
 @property (nonatomic, retain) NSString *locationAddressString;
 
 @property (nonatomic, retain) NSArray *contacts;

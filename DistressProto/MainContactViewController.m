@@ -27,6 +27,7 @@
 @synthesize locationAddressString;
 @synthesize contacts, contactsNames, contactsRelation, contactsImages;
 @synthesize cycleCurrentIndex, cycleStartIndex;
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -57,9 +58,6 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [self retrieveContacts];
-    AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate checkContactItems];
-    
 }
 
 #pragma mark - Settings Button
@@ -116,13 +114,9 @@
     passcodeController.passDelegate = self;
     UINavigationController *passcodeNavigationController = [[UINavigationController alloc] initWithRootViewController:passcodeController];
     
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    [self.navigationController presentModalViewController:passcodeNavigationController animated:YES];
-#else
     [self presentViewController:passcodeNavigationController animated:YES completion:^{
         //code here
     }];
-#endif
 
 }
 
@@ -130,7 +124,7 @@
 -(void)retrieveContacts
 {
     NSString *filePath = [self pathForItems];
-    NSLog(@"loading");
+    //NSLog(@"loading");
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
         self.items = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
     } else {
@@ -213,12 +207,7 @@
     locationHeaderLabel.text = @"YOU ARE NEAR";
     locationHeaderLabel.font = kLOCATION_HEADER_FONT;
     locationHeaderLabel.textColor = kLOCATION_HEADER_FONT_COLOR;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    locationHeaderLabel.textAlignment = UITextAlignmentCenter;
-#else
     locationHeaderLabel.textAlignment = NSTextAlignmentCenter;
-#endif
-    //locationHeaderLabel.textAlignment = NSTextAlignmentCenter;
     locationHeaderLabel.shadowColor = [UIColor colorWithWhite:255.0f alpha:0.2f];
     locationHeaderLabel.shadowOffset = CGSizeMake(1, 1);
     locationHeaderLabel.backgroundColor = [UIColor clearColor];
@@ -227,12 +216,7 @@
     locationAddressLabel.text = @"Loading...";
     locationAddressLabel.font = kLOCATION_TEXT_FONT;
     locationAddressLabel.textColor = kLOCATION_TEXT_FONT_COLOR;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    locationAddressLabel.textAlignment = UITextAlignmentCenter;
-#else
     locationAddressLabel.textAlignment = NSTextAlignmentCenter;
-#endif
-    //locationAddressLabel.textAlignment = NSTextAlignmentCenter;
     locationAddressLabel.shadowColor = [UIColor colorWithWhite:0.0f alpha:0.2f];
     locationAddressLabel.shadowOffset = CGSizeMake(1, 1);
     locationAddressLabel.backgroundColor = [UIColor clearColor];
@@ -283,7 +267,6 @@
 
     if ([passCode isEqualToString:string]) {
         //User authorised
-        //NSLog(@"Authorised");
         [self displaySettingsController];
         [controller dismissModalViewControllerAnimated:YES];
     }

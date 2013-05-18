@@ -75,11 +75,7 @@
     
     if(_firstLabel == nil) {
         _firstLabel = [[UILabel alloc] initWithFrame:self.bounds];
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-		_firstLabel.textAlignment = UITextAlignmentLeft;
-#else
         _firstLabel.textAlignment = NSTextAlignmentLeft;
-#endif
 		_firstLabel.font = self.font;
 		_firstLabel.backgroundColor = [UIColor clearColor];
 		[self addSubview:_firstLabel];
@@ -92,11 +88,7 @@
     
     if(_secondLabel == nil) {
 		_secondLabel = [[UILabel alloc] initWithFrame:self.bounds];
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-		_secondLabel.textAlignment = UITextAlignmentLeft;
-#else
         _secondLabel.textAlignment = NSTextAlignmentLeft;
-#endif
 		_secondLabel.font = self.font;
 		_secondLabel.backgroundColor = [UIColor clearColor];
 		[self addSubview:_secondLabel];
