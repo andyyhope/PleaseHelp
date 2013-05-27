@@ -32,6 +32,12 @@
     UILabel *nextContactNameLabel;
     UIImage *nextContactImage;
     NSString *nextContactNumber;
+    
+    NSString *userName;
+    NSString *userNumber;
+    NSString *userLatitude;
+    NSString *userLongitude;
+    NSString *recipient;
 }
 
 @property (nonatomic, retain) UILabel *locationAddressLabel;
@@ -44,5 +50,14 @@
 @property (nonatomic, retain) UIImage *nextContactImage;
 @property (nonatomic, retain) NSString *nextContactNumber;
 
+@property (nonatomic, retain) NSString *userName;
+@property (nonatomic, retain) NSString *userNumber;
+@property (nonatomic, retain) NSString *userLatitude;
+@property (nonatomic, retain) NSString *userLongitude;
+@property (nonatomic, retain) NSString *recipient;
+
 - (void)updateContactImageWith:(UIImage *)newImage andNextContactImageWith:(UIImage *)nextImage;
+-(void)updateUserName:(NSString *)name andNumber:(NSString *)number;
+-(void)updateLat:(NSString *)latitude andLong:(NSString *)longitude;
+
 @end

@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Andyy Hope. All rights reserved.
 //
 #import "AppDelegate.h"
-#import "AppearanceConstants.h"
+//#import "AppearanceConstants.h"
 #import "Appearance.h"
 #import "OptionViewController.h"
 
@@ -22,6 +22,12 @@
 @synthesize nextContactNameLabel;
 @synthesize nextContactNumber;
 @synthesize locationAddressLabel;
+@synthesize userName;
+@synthesize userNumber;
+@synthesize userLatitude;
+@synthesize userLongitude;
+@synthesize recipient;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -87,7 +93,6 @@
 - (void) dismissCallingView
 {
     NSLog(@"Called");
-    
     
     [self dismissViewControllerAnimated:YES completion:^{
         AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -183,16 +188,20 @@
     MFMessageComposeViewController *messageComposeViewController = [[MFMessageComposeViewController alloc] init];
     messageComposeViewController.messageComposeDelegate = self;
     if ([MFMessageComposeViewController canSendText]) {
-        [messageComposeViewController setRecipients:@[@"0421523454"]];
-        //        [messageComposeViewController setBody:[NSString stringWithFormat:kHELP_MESSAGE_TEXT, locationAddressString, latitude, longitude]];
-       //[messageComposeViewController setBody:[NSString stringWithFormat:kSMS_MESSAGE_TEXT, kSMS_MESSAGE_LINK, latitude, longitude]];  <-- need to send the lat/long to this viewcontroller
-        [messageComposeViewController setBody:@"Help"];
+        recipient = nil;
+        
+        recipient = [[NSString alloc] initWithString:userNumber];
+        [messageComposeViewController setRecipients:@[recipient]];
+
+        //[messageComposeViewController setRecipients:@[@"0421523454"]];
+        NSString *messageString = [[NSString alloc] initWithFormat:@"http://maps.google.com/maps?f=q&hl=em&q=%@,%@&ie=UTF8&z=16&iwloc=addr&om=1", userLatitude, userLongitude];
+        [messageComposeViewController setBody:[NSString stringWithFormat:@"%@ %@",kSMS_MESSAGE_TEXT, messageString]];  //<-- need to send the lat/long to this viewcontroller
+        //[messageComposeViewController setBody:@"Help"];
         
         [self presentViewController:messageComposeViewController animated:YES completion:^{
             NSLog(@"present message");
         }];
 
-        
     } else
     {
         NSLog(@"Cannot send text");
@@ -201,13 +210,22 @@
 
 -(void)messageContactAtIndex:(NSInteger)positionIndex
 {
+    
+    NSLog(@"Message button done");
+    
     MFMessageComposeViewController *messageComposeViewController = [[MFMessageComposeViewController alloc] init];
     messageComposeViewController.messageComposeDelegate = self;
     if ([MFMessageComposeViewController canSendText]) {
-        [messageComposeViewController setRecipients:@[@"0421523454"]];
-        // this is the real message
-        //        [messageComposeViewController setBody:[NSString stringWithFormat:kHELP_MESSAGE_TEXT, locationAddressString, latitude, longitude]];
-        [messageComposeViewController setBody:@"Help"];
+        recipient = nil;
+        
+        recipient = [[NSString alloc] initWithString:userNumber];
+        
+        //Recipient needs to be sent across also
+        [messageComposeViewController setRecipients:@[recipient]];
+        
+        NSString *messageString = [[NSString alloc] initWithFormat:@"http://maps.google.com/maps?f=q&hl=em&q=%@,%@&ie=UTF8&z=16&iwloc=addr&om=1", userLatitude, userLongitude];
+        [messageComposeViewController setBody:[NSString stringWithFormat:@"%@ %@",kSMS_MESSAGE_TEXT, messageString]];  //<-- need to send the lat/long to this viewcontroller
+        //[messageComposeViewController setBody:@"Help"];
 
         [self presentViewController:messageComposeViewController animated:NO completion:^{
             //code
@@ -249,9 +267,26 @@
     
 }
 
+-(void)updateUserName:(NSString *)name andNumber:(NSString *)number
+{
+    self.userName = name;
+    self.userNumber = number;
+    NSLog(@"bub:%@<<<%@",self.userName,self.userNumber);
+
+}
+
+-(void)updateLat:(NSString *)latitude andLong:(NSString *)longitude
+{
+    self.userLatitude = latitude;
+    self.userLongitude = longitude;
+    NSLog(@"bub:%@<<<%@",self.userLatitude,self.userLongitude);
+}
+
+
 - (void)updateContactImageWith:(UIImage *)newImage andNextContactImageWith:(UIImage *)nextImage
 {
     contactImageView.image = newImage;
     nextContactImageView.image = nextImage;
 }
+
 @end

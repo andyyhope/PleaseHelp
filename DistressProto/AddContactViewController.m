@@ -8,7 +8,7 @@
 
 #import "AddContactViewController.h"
 #import "UIImage+Resize.h"
-#import "AppearanceConstants.h"
+//#import "AppearanceConstants.h"
 
 @interface AddContactViewController () <UIActionSheetDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -31,15 +31,12 @@
 
     [super viewDidLoad];
     
-    
     self.view.backgroundColor = kVIEW_BACKGROUND_COLOR;
     
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 75, 260, 20)];
     UILabel *phoneLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 155, 260, 20)];
     UILabel *relationLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 235, 260, 20)];
     UILabel *photoLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 315, 260, 20)];
-    
-    
     
     nameLabel.font = kLOCATION_TEXT_FONT;
     nameLabel.textColor = [UIColor whiteColor];
@@ -70,7 +67,7 @@
     photoView.backgroundColor = [UIColor whiteColor];
     photoView.layer.cornerRadius = kCELL_CORNER_RADIUS;
     imageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 100, 100)];
-    imageView.image = [UIImage imageNamed:@"default_profile_image.gif"];
+    imageView.image = [UIImage imageNamed:kIMAGE_PLACEHOLDER];
     imageView.layer.cornerRadius = kCELL_CORNER_RADIUS;
     
     UILabel *changeImageLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 0, 150, photoView.frame.size.height)];
@@ -106,7 +103,7 @@
     phoneTextField.layer.borderColor = [UIColor whiteColor].CGColor;
     phoneTextField.layer.cornerRadius = 3;
     phoneTextField.layer.borderWidth = 1.0f;
-    [phoneTextField setKeyboardType:UIKeyboardTypeNumberPad];
+    [phoneTextField setKeyboardType:UIKeyboardTypePhonePad];
     [self.view addSubview:phoneTextField];
     
     relationTextField = [[UITextField alloc] initWithFrame:CGRectMake(30, 260, 260, 30)];

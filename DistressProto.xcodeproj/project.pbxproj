@@ -281,7 +281,6 @@
 			children = (
 				3A96BE81172D1A9D0092B2C4 /* PasscodeViewController.h */,
 				3A96BE82172D1A9D0092B2C4 /* PasscodeViewController.m */,
-				3A96BE83172D1A9D0092B2C4 /* PasscodeViewController.xib */,
 			);
 			name = Passcode;
 			sourceTree = "<group>";
@@ -289,7 +288,6 @@
 		3A96BE79172D19610092B2C4 /* Contacts */ = {
 			isa = PBXGroup;
 			children = (
-				3A96BE9F172D1B1C0092B2C4 /* contacts.plist */,
 				D1F5133617389A7E00510CBF /* ContactAddViewController.h */,
 				D1F5133717389A7F00510CBF /* ContactAddViewController.m */,
 				D1F513391738A68B00510CBF /* ContactEditViewController.h */,
@@ -403,6 +401,8 @@
 		D1F513261737F14000510CBF /* Legacy */ = {
 			isa = PBXGroup;
 			children = (
+				3A96BE9F172D1B1C0092B2C4 /* contacts.plist */,
+				3A96BE83172D1A9D0092B2C4 /* PasscodeViewController.xib */,
 				3A96BE92172D1AFC0092B2C4 /* AddContactViewController.h */,
 				3A96BE93172D1AFC0092B2C4 /* AddContactViewController.m */,
 				3A96BE95172D1AFC0092B2C4 /* EditContactViewController.h */,

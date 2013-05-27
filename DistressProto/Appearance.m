@@ -7,7 +7,7 @@
 //
 
 #import "Appearance.h"
-#import "AppearanceConstants.h"
+//#import "AppearanceConstants.h"
 
 #import "AppDelegate.h"
 
@@ -86,7 +86,8 @@
     [backButton addTarget:viewController action:@selector(dismissView) forControlEvents:UIControlEventTouchUpInside];
     backButton.frame = backButtonView.frame;
     
-    UIImageView *backButtonImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"backButton"]];
+
+    UIImageView *backButtonImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:kBACK_BUTTON]];
     backButtonImageView.frame = CGRectMake(5, 5, 20, 20);
     
     [backButtonView addSubview:backButton];
@@ -108,7 +109,7 @@
     [cancelButton addTarget:viewController action:@selector(dismissView) forControlEvents:UIControlEventTouchUpInside];
     cancelButton.frame = cancelButtonView.frame;
     
-    UIImageView *cancelButtonImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cancelButton"]];
+    UIImageView *cancelButtonImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:kCANCEL_BUTTON]];
     cancelButtonImageView.frame = CGRectMake(5, 5, 20, 20);
     
     [cancelButtonView addSubview:cancelButton];
@@ -130,7 +131,7 @@
     [saveButton addTarget:viewController action:@selector(save) forControlEvents:UIControlEventTouchUpInside];
     saveButton.frame = saveButtonView.frame;
     
-    UIImageView *saveButtonImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"saveButton"]];
+    UIImageView *saveButtonImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:kSAVE_BUTTON]];
     saveButtonImageView.frame = CGRectMake(5, 5, 20, 20);
     
     [saveButtonView addSubview:saveButton];
@@ -151,7 +152,7 @@
     [saveButton addTarget:viewController action:@selector(saveEdit:) forControlEvents:UIControlEventTouchUpInside];
     saveButton.frame = saveButtonView.frame;
     
-    UIImageView *saveButtonImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"saveButton"]];
+    UIImageView *saveButtonImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:kSAVE_BUTTON]];
     saveButtonImageView.frame = CGRectMake(5, 5, 20, 20);
     
     [saveButtonView addSubview:saveButton];

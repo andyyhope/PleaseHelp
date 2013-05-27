@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
-
 #import <AddressBook/AddressBook.h>
 #import <AddressBookUI/AddressBookUI.h>
 
@@ -26,6 +25,7 @@
 
 @property (weak) id<ContactAddViewControllerDelegate> delegate;
 @property (nonatomic, retain) UIImage *image;
+@property (nonatomic, retain) UIImage *capImage;
 @property (nonatomic, retain) UITextField *nameTextField;
 @property (nonatomic, retain) UITextField *relationTextField;
 @property (nonatomic, retain) UITextField *phoneTextField;

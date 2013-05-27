@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "AppearanceConstants.h"
+//#import "AppearanceConstants.h"
 #import "ContactItem.h"
 
 #import "MainContactViewController.h"
@@ -19,6 +19,7 @@
 
 @synthesize userHasStartedCall, currentIndex;
 @synthesize contactsArray;
+@synthesize latitude, longitude;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -73,7 +74,7 @@
 -(void)retrieveContacts
 {
     NSString *filePath = [self pathForItems];
-    NSLog(@"loading");
+    //NSLog(@"loading");
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
         contactsArray = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
         NSLog(@"count of objects: %d", [contactsArray count]);
@@ -91,11 +92,14 @@
     return [documents stringByAppendingPathComponent:@"items.plist"];
 }
 
-- (void)checkContactItems{
-    //NSLog(@"checking");
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    if ([ud boolForKey:@"UserDefaultContacts"]) { // change to NOT to make it only occur once
-        
+- (void)checkContactItems
+{
+    
+    //NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    
+    //if (![ud boolForKey:@"UserDefaultContacts"]) // change to NOT to make it only occur once
+    if ([contactsArray count] == 0)
+    {
         // Initialise AlertView
         UIAlertView *addContact = [[UIAlertView alloc]
                                    initWithTitle:@"Contacts Empty"
@@ -105,13 +109,12 @@
                                    otherButtonTitles:@"Add Contacts", nil];
         [addContact show];
         
+        /*
         // Load contacts from plist
-        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"contacts" ofType:@"plist"];
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"items" ofType:@"plist"];
         NSArray *contactItems = [NSArray arrayWithContentsOfFile:filePath];
         NSLog(@"array: %@", contactItems);
         
-        // Initiate items array
-        NSMutableArray *items = [NSMutableArray array];
         
         // Create list of items
         for (int i = 0; i < [contactItems count]; i++) {
@@ -126,15 +129,26 @@
             //NSLog(@"items::%@",items);
 
         }
-        
-        // Items directory path
+         */
+        /*
+        // Initialise array
+        NSMutableArray *items = [NSMutableArray array];
+
+        // Define plist directory path
         NSString *itemsPath = [[self documentsDirectory] stringByAppendingPathComponent:@"items.plist"];
         
-        // Write to file
-        if ([NSKeyedArchiver archiveRootObject:items toFile:itemsPath]) {
+        // Confirm file exists and set value so first alert does not show
+        if ([NSKeyedArchiver archiveRootObject:items toFile:itemsPath])
+        {
             [ud setBool:YES forKey:@"UserDefaultContacts"];
         }
-    } else
+        else
+        {
+            NSLog(@"Set nothing");
+            //[ud setBool:NO forKey:@"UserDefaultContacts"];
+        }*/
+    }
+    else
     {
         NSLog(@"Contacts exist");
         [self retrieveContacts];
@@ -194,6 +208,7 @@
 {
     NSLog(@"Did become active");
     [self callStateIdentifier];
+    //[self checkContactItems]; //This should not affect calling function
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -288,7 +303,7 @@
     
     ContactItem *contactItem = [contactsArray objectAtIndex:startIndex];
     callingViewController = [[CallingViewController alloc] init];
-     NSLog(@"Start calling cycle\n contactItem: %@", locationAddressString);
+     NSLog(@"Start calling cycle\n locationaddressstring: %@", locationAddressString);
     
     currentIndex = startIndex;
     callingViewController.contactName = contactItem.name;
@@ -336,6 +351,13 @@
     { // Call cycle still running
         ContactItem *nextContactItem = [contactsArray objectAtIndex:positionIndex + 1];
         optionViewController.nextContactNameLabel.text = nextContactItem.name;
+                
+        NSString *nameString = [[NSString alloc] initWithFormat:@"%@",contactItem.name];
+        NSString *numberString = [[NSString alloc] initWithFormat:@"%@", contactItem.phone];
+    
+        //most probably integrate these 2 together
+        [optionViewController updateLat:self.latitude andLong:self.longitude];
+        [optionViewController updateUserName:nameString andNumber:numberString];
         
         [optionViewController updateContactImageWith:contactItem.image
                              andNextContactImageWith:nextContactItem.image];
@@ -361,8 +383,9 @@
 }
 - (void)updateAppearanceOfUIKit
 {
+    
     // Navigation Bar Background Image
-    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"NavigationBarBG"] forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:kNAVIGATIONBAR_BACKGROUND] forBarMetrics:UIBarMetricsDefault];
     
     // Navigation Bar Text
     [[UINavigationBar appearance] setTitleTextAttributes:

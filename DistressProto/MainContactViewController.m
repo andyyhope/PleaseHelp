@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Andyy Hope. All rights reserved.
 //
 #import "AppDelegate.h"
-#import "AppearanceConstants.h"
+//#import "AppearanceConstants.h"
 #import "ContactsTableViewCell.h"
 #import "CallingViewController.h"
 #import "OptionViewController.h"
@@ -74,7 +74,8 @@
     [settingsButton addTarget:self action:@selector(pushSettingsView) forControlEvents:UIControlEventTouchUpInside];
     settingsButton.frame = settingsButtonView.frame;
     
-    UIImageView *settingsButtonImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"settingsButton"]];
+
+    UIImageView *settingsButtonImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:kSETTING_BUTTON]];
     settingsButtonImageView.frame = CGRectMake(5, 5, 20, 20);
     
     [settingsButtonView addSubview:settingsButton];
@@ -188,7 +189,7 @@
     
     if (cellItem.image == nil)
     {
-        cell.imageView.image = [UIImage imageNamed:@"defaultProfile.png"];
+        cell.imageView.image = [UIImage imageNamed:kIMAGE_PLACEHOLDER];
     }
     else
     {

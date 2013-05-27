@@ -7,8 +7,8 @@
 //
 
 #import "PasscodeViewController.h"
-#import "AppearanceConstants.h"
-#import "Appearance.h"
+//#import "AppearanceConstants.h"
+//#import "Appearance.h"
 
 @interface PasscodeViewController () <UIAlertViewDelegate>
 {

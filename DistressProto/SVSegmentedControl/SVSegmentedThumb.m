@@ -11,7 +11,7 @@
 #import "SVSegmentedThumb.h"
 #import <QuartzCore/QuartzCore.h>
 #import "SVSegmentedControl.h"
-#import "AppearanceConstants.h"
+//#import "AppearanceConstants.h"
 
 @interface SVSegmentedThumb ()
 

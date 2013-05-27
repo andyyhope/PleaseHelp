@@ -12,7 +12,7 @@
 #import "ContactAddViewController.h"
 #import "AppDelegate.h"
 #import "ContactItem.h"
-#import "AppearanceConstants.h"
+//#import "AppearanceConstants.h"
 #import "Appearance.h"
 
 @interface ContactViewController : UITableViewController

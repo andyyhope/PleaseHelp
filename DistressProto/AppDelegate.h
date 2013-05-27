@@ -54,6 +54,10 @@
 
 @property (nonatomic, readwrite) BOOL userHasStartedCall;
 
+@property (strong, nonatomic) NSString *latitude;
+@property (strong, nonatomic) NSString *longitude;
+
+           
 @property (nonatomic, readwrite) NSInteger *testInt;
 @property (nonatomic, readonly) NSInteger currentIndex;
 @property (nonatomic, retain) NSMutableArray *contactsArray;

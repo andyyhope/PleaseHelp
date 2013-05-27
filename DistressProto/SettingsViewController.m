@@ -11,7 +11,7 @@
 #import "SettingsViewController.h"
 #import "ContactViewController.h"
 #import "PasscodeViewController.h"
-#import "AppearanceConstants.h" 
+//#import "AppearanceConstants.h"
 #import "Appearance.h"
 
 //Define the private variables for this class
@@ -25,7 +25,7 @@
 
 @implementation SettingsViewController
 
-//This is the first method run in this class which is launched when the view does load.
+//This is the first method run in this class which is launched when the view loads.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -82,13 +82,13 @@
 {
     if (segmentedControl.selectedSegmentIndex == 0)
     {
-        // ContactViewController displays to the user and removes PasscodeViewController from view
+        // ContactViewController is displayed to the user and removes PasscodeViewController from view
         [self.view addSubview:contactViewController.view];
         [passcodeViewController.view removeFromSuperview];
     }
     else if (segmentedControl.selectedSegmentIndex == 1)
     {
-        // PasscodeViewController displays to the user and removes ContactViewController from view
+        // PasscodeViewController is displayed to the user and removes ContactViewController from view
         [self.view addSubview:passcodeViewController.view];
         [contactViewController.view removeFromSuperview];
     }

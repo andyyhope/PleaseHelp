@@ -7,7 +7,7 @@
 //
 
 #import "ContactsTableViewCell.h"
-#import "AppearanceConstants.h"
+//#import "AppearanceConstants.h"
 
 @implementation ContactsTableViewCell
 @synthesize contactName, contactRelation;

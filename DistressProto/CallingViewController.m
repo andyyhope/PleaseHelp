@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Andyy Hope. All rights reserved.
 //
 #import "AppDelegate.h"
-#import "AppearanceConstants.h"
+//#import "AppearanceConstants.h"
 #import "Appearance.h"
 #import "CallingViewController.h"
 

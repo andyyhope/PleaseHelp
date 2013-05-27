@@ -8,7 +8,7 @@
 
 #import "ContactAddViewController.h"
 #import "ContactEditViewController.h"
-#import "AppearanceConstants.h"
+//#import "AppearanceConstants.h"
 #import "Appearance.h"
 #import "BSKeyboardControls.h"
 #import "ContactItem.h"
@@ -47,6 +47,8 @@
 @implementation ContactAddViewController
 @synthesize phoneTextField, nameTextField, relationTextField;
 @synthesize imageView, image;
+@synthesize capImage;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -60,7 +62,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    image = [UIImage imageNamed:@"defaultProfile.png"];
+    image = [UIImage imageNamed:kIMAGE_PLACEHOLDER];
     self.view.backgroundColor = kVIEW_BACKGROUND_COLOR;
         
     scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height)];
@@ -102,7 +104,7 @@
     photoView.backgroundColor = [UIColor whiteColor];
     photoView.layer.cornerRadius = kCELL_CORNER_RADIUS;
     imageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 100, 100)];
-    imageView.image = [UIImage imageNamed:@"default_profile_image.gif"];
+    imageView.image = [UIImage imageNamed:kIMAGE_PLACEHOLDER];
     imageView.layer.cornerRadius = kCELL_CORNER_RADIUS;
     
     UILabel *changeImageLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 0, 150, photoView.frame.size.height)];
@@ -129,7 +131,7 @@
     [Appearance applySkinToTextField:nameTextField withPlaceHolderText:@"Enter name here"]; // maybe change to 'tap here to type name'
     [Appearance applySkinToTextField:phoneTextField withPlaceHolderText:@"Enter phone number here"];
     [Appearance applySkinToTextField:relationTextField withPlaceHolderText:@"Enter the relation here"];
-    [phoneTextField setKeyboardType:UIKeyboardTypeNumberPad];
+    [phoneTextField setKeyboardType:UIKeyboardTypePhonePad];
     [scrollView addSubview:nameTextField];
     [scrollView addSubview:phoneTextField];
     [scrollView addSubview:relationTextField];
@@ -297,18 +299,21 @@
     NSString *name = [nameTextField text];
     NSString *phone = [phoneTextField text];
     NSString *relation = [[relationTextField text] stringByReplacingOccurrencesOfString:@" " withString:@""];
-    UIImage *capImage = self.contactImage;
-    
-        
-    /*
-        NSData *jpgData = UIImageJPEGRepresentation(image, 1);
+    //UIImage *capImage = self.contactImage;
+        if (!self.contactImage) {
+    NSData *jpgData = UIImageJPEGRepresentation(image, 1);
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsPath = [paths objectAtIndex:0]; //Get the docs directory
     NSString *filePath = [documentsPath stringByAppendingPathComponent:@"image.jpg"]; //Add the file name
     [jpgData writeToFile:filePath atomically:YES]; //Write the file
     NSData *pData = [NSData dataWithContentsOfFile:filePath];
-    UIImage *capImage = [UIImage imageWithData:pData];
-    */
+    capImage = [UIImage imageWithData:pData];
+        }
+            else
+    {
+        capImage = self.contactImage;
+    }
+        
         
     // Notify Delegate: name, phone, relation and image
     [self.delegate controller:self didSaveContactWithName:name andPhone:phone andRelation:relation andImage:capImage];
@@ -420,8 +425,15 @@
     
     UIImage *imageImport = [UIImage imageWithData:(__bridge NSData *)ABPersonCopyImageDataWithFormat (person, kABPersonImageFormatOriginalSize)];
     
+    //if (!imageImport && !imageView.image) {
+    //    self.contactImage = [UIImage imageNamed:kIMAGE_PLACEHOLDER];
+    //}
+    //else
+    //{
+    self.imageView.image = imageImport;
     self.contactImage = imageImport;
-    
+    //}
+                         
     [self importSaveContact];
     
     [_contacts dismissViewControllerAnimated:YES completion:^{
@@ -458,9 +470,6 @@
     
     //[self.delegate controller:self didSaveContactWithName:name andPhone:phone andRelation:relation andImage:imageSave];
 }
-
-
-
 
 - (NSString *)documentsPathForFileName:(NSString *)name
 {

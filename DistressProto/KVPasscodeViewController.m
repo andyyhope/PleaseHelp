@@ -29,7 +29,7 @@
 //
 
 #import "KVPasscodeViewController.h"
-#import "AppearanceConstants.h"
+//#import "AppearanceConstants.h"
 #import "Appearance.h"
 
 #import <QuartzCore/QuartzCore.h>
@@ -104,7 +104,7 @@
 {
     fakeField = [[UITextField alloc] initWithFrame:CGRectZero];
     fakeField.delegate = self;
-    fakeField.keyboardType = UIKeyboardTypeNumberPad;
+    fakeField.keyboardType = UIKeyboardTypePhonePad;
     fakeField.secureTextEntry = YES;
     fakeField.returnKeyType = UIReturnKeyDone;
     fakeField.text = @"";

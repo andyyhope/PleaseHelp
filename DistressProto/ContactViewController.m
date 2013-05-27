@@ -93,7 +93,7 @@
                                                50);
     
 
-    [Appearance applySkinToSettingsButton:rearrangeContactsButton withTitle:@"ORGANISE"];
+    [Appearance applySkinToSettingsButton:rearrangeContactsButton withTitle:@"EDIT"];
     [rearrangeContactsButton addTarget:self action:@selector(editItems) forControlEvents:UIControlEventTouchUpInside];
     [tableHeader addSubview:rearrangeContactsButton];
     
@@ -312,7 +312,7 @@
 - (void)editItems{
     if (isEditing)
     {
-        [rearrangeContactsButton setTitle:@"ORGANISE" forState:UIControlStateNormal];
+        [rearrangeContactsButton setTitle:@"EDIT" forState:UIControlStateNormal];
         [rearrangeContactsButton setBackgroundColor:[UIColor whiteColor]];
         [rearrangeContactsButton setTitleColor:kCELL_HEADER_FONT_COLOR forState:UIControlStateNormal];
         [self.view addSubview:addContactsButton];

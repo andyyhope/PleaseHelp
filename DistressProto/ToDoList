@@ -5,29 +5,27 @@
 ##############################################
 
 AllViews
-- Enlarge the text
+- Enlarge the text <-- still valid?
 
 Passcode from mainscreen (passcode enabled)
 - Include (X) unsuccessful attempt limit with (X) minute lockout
 - I created a timer in one of the first early prototypes, it should be in AndyyPrototypes folder somewhere
 - I tried doing this but i have no idea where instructionLabel gets its values from lol.
 
-Option View Controller 
-- Message View is broken, i think it has something to do with the iOS Version #ifdef, cannot call [self ] methods from within
-- need to push the lat/long to this view controller to populate the pre-defined message correctly
-
-Appearance/UI
-- use a #define for all the [UIColor whiteColor]
-    forgot why i was doing this...
-    -- was to make all colour options within the app to be in one file i believe
+AppearanceConstants
+- use a #define for all colors, strings, or any areas which would help a user modify the app with ease.
 
 Source Code
 - Tidy up all source code with correct spaces, indentations etc...
 - Enter comments for all methods
 - Remove uneccessary code
 
-App Delegate
-- need to look into why it has an object in the array when a fresh build is done, it doesnt come up with the uialertview to show to add a contact
+Set Passcode View
+- on iPhone 4 devices: the button is squash and it does not look correct
+
+Option View Controller 
+- on iPhone 4 devices: the location is in white text and cannot be seen as it gets squashed and overlaps the white call button
+- When last person is called and option view displays, app crashes when a sms or call function is selected
 
 
 ##############################################
@@ -39,6 +37,11 @@ App Delegate
 All Views
 - Remove any reference for ios5 iphone versions. 
 
+Option View Controller 
+- Message View is broken, i think it has something to do with the iOS Version #ifdef, cannot call [self ] methods from within
+- need to push the lat/long to this view controller to populate the pre-defined message correctly
+- need to push the number of the recipient and possibly the name for the message.
+
 App Delegate
 - Location string: where street name says "(null)", replace with empty string
 - Call cycle, figure out why it isnt working
@@ -48,6 +51,8 @@ App Delegate
     At the moment you have the MainContactViewController hosting this information for table rows. Ive created a temporary workaround by copying the methods into App Delegate, but you may need to check them to have a look.
     (Call me and i can explain it better)
     Note: This seems to be working now, but the code is a bit untidy perhaps?
+- need to look into why it has an object in the array when a fresh build via xcode is done, as it doesnt come up with the uialertview to show to add a contact
+- loops through the 'add contact' on startup
 
 Passcode From Main Screen (Enabled)
 - Label which displays passcode hint
@@ -64,6 +69,7 @@ ContactAddViewController
 - Add place holders
 - format number string to remove spaces, ie "0421 121 212" - Cannot make calls when the number has spaces
 - Error handle - if nuRll value and save is selected then put a red astericks next to field with a note saying it needs to be filled - possibly a notification from navbar - photo is not needed, however needs to show the default profile image here
+- import new contact wipes image value and needs to make it the default image if one is not supplied
 
 ContactEditViewController
 - Adjust navbar and remove the 'Cancel' and '+' when it should only have the back button for saving.
