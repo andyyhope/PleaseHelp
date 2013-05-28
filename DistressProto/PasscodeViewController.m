@@ -9,6 +9,7 @@
 #import "PasscodeViewController.h"
 //#import "AppearanceConstants.h"
 //#import "Appearance.h"
+#import "SVProgressHUD.h" 
 
 @interface PasscodeViewController () <UIAlertViewDelegate>
 {
@@ -33,8 +34,13 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self checkStatus];
+    //[self checkStatus];
     [self setupButtons];
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [SVProgressHUD dismiss];
 }
 
 -(void)setupButtons
@@ -68,6 +74,7 @@
     [self.view addSubview:_recoveryButton];
 }
 
+/*
 -(void)checkStatus //METHOD FOR TESTING ONLY // WILL REMOVE AT END
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -93,6 +100,7 @@
     {
     }    
 }
+ */
 
 - (void)didReceiveMemoryWarning
 {
@@ -174,14 +182,12 @@
     textField.textAlignment = NSTextAlignmentCenter;
     [displayAlert addSubview:textField];
     [displayAlert show];
-
 }
 
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSString *recoveryHint = textField.text;
-    //NSLog(@"Recover Hint: %@", recoveryHint);
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
     switch (buttonIndex) {
@@ -214,9 +220,12 @@
     
     //Display Alert to user regarding what passcode they entered
     NSString *message = [[NSString alloc]
-                         initWithFormat:@"Your Passcode is now set to: %@",
+                         initWithFormat:@"Passcode is now set to: %@",
                          passCode];
     
+    //If we want to change it to a message
+    //[SVProgressHUD showSuccessWithStatus:message];
+
     UIAlertView *notifyPasscode = [[UIAlertView alloc]
                                    initWithTitle:@"Confirmation"
                                    message:message

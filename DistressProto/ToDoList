@@ -18,10 +18,6 @@ Source Code
 - Remove uneccessary code
 
 
-
-
-
-
 ##############################################
 
     COMPLETED
@@ -51,8 +47,6 @@ App Delegate
 Passcode From Main Screen (Enabled)
 - Label which displays passcode hint
 
-
-
 Passcode Settings
 - When user clears passcode it will clear recovery hint
 - error handle - recovery hint, user has to enter a value
@@ -73,6 +67,7 @@ ContactEditViewController
 - Adjust navbar and remove the 'Cancel' and '+' when it should only have the back button for saving.
 - Back Button no longer saves.
 - format number string to remove spaces, ie "0421 121 212" - Cannot make calls when the number has spaces
+- Error handling for each textfield, example - you can edit a contact and blank out a field and this is accepted
 
 CallingViewController
 - fix label not showing

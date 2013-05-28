@@ -46,17 +46,42 @@
     
 }
 
-/*
- - (void)cancel
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-*/
-
 #pragma mark Save an Edit
 - (void)saveEdit:(id)sender {
+    
+    if (nameTextField.text == nil || [nameTextField.text isEqualToString:@""]
+        ) {
+        UIAlertView *errorSaving = [[UIAlertView alloc]
+                                    initWithTitle:@"Error"
+                                    message:@"Please fill in the Name for the contact"
+                                    delegate:self
+                                    cancelButtonTitle:@"OK"
+                                    otherButtonTitles: nil];
+        [errorSaving show];
+    } else if (phoneTextField.text == nil || [phoneTextField.text isEqualToString:@""])
+    {
+        UIAlertView *errorSaving = [[UIAlertView alloc]
+                                    initWithTitle:@"Error"
+                                    message:@"Please fill in the Phone number for the contact"
+                                    delegate:self
+                                    cancelButtonTitle:@"OK"
+                                    otherButtonTitles: nil];
+        [errorSaving show];
+    } else if(relationTextField.text == nil || [relationTextField.text isEqualToString:@""])
+    {
+        UIAlertView *errorSaving = [[UIAlertView alloc]
+                                    initWithTitle:@"Error"
+                                    message:@"Please fill in the Relation for the contact"
+                                    delegate:self
+                                    cancelButtonTitle:@"OK"
+                                    otherButtonTitles: nil];
+        [errorSaving show];
+    }
+    else
+    {
+    
     NSString *name = [self.nameTextField text];
-    NSString *phone = [[self.phoneTextField text] stringByReplacingOccurrencesOfString:@" " withString:@""]; // Remove white spaces
+    NSString *phone = [[self.phoneTextField text] stringByReplacingOccurrencesOfString:@" " withString:@""];
     NSString *relation = [self.relationTextField text];
     UIImage *imageEdit = [self.imageView image];
     
@@ -68,9 +93,10 @@
     
     // Notify Delegate
     [self.delegate controller:self didUpdateContact:self.contact];
-    
+        
     // Pop View Controller
     [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning

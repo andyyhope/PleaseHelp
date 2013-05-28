@@ -7,8 +7,8 @@
 //
 #import "AppDelegate.h"
 
-#import "SVProgressHUD.h"
-#import "Appearance.h"
+#import "SVProgressHUD.h" 
+//#import "Appearance.h"
 #import "OptionViewController.h"
 
 @interface OptionViewController ()
@@ -153,6 +153,7 @@
 
         //[messageComposeViewController setRecipients:@[@"0421523454"]];
         NSString *googleMapsString = [[NSString alloc] initWithFormat:@"http://maps.google.com/maps?f=q&hl=em&q=%@,%@&ie=UTF8&z=16&iwloc=addr&om=1", userLatitude, userLongitude];
+        
         NSString *messageString = [NSString stringWithFormat:@"Im within the vicinity of:\n%@\n\nShow in Maps:\n%@\n\nLatitude: %@\nLongitude: %@", locationAddressLabel.text, googleMapsString, userLatitude, userLongitude];
                 
         [messageComposeViewController setBody:[NSString stringWithFormat:@"%@ %@",kSMS_MESSAGE_TEXT, messageString]];

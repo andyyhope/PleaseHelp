@@ -11,8 +11,6 @@
 #import "SettingsViewController.h"
 #import "ContactViewController.h"
 #import "PasscodeViewController.h"
-//#import "AppearanceConstants.h"
-#import "Appearance.h"
 
 //Define the private variables for this class
 @interface SettingsViewController ()

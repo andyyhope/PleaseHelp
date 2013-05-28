@@ -29,9 +29,7 @@
 //
 
 #import "KVPasscodeViewController.h"
-//#import "AppearanceConstants.h"
-#import "Appearance.h"
-
+#import "SVProgressHUD.h"
 #import <QuartzCore/QuartzCore.h>
 #import <AudioToolbox/AudioServices.h>
 
@@ -89,7 +87,7 @@
     [self applySkinToBulletField:bulletField3];
     
     [self createButtons];
-    [self checkAccess];
+    //[self checkAccess];
 }
 -(void)applySkinToBulletField:(UITextField *)bulletField
 {
@@ -100,11 +98,12 @@
     bulletField.layer.cornerRadius = 3;
     bulletField.layer.borderWidth = 1.0f;
 }
+
 -(void)createButtons
 {
     fakeField = [[UITextField alloc] initWithFrame:CGRectZero];
     fakeField.delegate = self;
-    fakeField.keyboardType = UIKeyboardTypePhonePad;
+    fakeField.keyboardType = UIKeyboardTypeNumberPad;
     fakeField.secureTextEntry = YES;
     fakeField.returnKeyType = UIReturnKeyDone;
     fakeField.text = @"";
@@ -133,6 +132,7 @@
 
 
 //TESTING METHOD
+/*
 -(void)checkAccess
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -156,6 +156,7 @@
         {
         }
 }
+ */
 
 - (void)viewDidUnload {
     [super viewDidUnload];
@@ -164,20 +165,27 @@
     fakeField = nil;
     
     self.animationView = nil;
-    
     self.titleLabel = nil;
     self.instructionLabel = nil;
-    
     self.bulletField0 = nil;
     self.bulletField1 = nil;
     self.bulletField2 = nil;
     self.bulletField3 = nil;
 }
 
+-(void)incorrectAttempts
+{
+    if (!clearButton) {
+    NSLog(@"TOO MANY ATTEMPTS");
+    }
+    NSLog(@"Incorrect method used");
+}
 
 -(void)resetPasscode
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    [SVProgressHUD showImage:nil status:kCLEAR_PASSCODE];
     
     [defaults setValue:nil forKey:@"Passcode"];
     [defaults setBool:NO forKey:@"PasscodeSet"];

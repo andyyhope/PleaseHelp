@@ -8,8 +8,6 @@
 
 #import "ContactAddViewController.h"
 #import "ContactEditViewController.h"
-//#import "AppearanceConstants.h"
-#import "Appearance.h"
 #import "BSKeyboardControls.h"
 #import "ContactItem.h"
 #import "SVProgressHUD.h"
@@ -129,7 +127,7 @@
     phoneTextField = [[UITextField alloc] initWithFrame:CGRectMake(30, 135, 260, 30)];
     relationTextField = [[UITextField alloc] initWithFrame:CGRectMake(30, 215, 260, 30)];
 
-    [Appearance applySkinToTextField:nameTextField withPlaceHolderText:@"Tap here to start typing"]; // maybe change to 'tap here to type name'
+    [Appearance applySkinToTextField:nameTextField withPlaceHolderText:@"Tap here to start typing"];
     [Appearance applySkinToTextField:phoneTextField withPlaceHolderText:@""];
     [Appearance applySkinToTextField:relationTextField withPlaceHolderText:@""];
     [phoneTextField setKeyboardType:UIKeyboardTypePhonePad];
@@ -153,8 +151,14 @@
 {
     if ([self.navigationItem.title isEqualToString:@"Add Contact"]) {
         // Nav Bar Init
-        UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(save)];
-        UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
+        UIBarButtonItem *saveButton = [[UIBarButtonItem alloc]
+                                       initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                       target:self
+                                       action:@selector(save)];
+        UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc]
+                                         initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                         target:self
+                                         action:@selector(cancel)];
         self.navigationItem.leftBarButtonItem = cancelButton;
         self.navigationItem.rightBarButtonItem = saveButton;
         
@@ -170,8 +174,6 @@
         [sheet showInView:self.view];
     }
 }
-
-
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -316,7 +318,7 @@
     NSString *phone = [phoneTextField text];
     NSString *relation = [[relationTextField text] stringByReplacingOccurrencesOfString:@" " withString:@""];
     //UIImage *capImage = self.contactImage;
-        if (!self.contactImage) {
+    if (!self.contactImage) {
     NSData *jpgData = UIImageJPEGRepresentation(image, 1);
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsPath = [paths objectAtIndex:0]; //Get the docs directory
@@ -324,8 +326,8 @@
     [jpgData writeToFile:filePath atomically:YES]; //Write the file
     NSData *pData = [NSData dataWithContentsOfFile:filePath];
     capImage = [UIImage imageWithData:pData];
-        }
-            else
+    }
+    else
     {
         capImage = self.contactImage;
     }

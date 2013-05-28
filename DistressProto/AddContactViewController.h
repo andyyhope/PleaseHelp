@@ -31,7 +31,7 @@
 @end
 
 @protocol AddContactViewControllerDelegate <NSObject>
-- (void)controller:(AddContactViewController *)controller didSaveContactWithName:(NSString *)name phone:(NSString *)phone relation:(NSString *)relation;
+//- (void)controller:(AddContactViewController *)controller didSaveContactWithName:(NSString *)name phone:(NSString *)phone relation:(NSString *)relation;
 - (void)controller:(AddContactViewController *)controller didSaveContactWithName:(NSString *)name phone:(NSString *)phone relation:(NSString *)relation andImage:(UIImage *)image;
 
 @end

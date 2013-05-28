@@ -30,22 +30,27 @@
 #define kVIEW_SHADOW_OPACITY        0.5f
 #define kVIEW_SHADOW_OFFSET         CGSizeMake(0,0)
 
+//#define kCLEAR_BACKGROUND_COLOUR      [UIColor clearColor]
+
 #define kCELL_CORNER_RADIUS         3
 
 #define kSMS_MESSAGE_TEXT           @"I need help, could you please get in contact with me."
 //#define kSMS_MESSAGE_LINK           @"http://maps.google.com/maps?f=q&hl=em&q=-%@,%@&ie=UTF8&z=16&iwloc=addr&om=1"
 
-//AppDelegate
 #define kHELP_MESSAGE_TEXT          @"I'm in the vicinity of %@\n\nLat:%@\nLong%@"
 
-//ContactAddViewController
 #define SCROLLVIEW_CONTENT_HEIGHT   510
 
 #define kIMAGE_PLACEHOLDER          @"defaultProfile"
-
 #define kNAVIGATIONBAR_BACKGROUND   @"NavigationBarBG"
-
 #define kBACK_BUTTON                @"backButton"
 #define kCANCEL_BUTTON              @"cancelButton"
 #define kSAVE_BUTTON                @"saveButton"
 #define kSETTING_BUTTON             @"settingsButton"
+
+#define kCLEAR_PASSCODE @"Passcode and recovery hint has been cleared"
+
+
+
+
+

@@ -278,6 +278,8 @@
     if ([passCode isEqualToString:string]) {
         //User authorised
         [self displaySettingsController];
+        [controller resetWithAnimation:KVPasscodeAnimationStyleNone];
+
         //[controller dismissModalViewControllerAnimated:YES];
         [controller dismissViewControllerAnimated:YES completion:nil];
     }
@@ -286,6 +288,7 @@
         controller.instructionLabel.text = [NSString stringWithFormat:NSLocalizedString(@"You entered: '%@'. Please try again.\n\n%@", @""), passCode, message];
         [controller resetWithAnimation:KVPasscodeAnimationStyleInvalid];
     }
+    
 }
 
 #pragma mark -

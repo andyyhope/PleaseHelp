@@ -7,8 +7,6 @@
 //
 
 #import "AppDelegate.h"
-//#import "AppearanceConstants.h"
-
 #import "MainContactViewController.h"
 #import "CallingViewController.h"
 #import "OptionViewController.h"
@@ -60,7 +58,6 @@
 -(void)retrieveContacts
 {
     NSString *filePath = [self pathForItems];
-    //NSLog(@"loading");
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
         contactsArray = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
         NSLog(@"count of objects: %d", [contactsArray count]);

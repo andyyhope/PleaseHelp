@@ -107,10 +107,9 @@
     
     self.tableView.tableHeaderView = tableHeader;
 }
+
 - (void)createTableFooter {
-    
-    
-    
+
     UIView *tableFooter = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 100)];
     
     UILabel *footerNoteLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, self.view.frame.size.width - 40, 100)];
@@ -364,7 +363,7 @@
     [self.tableView setEditing:![self.tableView isEditing] animated:YES];
     [self saveContacts];
 }
-
+/*
 #pragma mark Add name/phone Delegate Methods
 - (void)controller:(ContactAddViewController *)controller didSaveContactWithName:(NSString *)name andPhone:(NSString *)phone andRelation:(NSString *)relation {
     // Create Item
@@ -379,8 +378,9 @@
     
     // Save Items
     [self saveContacts];
-    
+ 
 }
+ */
 
 #pragma mark Add name/phone/image Delegate Methods
 -(void)controller:(ContactAddViewController *)controller didSaveContactWithName:(NSString *)name andPhone:(NSString *)phone andRelation:(NSString *)relation andImage:(UIImage *)image {

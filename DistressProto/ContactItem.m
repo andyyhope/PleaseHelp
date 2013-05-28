@@ -45,6 +45,7 @@
     return item;
 }
 
+/*
 + (ContactItem *)createUserWithName:(NSString *)name andPhone:(NSString *)phone andRelation:(NSString *)relation
 {
     ContactItem *item = [[ContactItem alloc] init];
@@ -56,5 +57,5 @@
     
     return item;
 }
-
+*/
 @end
