@@ -51,7 +51,7 @@
 #define kCLEAR_PASSCODE             @"Passcode and recovery hint has been cleared"
 
 #define kPASSCODE_NOT_SET           @"You have not set a hint for your passcode."
-#define kINCORRECT_ATTEMPTS_ALERT   @"Too many incorrect attempts have been entered.\n Please wait until you can try again."
+#define kINCORRECT_ATTEMPTS_ALERT   @"Too many incorrect attempts have been entered.\n\n Please wait until you can try again."
 #define kTIME_INTERVAL_ATTEMPTS     10.0
 
 

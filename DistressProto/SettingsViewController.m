@@ -11,6 +11,7 @@
 #import "SettingsViewController.h"
 #import "ContactViewController.h"
 #import "PasscodeViewController.h"
+#import "SVProgressHUD.h"
 
 //Define the private variables for this class
 @interface SettingsViewController ()
@@ -27,7 +28,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
+    //Remove any ProgressHUD from view
+    [SVProgressHUD dismiss];
+
     //Set the background to the colour defined in the AppearanceConstants.h class
     self.view.backgroundColor = kVIEW_BACKGROUND_COLOR;
     

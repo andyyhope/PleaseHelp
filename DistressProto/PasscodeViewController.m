@@ -40,13 +40,12 @@
 
 -(void)viewDidDisappear:(BOOL)animated
 {
-    [SVProgressHUD dismiss];
+    //[SVProgressHUD dismiss];
 }
 
 -(void)setupButtons
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
     
     //Setup the Passcode Button
     _passcodeButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -74,33 +73,6 @@
     [self.view addSubview:_recoveryButton];
 }
 
-/*
--(void)checkStatus //METHOD FOR TESTING ONLY // WILL REMOVE AT END
-{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-
-    if ([defaults boolForKey:@"PasscodeSet"])
-    {
-        NSString *string = [defaults valueForKey:@"Passcode"];
-        NSLog(@"Passcode.%@", string);
-        
-    }
-    else
-    {
-        
-    }
-    
-    if ([defaults boolForKey:@"RecoverSet"])
-    {
-        NSString *string = [defaults valueForKey:@"RecoveryHint"];
-        NSLog(@"Recovery.%@", string);
-
-    }
-    else
-    {
-    }    
-}
- */
 
 - (void)didReceiveMemoryWarning
 {

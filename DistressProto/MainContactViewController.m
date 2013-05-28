@@ -43,9 +43,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    attempt = 0;
     
-     attempt = 0;
-
     self.navigationItem.title = @"Please Help";
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = kVIEW_BACKGROUND_COLOR;
@@ -59,6 +58,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
    [self retrieveContacts];
+    [SVProgressHUD dismiss];
 }
 
 #pragma mark - Settings Button
@@ -285,33 +285,32 @@
     }
     else
     {
-        controller.instructionLabel.text = [NSString stringWithFormat:NSLocalizedString(@"You entered: '%@'. Please try again.\n\n%@", @""), passCode, message];
+        controller.instructionLabel.text = [NSString
+                                            stringWithFormat:NSLocalizedString(@"You entered: '%@'. Please try again.\n\n%@", @""), passCode, message];
         [controller resetWithAnimation:KVPasscodeAnimationStyleInvalid];
         attempt = attempt + 1;
-        
+
         if (attempt >= 3) {
             controller.instructionLabel.text = nil; 
-            [SVProgressHUD showWithStatus:@"Please wait"];
             [self incorrectAttempts];
         }
     }
-    //NSLog(@"attempt: %d", attempt);
 }
 
 -(void)incorrectAttempts
 {
-    UIAlertView *alertError = [[UIAlertView alloc] initWithTitle:nil message:kINCORRECT_ATTEMPTS_ALERT delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-    [alertError show];
+     UIAlertView *alertError = [[UIAlertView alloc] initWithTitle:nil message:kINCORRECT_ATTEMPTS_ALERT delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+     [alertError show];
     
-    theTimer = [NSTimer scheduledTimerWithTimeInterval:kTIME_INTERVAL_ATTEMPTS target:self selector:@selector(resetAttempt) userInfo:nil repeats:NO];
+    theTimer = [NSTimer scheduledTimerWithTimeInterval:kTIME_INTERVAL_ATTEMPTS target:self selector:@selector(resetAttempt)userInfo:nil repeats:NO];
 }
+        
 
 -(void)resetAttempt
 {
-    NSString *resetMessage = [[NSString alloc] initWithFormat:@"Please try again.\n\n%@",message];
+    NSString *resetMessage = [[NSString alloc] initWithFormat:@"You may now try again.\n\n %@",message];
     [SVProgressHUD showImage:nil status:resetMessage];
     attempt = 0;
-    //NSLog(@"done");
 }
 
 

@@ -177,14 +177,13 @@
 -(void)resetPasscode
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    [SVProgressHUD showImage:nil status:kCLEAR_PASSCODE];
-    
     [defaults setValue:nil forKey:@"Passcode"];
     [defaults setBool:NO forKey:@"PasscodeSet"];
     [defaults setValue:nil forKey:@"RecoveryHint"];
     [defaults setBool:NO forKey:@"RecoverSet"];
     [defaults synchronize];
+    
+    [SVProgressHUD showImage:nil status:kCLEAR_PASSCODE];
     [self dismissView];
 }
 
