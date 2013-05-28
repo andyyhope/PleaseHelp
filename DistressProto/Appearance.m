@@ -17,10 +17,15 @@
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(10, viewController.view.frame.size.height - 10 - 60, 300, 60);
     button.backgroundColor = [UIColor redColor];
-    [button setTitle:@"STOP" forState:UIControlStateNormal];
+    [button setTitle:@"RETURN TO CONTACTS" forState:UIControlStateNormal];
     button.titleLabel.font = kCELL_HEADER_FONT;
     button.layer.cornerRadius = kCELL_CORNER_RADIUS;
     [button addTarget:viewController action:@selector(dismissCallingView) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIImageView *returnIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"returnIcon.png"]];
+    returnIcon.frame = CGRectMake(15, 20, 20, 20);
+    [button addSubview:returnIcon];
+    
     [viewController.view addSubview:button];
 }
 + (void)applySkinToSettingsButton:(UIButton *)button withTitle:(NSString *)title
@@ -29,8 +34,8 @@
     [button setTitle:title forState:UIControlStateNormal];
     [button setTitle:title forState:UIControlStateSelected];
     [button setTitleColor:kCELL_HEADER_FONT_COLOR forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
-    [button setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+    [button setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
+    [button setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
     button.titleLabel.font = kCELL_TEXT_FONT;
     button.titleLabel.textColor = kCELL_HEADER_FONT_COLOR;
     button.layer.cornerRadius = kCELL_CORNER_RADIUS;
@@ -39,17 +44,17 @@
 + (void)applySkinToLocationLabel:(UILabel *)label
 {
     label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont boldSystemFontOfSize:18];
+    label.font = [UIFont boldSystemFontOfSize:14];
     label.textColor = [UIColor whiteColor];
     label.numberOfLines = 0;
     label.textAlignment = NSTextAlignmentCenter;
 }
-+ (void)applySkinToContactFrame:(UIView *)frame withName:(NSString *)name andImage:(UIImage *)image
++ (void)applySkinToContactFrame:(UIView *)frame withName:(NSString *)name  relation:(NSString *)relation andImage:(UIImage *)image
 {
     frame.backgroundColor = [UIColor whiteColor];
     frame.layer.cornerRadius = kCELL_CORNER_RADIUS;
     
-    UILabel *contactNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 20, 180, 70)];
+    UILabel *contactNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 15, 180, 30)];
     contactNameLabel.text = name;
     contactNameLabel.numberOfLines = 1;
     contactNameLabel.backgroundColor = [UIColor clearColor];
@@ -57,13 +62,68 @@
     contactNameLabel.textColor = kCELL_HEADER_FONT_COLOR;
     contactNameLabel.textAlignment = NSTextAlignmentCenter;
     
+    UILabel *contactRelationLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 45, 180, 30)];
+    contactRelationLabel.text = relation;
+    contactRelationLabel.numberOfLines = 1;
+    contactRelationLabel.backgroundColor = [UIColor clearColor];
+    contactRelationLabel.font = kCELL_TEXT_FONT;
+    contactRelationLabel.textColor = kCELL_TEXT_FONT_COLOR;
+    contactRelationLabel.textAlignment = NSTextAlignmentCenter;
+    
     UIImageView *contactImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 90, 90)];
     contactImageView.layer.cornerRadius = kCELL_CORNER_RADIUS;
     contactImageView.layer.masksToBounds = TRUE;
     contactImageView.image = image;
     
+    UIImageView *actionIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"callIcon.png"]];
+    actionIcon.frame = CGRectMake(frame.frame.size.width - 40, frame.frame.size.height - 40, 30, 30);
+    [frame addSubview:actionIcon];
+    
+    [frame addSubview:contactRelationLabel];
     [frame addSubview:contactImageView];
     [frame addSubview:contactNameLabel];
+}
+
++ (void)applySkinToOptionsContactFrame:(UIView *)frame withName:(NSString *)name  relation:(NSString *)relation image:(UIImage *)image andIcon:(UIImage *)icon
+{
+    frame.backgroundColor = kVIEW_FOREGROUND_COLOR;
+    frame.layer.cornerRadius = kCELL_CORNER_RADIUS;
+    frame.layer.shadowOpacity = kVIEW_SHADOW_OPACITY;
+    frame.layer.shadowOffset = kVIEW_SHADOW_OFFSET;
+    frame.layer.shadowColor = kVIEW_SHADOW_COLOR;
+    
+    UILabel *contactNameLabel = [[UILabel alloc] init];
+    contactNameLabel.text = name;
+    contactNameLabel.backgroundColor = [UIColor clearColor];
+    contactNameLabel.frame = CGRectMake(110, 20, 180, 30);
+    contactNameLabel.numberOfLines = 1;
+    contactNameLabel.backgroundColor = [UIColor clearColor];
+    contactNameLabel.font = kCELL_HEADER_FONT;
+    contactNameLabel.textAlignment = NSTextAlignmentCenter;
+    contactNameLabel.textColor = kCELL_HEADER_FONT_COLOR;
+    
+    UILabel *contactRelationLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 45, 180, 30)];
+    contactRelationLabel.text = relation;
+    contactRelationLabel.numberOfLines = 1;
+    contactRelationLabel.backgroundColor = [UIColor clearColor];
+    contactRelationLabel.font = kCELL_TEXT_FONT;
+    contactRelationLabel.textColor = kCELL_TEXT_FONT_COLOR;
+    contactRelationLabel.textAlignment = NSTextAlignmentCenter;
+    
+    UIImageView *contactImageView = [[UIImageView alloc] initWithImage:image];
+    contactImageView.frame = CGRectMake(10, 10, 90, 90);
+    contactImageView.layer.cornerRadius = kCELL_CORNER_RADIUS;
+    contactImageView.layer.masksToBounds = TRUE;
+    
+    UIImageView *actionIcon = [[UIImageView alloc] initWithImage:icon];
+    actionIcon.frame = CGRectMake(frame.frame.size.width - 40, frame.frame.size.height - 40, 30, 30);
+    [frame addSubview:actionIcon];
+    
+    [frame addSubview:contactRelationLabel];
+    [frame addSubview:contactImageView];
+    [frame addSubview:contactNameLabel];
+    
+    
 }
 
 + (void)applySkinToTextField:(UITextField *)textField withPlaceHolderText:(NSString *)placeHolderText
@@ -79,7 +139,7 @@
 + (void)addBackButtonToViewController:(UIViewController *)viewController
 {
     UIView *backButtonView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-    backButtonView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.8f];
+    backButtonView.backgroundColor = kVIEW_FOREGROUND_COLOR;
     backButtonView.layer.cornerRadius = kCELL_CORNER_RADIUS;
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -102,7 +162,7 @@
 + (void)addCancelButtonToViewController:(UIViewController *)viewController
 {
     UIView *cancelButtonView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-    cancelButtonView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.8f];
+    cancelButtonView.backgroundColor = kVIEW_FOREGROUND_COLOR;
     cancelButtonView.layer.cornerRadius = kCELL_CORNER_RADIUS;
     
     UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -124,7 +184,7 @@
 + (void)addSaveButtonToViewController:(UIViewController *)viewController
 {
     UIView *saveButtonView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-    saveButtonView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.8f];
+    saveButtonView.backgroundColor = kVIEW_FOREGROUND_COLOR;
     saveButtonView.layer.cornerRadius = kCELL_CORNER_RADIUS;
     
     UIButton *saveButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -145,7 +205,7 @@
 + (void)addSaveButtonToEditViewController:(UIViewController *)viewController
 {
     UIView *saveButtonView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-    saveButtonView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.8f];
+    saveButtonView.backgroundColor = kVIEW_FOREGROUND_COLOR;
     saveButtonView.layer.cornerRadius = kCELL_CORNER_RADIUS;
     
     UIButton *saveButton = [UIButton buttonWithType:UIButtonTypeCustom];

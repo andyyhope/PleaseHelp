@@ -4,9 +4,6 @@
 
 ##############################################
 
-AllViews
-- Enlarge the text <-- still valid?
-
 Passcode from mainscreen (passcode enabled)
 - Include (X) unsuccessful attempt limit with (X) minute lockout
 - I created a timer in one of the first early prototypes, it should be in AndyyPrototypes folder somewhere
@@ -20,12 +17,9 @@ Source Code
 - Enter comments for all methods
 - Remove uneccessary code
 
-Set Passcode View
-- on iPhone 4 devices: the button is squash and it does not look correct
 
-Option View Controller 
-- on iPhone 4 devices: the location is in white text and cannot be seen as it gets squashed and overlaps the white call button
-- When last person is called and option view displays, app crashes when a sms or call function is selected
+
+
 
 
 ##############################################
@@ -57,9 +51,13 @@ App Delegate
 Passcode From Main Screen (Enabled)
 - Label which displays passcode hint
 
+
+
 Passcode Settings
 - When user clears passcode it will clear recovery hint
 - error handle - recovery hint, user has to enter a value
+- Set Passcode View
+-- on iPhone 4 devices: the button is squash and it does not look correct
 
 Main View
 - Start using items.plist data instead of hardcoded arrays
@@ -78,6 +76,10 @@ ContactEditViewController
 
 CallingViewController
 - fix label not showing
+
+Option View Controller 
+- on iPhone 4 devices: the location is in white text and cannot be seen as it gets squashed and overlaps the white call button
+- When last person is called and option view displays, app crashes when a sms or call function is selected
 
 Settings Contact View
 - Replace buttons with custom graphics

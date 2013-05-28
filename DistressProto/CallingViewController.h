@@ -24,6 +24,7 @@
     
     NSString *contactNumber;
     NSString *contactName;
+    NSString *contactRelation;
 }
 
 @property (nonatomic, retain) UILabel *locationHeaderLabel;
@@ -32,6 +33,6 @@
 @property (nonatomic, retain) NSString *contactName;
 @property (nonatomic, retain) UIImage *contactImage;
 @property (nonatomic, retain) NSString *contactNumber;
-
+@property (nonatomic, retain) NSString *contactRelation;
 - (void)updateContactImageWith:(UIImage *)newImage;
 @end

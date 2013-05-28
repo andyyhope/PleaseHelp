@@ -88,13 +88,13 @@
     if (buttonIndex == 0) {
         NSLog(@"Take Photo");
         picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        [self presentModalViewController:picker animated:YES];
+        [self presentViewController:picker animated:YES completion:nil];
     }
     // 1 = Choose From Library
     if (buttonIndex == 1) {
         NSLog(@"Choose From Library");
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        [self presentModalViewController:picker animated:YES];
+        [self presentViewController:picker animated:YES completion:nil];
         
     }
     // 2 = Cancel

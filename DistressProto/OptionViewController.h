@@ -13,25 +13,24 @@
 @interface OptionViewController : UIViewController
 <MFMessageComposeViewControllerDelegate>
 {
-    UIImageView *contactImageView;
-    UIImageView *nextContactImageView;
-    
     UILabel *locationHeaderLabel;
     UILabel *locationAddressLabel;
     
     UILabel *textPersonLabel;
     UILabel *callNextLabel;
     
-    UILabel *contactNameLabel;
     UIImage *contactImage;
+    NSString *contactName;
     NSString *contactNumber;
+    NSString *contactRelation;
     
     UILabel *stopLabel;
     UIButton *stopButton;
     
-    UILabel *nextContactNameLabel;
     UIImage *nextContactImage;
+    NSString *nextContactName;
     NSString *nextContactNumber;
+    NSString *nextContactRelation;
     
     NSString *userName;
     NSString *userNumber;
@@ -42,13 +41,15 @@
 
 @property (nonatomic, retain) UILabel *locationAddressLabel;
 
-@property (nonatomic, retain) UILabel *contactNameLabel;
 @property (nonatomic, retain) UIImage *contactImage;
+@property (nonatomic, retain) NSString *contactName;
 @property (nonatomic, retain) NSString *contactNumber;
+@property (nonatomic, retain) NSString *contactRelation;
 
-@property (nonatomic, retain) UILabel *nextContactNameLabel;
 @property (nonatomic, retain) UIImage *nextContactImage;
+@property (nonatomic, retain) NSString *nextContactName;
 @property (nonatomic, retain) NSString *nextContactNumber;
+@property (nonatomic, retain) NSString *nextContactRelation;
 
 @property (nonatomic, retain) NSString *userName;
 @property (nonatomic, retain) NSString *userNumber;
@@ -56,7 +57,6 @@
 @property (nonatomic, retain) NSString *userLongitude;
 @property (nonatomic, retain) NSString *recipient;
 
-- (void)updateContactImageWith:(UIImage *)newImage andNextContactImageWith:(UIImage *)nextImage;
 -(void)updateUserName:(NSString *)name andNumber:(NSString *)number;
 -(void)updateLat:(NSString *)latitude andLong:(NSString *)longitude;
 

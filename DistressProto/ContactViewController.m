@@ -7,11 +7,13 @@
 //
 
 #import "ContactViewController.h"
-
+#import "AppDelegate.h"
 @interface ContactViewController () <UIActionSheetDelegate>//, ABPeoplePickerNavigationControllerDelegate>
 {
+    
     UIButton *rearrangeContactsButton;
     UIButton *addContactsButton;
+    NSString *tableFooterString;
     BOOL isEditing;
 }
 
@@ -62,6 +64,7 @@
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
     [self createTableHeader];
+    [self createTableFooter];
     
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = kVIEW_BACKGROUND_COLOR;
@@ -69,6 +72,11 @@
     self.view.backgroundColor = kVIEW_BACKGROUND_COLOR;
     self.tableView.layer.borderWidth = 0;
     self.tableView.layer.shadowColor = [UIColor clearColor].CGColor;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self updateTableFooterString];
 }
 
 - (void)createTableHeader
@@ -91,13 +99,38 @@
                                                10,
                                                self.view.frame.size.width / 2 - 15,
                                                50);
-    
-
-    [Appearance applySkinToSettingsButton:rearrangeContactsButton withTitle:@"EDIT"];
-    [rearrangeContactsButton addTarget:self action:@selector(editItems) forControlEvents:UIControlEventTouchUpInside];
     [tableHeader addSubview:rearrangeContactsButton];
+
+    [Appearance applySkinToSettingsButton:rearrangeContactsButton withTitle:@"ORGANISE"];
+    [rearrangeContactsButton addTarget:self action:@selector(editItems) forControlEvents:UIControlEventTouchUpInside];
+    
     
     self.tableView.tableHeaderView = tableHeader;
+}
+- (void)createTableFooter {
+    
+    
+    
+    UIView *tableFooter = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 100)];
+    
+    UILabel *footerNoteLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, self.view.frame.size.width - 40, 100)];
+    [Appearance applySkinToLocationLabel:footerNoteLabel];
+    [self updateTableFooterString];
+    footerNoteLabel.text = tableFooterString;
+    
+    [tableFooter addSubview:footerNoteLabel];
+    self.tableView.tableFooterView = tableFooter;
+}
+
+- (void)updateTableFooterString
+{
+    AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if ([appDelegate.contactsArray count] == 0) {
+        tableFooterString = @"To add contacts to the app, press the 'ADD' button";
+    } else
+    {
+        tableFooterString = @"You can edit a contact's details by tapping on their name. \n\nTo delete or rearrange contacts, \npress the 'ORGANISE' button";
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -122,7 +155,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 40;
+    return 50;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -143,7 +176,7 @@
     [cell.imageView setImage:[UIImage imageNamed:@"transparentSquare.png"]];
 
     // CBF subclassing UITableViewCell to round corners of thumbnail imae >_>
-    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 30, 30)];
+    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 40, 40)];
     imgView.backgroundColor=[UIColor clearColor];
     [imgView.layer setCornerRadius:kCELL_CORNER_RADIUS];
     [imgView.layer setMasksToBounds:YES];
@@ -179,6 +212,7 @@
         
         // Save Changes
         [self saveContacts];
+    
     }
 }
 
@@ -231,7 +265,7 @@
     ContactAddViewController *contactAddViewController = [[ContactAddViewController alloc] init];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:contactAddViewController];
     [contactAddViewController setDelegate:self];
-    contactAddViewController.navigationItem.title = @"ADD CONTACT";
+    contactAddViewController.navigationItem.title = @"Add Contact";
     [self.parentViewController.navigationController presentViewController:navController animated:YES completion:^{
     }];
 }
@@ -312,8 +346,8 @@
 - (void)editItems{
     if (isEditing)
     {
-        [rearrangeContactsButton setTitle:@"EDIT" forState:UIControlStateNormal];
-        [rearrangeContactsButton setBackgroundColor:[UIColor whiteColor]];
+        [rearrangeContactsButton setTitle:@"ORGANISE" forState:UIControlStateNormal];
+        [rearrangeContactsButton setBackgroundColor:kVIEW_FOREGROUND_COLOR];
         [rearrangeContactsButton setTitleColor:kCELL_HEADER_FONT_COLOR forState:UIControlStateNormal];
         [self.view addSubview:addContactsButton];
         
@@ -322,10 +356,11 @@
     {
         [rearrangeContactsButton setTitle:@"DONE" forState:UIControlStateNormal];
         [rearrangeContactsButton setBackgroundColor:kVIEW_ALT2_BACKGROUND_COLOR];
-        [rearrangeContactsButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [rearrangeContactsButton setTitleColor:kVIEW_FOREGROUND_COLOR forState:UIControlStateNormal];
         [addContactsButton removeFromSuperview];
         isEditing = TRUE;
     }
+    
     [self.tableView setEditing:![self.tableView isEditing] animated:YES];
     [self saveContacts];
 }
@@ -344,6 +379,7 @@
     
     // Save Items
     [self saveContacts];
+    
 }
 
 #pragma mark Add name/phone/image Delegate Methods
@@ -405,6 +441,8 @@
     // Post Notification
     // We need this for other views to use * remove comment later
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ContactListDidChangeNotification" object:self];
+    
+    [self updateTableFooterString];
 }
 
 - (NSString *)pathForItems {
@@ -416,6 +454,7 @@
 - (void)updateContactsList
 {
     AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate checkContactItems];
+
+    [appDelegate retrieveContacts];
 }
 @end

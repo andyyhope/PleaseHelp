@@ -10,6 +10,7 @@
 #import <CoreTelephony/CTCall.h>
 #import <CoreTelephony/CTCallCenter.h>
 #import <CoreLocation/CoreLocation.h>
+#import "ContactItem.h"
 
 @class CallingViewController;
 @class OptionViewController;
@@ -22,17 +23,13 @@
     MainContactViewController *contactsViewController;
     CallingViewController *callingViewController;
     OptionViewController *optionViewController;
+    ContactItem *contactItem;
     CTCallCenter *callCenter;
     
     NSMutableArray *contactsArray;
     
     NSDictionary *policeDictionary;
     
-    /*NSArray *contacts;
-    NSArray *contactsNames;
-    NSArray *contactsRelation;
-    NSArray *contactsImages;
-     */
     NSString *locationAddressString;
     
     CLLocationManager *locationManager;
@@ -62,7 +59,6 @@
 @property (nonatomic, readonly) NSInteger currentIndex;
 @property (nonatomic, retain) NSMutableArray *contactsArray;
 
--(void)checkContactItems;
 -(void)startCallCycleAt:(NSInteger)startIndex;
 -(void)callNextPerson;
 -(void)presentOptionViewWithIndex:(NSInteger)positionIndex;

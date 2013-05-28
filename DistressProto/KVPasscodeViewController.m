@@ -112,7 +112,7 @@
     [self.view addSubview:fakeField];
     
     clearButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    clearButton.frame = CGRectMake(30, 150, 260, 50);
+    clearButton.frame = CGRectMake(30, 140, 260, 50);
     
 
     [clearButton addTarget:self action:@selector(resetPasscode) forControlEvents:UIControlEventTouchUpInside];

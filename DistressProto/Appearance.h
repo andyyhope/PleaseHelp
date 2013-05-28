@@ -14,7 +14,8 @@
 + (void)addStopButtonToView:(UIViewController *)viewController;
 + (void)applySkinToSettingsButton:(UIButton *)button withTitle:(NSString *)title;
 + (void)applySkinToLocationLabel:(UILabel *)label;
-+ (void)applySkinToContactFrame:(UIView *)frame withName:(NSString *)name andImage:(UIImage *)image;
++ (void)applySkinToContactFrame:(UIView *)frame withName:(NSString *)name relation:(NSString *)relation  andImage:(UIImage *)image;
++ (void)applySkinToOptionsContactFrame:(UIView *)frame withName:(NSString *)name  relation:(NSString *)relation image:(UIImage *)image andIcon:(UIImage *)icon;
 + (void)applySkinToTextField:(UITextField *)textField withPlaceHolderText:(NSString *)placeHolderText;
 + (void)addBackButtonToViewController:(UIViewController *)viewController;
 + (void)addCancelButtonToViewController:(UIViewController *)viewController;

@@ -12,6 +12,7 @@
 #import "Appearance.h"
 #import "BSKeyboardControls.h"
 #import "ContactItem.h"
+#import "SVProgressHUD.h"
 
 @interface ContactAddViewController ()
 <UIActionSheetDelegate, UIAlertViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, BSKeyboardControlsDelegate, ABPeoplePickerNavigationControllerDelegate>
@@ -76,7 +77,7 @@
     UILabel *photoLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 270, 260, 20)];
     
     nameLabel.font = kLOCATION_TEXT_FONT;
-    nameLabel.textColor = [UIColor whiteColor];
+    nameLabel.textColor = kVIEW_FOREGROUND_COLOR;
     nameLabel.backgroundColor = [UIColor clearColor];
     nameLabel.text = @"Name";
     
@@ -101,7 +102,7 @@
     [scrollView addSubview:photoLabel];
     
     UIView *photoView = [[UIView alloc] initWithFrame:CGRectMake(30, 295, 260, 110)];
-    photoView.backgroundColor = [UIColor whiteColor];
+    photoView.backgroundColor = kVIEW_FOREGROUND_COLOR;
     photoView.layer.cornerRadius = kCELL_CORNER_RADIUS;
     imageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 100, 100)];
     imageView.image = [UIImage imageNamed:kIMAGE_PLACEHOLDER];
@@ -128,9 +129,9 @@
     phoneTextField = [[UITextField alloc] initWithFrame:CGRectMake(30, 135, 260, 30)];
     relationTextField = [[UITextField alloc] initWithFrame:CGRectMake(30, 215, 260, 30)];
 
-    [Appearance applySkinToTextField:nameTextField withPlaceHolderText:@"Enter name here"]; // maybe change to 'tap here to type name'
-    [Appearance applySkinToTextField:phoneTextField withPlaceHolderText:@"Enter phone number here"];
-    [Appearance applySkinToTextField:relationTextField withPlaceHolderText:@"Enter the relation here"];
+    [Appearance applySkinToTextField:nameTextField withPlaceHolderText:@"Tap here to start typing"]; // maybe change to 'tap here to type name'
+    [Appearance applySkinToTextField:phoneTextField withPlaceHolderText:@""];
+    [Appearance applySkinToTextField:relationTextField withPlaceHolderText:@""];
     [phoneTextField setKeyboardType:UIKeyboardTypePhonePad];
     [scrollView addSubview:nameTextField];
     [scrollView addSubview:phoneTextField];
@@ -150,7 +151,7 @@
 
 -(void)setupNavBar
 {
-    if ([self.navigationItem.title isEqualToString:@"ADD CONTACT"]) {
+    if ([self.navigationItem.title isEqualToString:@"Add Contact"]) {
         // Nav Bar Init
         UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(save)];
         UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
@@ -167,10 +168,6 @@
                                                   otherButtonTitles:@"Import from Contacts", @"Create New", nil];
         sheet.tag = 200;
         [sheet showInView:self.view];
-    }
-    else
-    {
-        //Show no buttons for edit screen
     }
 }
 
@@ -234,7 +231,10 @@
 - (void)cancel
 {
     NSLog(@"Dismissing view");
-    [self dismissViewControllerAnimated:YES completion:nil];
+
+    [self dismissViewControllerAnimated:YES completion:^{
+        [SVProgressHUD showErrorWithStatus:@"Contact was not added"];
+    }];
     
 }
 
@@ -278,15 +278,31 @@
 
 - (void)save
 {
-    if (nameTextField.text == nil ||
-        phoneTextField.text == nil ||
-        relationTextField.text == nil ||
-        [nameTextField.text isEqualToString:@""] ||
-        [phoneTextField.text isEqualToString:@""] ||
-        [relationTextField.text isEqualToString:@""]) {
+    if (nameTextField.text == nil || [nameTextField.text isEqualToString:@""]
+        ) {
         UIAlertView *errorSaving = [[UIAlertView alloc]
                                     initWithTitle:@"Error"
-                                    message:@"Please fill in the Name, Phone and Relation for the contact"
+                                    message:@"Please fill in the Name for the contact"
+                                    delegate:self
+                                    cancelButtonTitle:@"OK"
+                                    otherButtonTitles: nil];
+        errorSaving.tag = 300;
+        [errorSaving show];
+    } else if (phoneTextField.text == nil || [phoneTextField.text isEqualToString:@""])
+    {
+        UIAlertView *errorSaving = [[UIAlertView alloc]
+                                    initWithTitle:@"Error"
+                                    message:@"Please fill in the Phone number for the contact"
+                                    delegate:self
+                                    cancelButtonTitle:@"OK"
+                                    otherButtonTitles: nil];
+        errorSaving.tag = 300;
+        [errorSaving show];
+    } else if(relationTextField.text == nil || [relationTextField.text isEqualToString:@""])
+    {
+        UIAlertView *errorSaving = [[UIAlertView alloc]
+                                    initWithTitle:@"Error"
+                                    message:@"Please fill in the Relation for the contact"
                                     delegate:self
                                     cancelButtonTitle:@"OK"
                                     otherButtonTitles: nil];
@@ -319,7 +335,10 @@
     [self.delegate controller:self didSaveContactWithName:name andPhone:phone andRelation:relation andImage:capImage];
     
     // Dismiss View Controller
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [SVProgressHUD showSuccessWithStatus:@"Contact Added"];
+    }];
+    
     }
 }
 
@@ -354,13 +373,13 @@
     if (buttonIndex == 0) {
         NSLog(@"Take Photo");
         picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        [self presentModalViewController:picker animated:YES];
+        [self presentViewController:picker animated:YES completion:nil];
     }
     // 1 = Choose From Library
     if (buttonIndex == 1) {
         NSLog(@"Choose From Library");
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        [self presentModalViewController:picker animated:YES];
+        [self presentViewController:picker animated:YES completion:nil];
         
     }
     // 2 = Cancel
@@ -374,6 +393,7 @@
     if (actionSheet.tag == 200) {
     if (buttonIndex == 0) {
         //Import Contact from address book button selected
+        [self importContactGuide];
         [self importContact];
     }
     if (buttonIndex == 1) {
@@ -381,11 +401,16 @@
         //[self createNewContact];
     }
         if (buttonIndex == 2) {
-            [self dismissViewControllerAnimated:YES completion:nil];
+            [self cancel];
         }
     }
 }
 
+-(void)importContactGuide
+{
+    [SVProgressHUD showImage:[UIImage imageNamed:@"infoIcon.png"] status:@"After picking a contact, select their phone number you wish to import"];
+
+}
 
 -(void)importContact
 {
@@ -482,7 +507,7 @@
 - (void)dismissView
 {
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
-        //code
+        [SVProgressHUD showErrorWithStatus:@"Contact was not added"];
     }];
 }
 

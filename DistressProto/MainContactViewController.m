@@ -55,7 +55,6 @@
     // create table header
     [self createTableHeader];
     
-    [self retrieveContacts];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -67,7 +66,7 @@
 - (void)createSettingsButton
 {
     UIView *settingsButtonView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-    settingsButtonView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.8f];
+    settingsButtonView.backgroundColor = kVIEW_FOREGROUND_COLOR;
     settingsButtonView.layer.cornerRadius = kCELL_CORNER_RADIUS;
     
     UIButton *settingsButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -211,7 +210,7 @@
     UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 100)];
     tableHeaderView.backgroundColor = [UIColor clearColor];
     
-    UILabel *locationHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
+    UILabel *locationHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 25)];
     
     locationAddressLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, locationHeaderLabel.frame.size.height + locationHeaderLabel.bounds.origin.y, self.view.frame.size.width, 70)];
     

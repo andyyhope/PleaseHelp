@@ -147,7 +147,7 @@
     textField = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 45.0, 260.0, 25.0)];
     textField.placeholder = @"Enter hint for the passcode";
     [textField becomeFirstResponder];
-    textField.backgroundColor = [UIColor whiteColor];
+    textField.backgroundColor = kVIEW_FOREGROUND_COLOR;
     textField.textAlignment = NSTextAlignmentCenter;
     [recoveryAlert addSubview:textField];
     [recoveryAlert show];
@@ -170,7 +170,7 @@
     textField = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 80.0, 260.0, 25.0)];
     textField.placeholder = @"Change hint for the passcode";
     [textField becomeFirstResponder];
-    textField.backgroundColor = [UIColor whiteColor];
+    textField.backgroundColor = kVIEW_FOREGROUND_COLOR;
     textField.textAlignment = NSTextAlignmentCenter;
     [displayAlert addSubview:textField];
     [displayAlert show];

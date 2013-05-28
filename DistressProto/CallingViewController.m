@@ -15,6 +15,7 @@
 @synthesize contactName;
 @synthesize contactNameLabel;
 @synthesize contactNumber;
+@synthesize contactRelation;
 @synthesize locationAddressLabel, locationHeaderLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -42,7 +43,7 @@
     [Appearance addStopButtonToView:self];
     
     // Add a label for Location and skin it
-    locationAddressLabel.frame = CGRectMake(0, self.view.frame.size.height - 200, self.view.frame.size.width, 100);
+    locationAddressLabel.frame = CGRectMake(0, self.view.frame.size.height - 160, self.view.frame.size.width, 100);
     
     [Appearance applySkinToLocationLabel:locationAddressLabel];
     [self.view addSubview:locationAddressLabel];
@@ -68,7 +69,7 @@
 - (void)createContactFrame
 {
     UIView *contactFrame = [[UIView alloc] initWithFrame:CGRectMake(10, 10, self.view.frame.size.width - 20, 110)];
-    [Appearance applySkinToContactFrame:contactFrame withName:contactName andImage:contactImage];
+    [Appearance applySkinToContactFrame:contactFrame withName:contactName  relation:contactRelation andImage:contactImage];
     
     [self.view addSubview:contactFrame];
     
