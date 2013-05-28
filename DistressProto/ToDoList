@@ -4,11 +4,6 @@
 
 ##############################################
 
-Passcode from mainscreen (passcode enabled)
-- Include (X) unsuccessful attempt limit with (X) minute lockout
-- I created a timer in one of the first early prototypes, it should be in AndyyPrototypes folder somewhere
-- I tried doing this but i have no idea where instructionLabel gets its values from lol.
-
 AppearanceConstants
 - use a #define for all colors, strings, or any areas which would help a user modify the app with ease.
 
@@ -46,6 +41,9 @@ App Delegate
 
 Passcode From Main Screen (Enabled)
 - Label which displays passcode hint
+- Include (X) unsuccessful attempt limit with (X) minute lockout
+- I created a timer in one of the first early prototypes, it should be in AndyyPrototypes folder somewhere
+- I tried doing this but i have no idea where instructionLabel gets its values from lol.
 
 Passcode Settings
 - When user clears passcode it will clear recovery hint

@@ -425,6 +425,7 @@
     [_contacts setDisplayedProperties:[NSArray arrayWithObject:[NSNumber numberWithInt:kABPersonPhoneProperty]]];
     
     [self presentViewController:_contacts animated:YES completion:^{
+        
     }];
 }
 
@@ -460,7 +461,6 @@
     self.imageView.image = imageImport;
     self.contactImage = imageImport;
     //}
-                         
     [self importSaveContact];
     
     [_contacts dismissViewControllerAnimated:YES completion:^{

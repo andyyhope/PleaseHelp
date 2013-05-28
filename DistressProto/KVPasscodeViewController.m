@@ -173,13 +173,6 @@
     self.bulletField3 = nil;
 }
 
--(void)incorrectAttempts
-{
-    if (!clearButton) {
-    NSLog(@"TOO MANY ATTEMPTS");
-    }
-    NSLog(@"Incorrect method used");
-}
 
 -(void)resetPasscode
 {

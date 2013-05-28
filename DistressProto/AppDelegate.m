@@ -47,7 +47,6 @@
     navController = [[UINavigationController alloc] initWithRootViewController:contactsViewController];
     
     [self updateAppearanceOfUIKit];
-    //[self retrieveContacts];
 
     self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
@@ -102,7 +101,7 @@
 -(void)pushToSettings{
     // View is pushed to settings view
     [contactsViewController pushSettingsView];
-    NSLog(@"Implement push to settings view");
+    //NSLog(@"Implement push to settings view");
 }
 
 #pragma DocumentDirectory
