@@ -19,7 +19,7 @@
 @interface MainContactViewController () 
 {
     int attempt;
-    NSTimer *theTimer;
+    //NSTimer *theTimer;
     NSString *message;
 }
 
@@ -44,7 +44,6 @@
 {
     [super viewDidLoad];
     attempt = 0;
-    
     self.navigationItem.title = @"Please Help";
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = kVIEW_BACKGROUND_COLOR;
@@ -102,7 +101,6 @@
 
 -(void)displaySettingsController{
     SettingsViewController *settingsViewController = [[SettingsViewController alloc]  init];
-    
     [self.navigationController pushViewController:settingsViewController animated:YES];
 }
 
@@ -280,7 +278,6 @@
         [self displaySettingsController];
         [controller resetWithAnimation:KVPasscodeAnimationStyleNone];
         attempt = 0;
-        //[controller dismissModalViewControllerAnimated:YES];
         [controller dismissViewControllerAnimated:YES completion:nil];
     }
     else
@@ -290,27 +287,26 @@
         [controller resetWithAnimation:KVPasscodeAnimationStyleInvalid];
         attempt = attempt + 1;
 
+        //NSLog(@"attempts: %d", attempt);
+        
         if (attempt >= 3) {
-            controller.instructionLabel.text = nil; 
-            [self incorrectAttempts];
+            controller.instructionLabel.text = message;
+            [self displayAttemptsAlert];
+            [self performSelector:@selector(resetAttempt) withObject:nil afterDelay:kTIME_INTERVAL_ATTEMPTS];
         }
     }
 }
 
--(void)incorrectAttempts
+-(void)displayAttemptsAlert
 {
      UIAlertView *alertError = [[UIAlertView alloc] initWithTitle:nil message:kINCORRECT_ATTEMPTS_ALERT delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
      [alertError show];
-    
-    theTimer = [NSTimer scheduledTimerWithTimeInterval:kTIME_INTERVAL_ATTEMPTS target:self selector:@selector(resetAttempt)userInfo:nil repeats:NO];
 }
-        
+
 
 -(void)resetAttempt
 {
-    NSString *resetMessage = [[NSString alloc] initWithFormat:@"You may now try again.\n\n %@",message];
-    [SVProgressHUD showImage:nil status:resetMessage];
-    attempt = 0;
+    attempt = 0;    
 }
 
 
