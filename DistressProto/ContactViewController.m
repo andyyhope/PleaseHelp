@@ -76,6 +76,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    
+    
     [self updateTableFooterString];
 }
 

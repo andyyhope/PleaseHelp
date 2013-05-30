@@ -48,7 +48,6 @@
 }
 
 @property (strong, nonatomic) UIWindow *window;
-
 @property (nonatomic, readwrite) BOOL userHasStartedCall;
 
 @property (strong, nonatomic) NSString *latitude;
@@ -59,6 +58,7 @@
 @property (nonatomic, readonly) NSInteger currentIndex;
 @property (nonatomic, retain) NSMutableArray *contactsArray;
 
+-(void)getCurrentLocation;
 -(void)startCallCycleAt:(NSInteger)startIndex;
 -(void)callNextPerson;
 -(void)presentOptionViewWithIndex:(NSInteger)positionIndex;

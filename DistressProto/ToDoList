@@ -12,6 +12,13 @@ Source Code
 - Enter comments for all methods
 - Remove uneccessary code
 
+CallingViewController
+- Turn Contact dialog box into button
+
+OptionViewController
+- Look at why the message is sending in batches of 3
+
+
 
 ##############################################
 
@@ -50,6 +57,8 @@ Passcode Settings
 - error handle - recovery hint, user has to enter a value
 - Set Passcode View
 -- on iPhone 4 devices: the button is squash and it does not look correct
+- Added more UI visual elements to assist user in setting apps
+- changed button strings
 
 Main View
 - Start using items.plist data instead of hardcoded arrays
@@ -60,6 +69,8 @@ ContactAddViewController
 - format number string to remove spaces, ie "0421 121 212" - Cannot make calls when the number has spaces
 - Error handle - if nuRll value and save is selected then put a red astericks next to field with a note saying it needs to be filled - possibly a notification from navbar - photo is not needed, however needs to show the default profile image here
 - import new contact wipes image value and needs to make it the default image if one is not supplied
+- removed "error" from alert views
+- removed white space trimming from relation field (was never meant to be there. Only for the phone number)
 
 ContactEditViewController
 - Adjust navbar and remove the 'Cancel' and '+' when it should only have the back button for saving.

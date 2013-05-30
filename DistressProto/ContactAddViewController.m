@@ -172,6 +172,7 @@
                                                   otherButtonTitles:@"Import from Contacts", @"Create New", nil];
         sheet.tag = 200;
         [sheet showInView:self.view];
+
     }
 }
 
@@ -235,7 +236,6 @@
     NSLog(@"Dismissing view");
 
     [self dismissViewControllerAnimated:YES completion:^{
-        [SVProgressHUD showErrorWithStatus:@"Contact was not added"];
     }];
     
 }
@@ -283,7 +283,7 @@
     if (nameTextField.text == nil || [nameTextField.text isEqualToString:@""]
         ) {
         UIAlertView *errorSaving = [[UIAlertView alloc]
-                                    initWithTitle:@"Error"
+                                    initWithTitle:@"Name Required"
                                     message:@"Please fill in the Name for the contact"
                                     delegate:self
                                     cancelButtonTitle:@"OK"
@@ -293,7 +293,7 @@
     } else if (phoneTextField.text == nil || [phoneTextField.text isEqualToString:@""])
     {
         UIAlertView *errorSaving = [[UIAlertView alloc]
-                                    initWithTitle:@"Error"
+                                    initWithTitle:@"Phone Number Required"
                                     message:@"Please fill in the Phone number for the contact"
                                     delegate:self
                                     cancelButtonTitle:@"OK"
@@ -303,7 +303,7 @@
     } else if(relationTextField.text == nil || [relationTextField.text isEqualToString:@""])
     {
         UIAlertView *errorSaving = [[UIAlertView alloc]
-                                    initWithTitle:@"Error"
+                                    initWithTitle:@"Relation Required"
                                     message:@"Please fill in the Relation for the contact"
                                     delegate:self
                                     cancelButtonTitle:@"OK"
@@ -315,8 +315,8 @@
     {
     // Extract User Input
     NSString *name = [nameTextField text];
-    NSString *phone = [phoneTextField text];
-    NSString *relation = [[relationTextField text] stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString *phone = [[phoneTextField text]stringByReplacingOccurrencesOfString:@" " withString:@""];
+        NSString *relation = [relationTextField text];
     //UIImage *capImage = self.contactImage;
     if (!self.contactImage) {
     NSData *jpgData = UIImageJPEGRepresentation(image, 1);
@@ -509,7 +509,6 @@
 - (void)dismissView
 {
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
-        [SVProgressHUD showErrorWithStatus:@"Contact was not added"];
     }];
 }
 

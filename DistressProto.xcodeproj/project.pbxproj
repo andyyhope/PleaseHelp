@@ -54,6 +54,8 @@
 		D00227BC1732742F00755C5A /* ContactsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D00227BB1732742E00755C5A /* ContactsTableViewCell.m */; };
 		D00227BF1732747000755C5A /* MainContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D00227BE1732746E00755C5A /* MainContactViewController.m */; };
 		D12A6634173E947D001A31B5 /* Appearance.m in Sources */ = {isa = PBXBuildFile; fileRef = D12A6633173E947D001A31B5 /* Appearance.m */; };
+		D14D65A51757183600BDEF78 /* unlockIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = D14D65A31757183600BDEF78 /* unlockIcon.png */; };
+		D14D65A61757183600BDEF78 /* unlockIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D14D65A41757183600BDEF78 /* unlockIcon@2x.png */; };
 		D1A417061733707D00304DC1 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A417051733707D00304DC1 /* Icon.png */; };
 		D1D193291742192C001B7A55 /* PoliceImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D1D193281742192C001B7A55 /* PoliceImage@2x.png */; };
 		D1D1932C17422B6A001B7A55 /* backButton.png in Resources */ = {isa = PBXBuildFile; fileRef = D1D1932A17422B69001B7A55 /* backButton.png */; };
@@ -151,6 +153,8 @@
 		D00227BE1732746E00755C5A /* MainContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainContactViewController.m; sourceTree = "<group>"; };
 		D12A6632173E947D001A31B5 /* Appearance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Appearance.h; sourceTree = "<group>"; };
 		D12A6633173E947D001A31B5 /* Appearance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Appearance.m; sourceTree = "<group>"; };
+		D14D65A31757183600BDEF78 /* unlockIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unlockIcon.png; sourceTree = "<group>"; };
+		D14D65A41757183600BDEF78 /* unlockIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unlockIcon@2x.png"; sourceTree = "<group>"; };
 		D1A417051733707D00304DC1 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		D1D193281742192C001B7A55 /* PoliceImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PoliceImage@2x.png"; sourceTree = "<group>"; };
 		D1D1932A17422B69001B7A55 /* backButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backButton.png; sourceTree = "<group>"; };
@@ -377,6 +381,8 @@
 		D002277A1732701C00755C5A /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D14D65A31757183600BDEF78 /* unlockIcon.png */,
+				D14D65A41757183600BDEF78 /* unlockIcon@2x.png */,
 				D1DFEEBD1754C46600FDF5A3 /* infoIcon.png */,
 				D1DFEEBE1754C46700FDF5A3 /* infoIcon@2x.png */,
 				D1DFEEB91754B53100FDF5A3 /* returnIcon.png */,
@@ -569,6 +575,8 @@
 				D1DFEEBC1754B53200FDF5A3 /* returnIcon@2x.png in Resources */,
 				D1DFEEBF1754C46700FDF5A3 /* infoIcon.png in Resources */,
 				D1DFEEC01754C46700FDF5A3 /* infoIcon@2x.png in Resources */,
+				D14D65A51757183600BDEF78 /* unlockIcon.png in Resources */,
+				D14D65A61757183600BDEF78 /* unlockIcon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

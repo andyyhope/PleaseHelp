@@ -237,6 +237,7 @@
     userHasStartedCall = boolValue;
     NSLog(@"startCallCycle");
     NSLog(@"%d", currentIndex);
+    [locationManager startUpdatingLocation];
 }
 
 -(void)startCallCycleAt:(NSInteger)startIndex

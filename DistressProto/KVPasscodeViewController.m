@@ -79,7 +79,7 @@
     
     // Do any additional setup after loading the view from its nib.
     self.navigationItem.title = NSLocalizedString(@"Passcode", @"");
-    self.view.backgroundColor = kVIEW_BACKGROUND_COLOR;
+    self.view.backgroundColor = kVIEW_ALT2_BACKGROUND_COLOR;
     
     [self applySkinToBulletField:bulletField0];
     [self applySkinToBulletField:bulletField1];
@@ -116,7 +116,7 @@
 
     [clearButton addTarget:self action:@selector(resetPasscode) forControlEvents:UIControlEventTouchUpInside];
     [Appearance applySkinToSettingsButton:clearButton withTitle:@"Remove Passcode"];
-    [clearButton setBackgroundColor:kVIEW_ALT2_BACKGROUND_COLOR];
+    [clearButton setBackgroundColor:[UIColor redColor]];
     [clearButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.view addSubview:clearButton];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -183,8 +183,10 @@
     [defaults setBool:NO forKey:@"RecoverSet"];
     [defaults synchronize];
     
-    [SVProgressHUD showImage:nil status:kCLEAR_PASSCODE];
-    [self dismissView];
+    
+    [self dismissViewControllerAnimated:YES completion:^{
+        [SVProgressHUD showImage:[UIImage imageNamed:@"unlockIcon.png"] status:kCLEAR_PASSCODE];
+    }];
 }
 
 -(void)dismissView

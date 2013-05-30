@@ -11,4 +11,5 @@
 
 @interface PasscodeViewController : UIViewController <KVPasscodeViewControllerDelegate>
 
+-(void)setupButtons;
 @end
