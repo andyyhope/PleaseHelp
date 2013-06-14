@@ -21,6 +21,7 @@
 #define kALERT_VIEW_POLICE 1
 #define kALERT_VIEW_CONTACTS 2
 #define kALERT_VIEW_ERROR 3
+#define kMAPS_URL @"http://maps.apple.com/maps?q=%@,%@"
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -221,6 +222,12 @@
             latitude = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
             longitude = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
             [contactsViewController updateLocationLabel];
+            
+            // Shorten URL
+            UrlShortener *urlShortener = [[UrlShortener alloc] initWithDelegate:self];
+            
+            [urlShortener shortenUrl:[[NSString alloc] initWithFormat:@"http://maps.apple.com/maps?q=%@,%@", latitude, longitude] withService:UrlShortenerServiceGoogle];
+            
             [UIApplication sharedApplication].networkActivityIndicatorVisible = false;
         } else {
             NSLog(@"%@", error.debugDescription);
@@ -231,7 +238,14 @@
     
 
 }
-
+- (void)urlShortenerSucceededWithShortUrl:(NSString *)shortUrl
+{
+    shortenedURL = shortUrl;
+}
+- (void)urlShortenerFailedWithError:(NSError *)error
+{
+    shortenedURL = [[NSString alloc] initWithFormat:kMAPS_URL, latitude, longitude];
+}
 - (void)startCallCycle:(BOOL)boolValue
 {
     userHasStartedCall = boolValue;
@@ -240,7 +254,7 @@
     [locationManager startUpdatingLocation];
 }
 
--(void)startCallCycleAt:(NSInteger)startIndex
+-(void)startCallCycleAt:(NSInteger)startIndex withAnimation:(BOOL)animation
 {
 
     contactItem = [contactsArray objectAtIndex:startIndex];
@@ -254,9 +268,10 @@
     callingViewController.contactNumber = contactItem.phone;
     callingViewController.contactImage = contactItem.image;
     callingViewController.contactRelation = contactItem.relation;
+    callingViewController.contactIndex = currentIndex;
     [callingViewController updateContactImageWith:contactItem.image];
     
-    [contactsViewController presentViewController:callingViewController animated:YES completion:^{
+    [contactsViewController presentViewController:callingViewController animated:animation completion:^{
         //startingIndex = startIndex;
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
                                                     [NSString stringWithFormat:@"telprompt:%@", contactItem.phone]]];
@@ -275,7 +290,7 @@
         // Contacts remain in cycle.
         NSLog(@"Still contacts left in cycle");
         currentIndex++;
-        [self startCallCycleAt:currentIndex];
+        [self startCallCycleAt:currentIndex withAnimation:YES];
         NSLog(@"%d", currentIndex);
     } else {
         // No contacts remaining
@@ -310,7 +325,7 @@
     optionViewController.contactRelation = contactItem.relation;
     optionViewController.contactImage = contactItem.image;
     optionViewController.locationAddressLabel.text = locationAddressString;
-    
+    optionViewController.googleMapsString = shortenedURL;
     NSString *nameString = [[NSString alloc] initWithFormat:@"%@",contactItem.name];
     NSString *numberString = [[NSString alloc] initWithFormat:@"%@", contactItem.phone];
     [optionViewController updateLat:self.latitude andLong:self.longitude];

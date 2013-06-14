@@ -46,7 +46,6 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    //[self checkStatus];
     [self setupButtons];
 }
 
@@ -62,7 +61,7 @@
     //Setup the Recovery Hint Button
     _recoveryButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [Appearance applySkinToSettingsButton:_recoveryButton withTitle:nil];
-    _recoveryButton.frame = CGRectMake(20, 90, 280, 50);
+    _recoveryButton.frame = CGRectMake(10, 90, 300, 50);
     
     if (![defaults boolForKey:@"PasscodeSet"])
     {
@@ -72,8 +71,11 @@
         [_recoveryButton setTitle:@"Set A Recovery Hint" forState:UIControlStateNormal];
         [_recoveryButton setTitle:@"Set A Recovery Hint" forState:UIControlStateSelected];
         [self.view addSubview:_recoveryButton];
+        
+        
+        
     } else if ([defaults boolForKey:@"RecoverSet"]){
-        [_recoveryButton setBackgroundColor:kVIEW_ALT2_BACKGROUND_COLOR];
+        [_recoveryButton setBackgroundColor:kVIEW_ALT_BACKGROUND_COLOR];
         [_recoveryButton setTitleColor:kVIEW_FOREGROUND_COLOR forState:UIControlStateNormal];
         [_recoveryButton setTitle:@"Change Recovery Hint" forState:UIControlStateNormal];
         [_recoveryButton setTitle:@"Change Recovery Hint" forState:UIControlStateSelected];
@@ -85,12 +87,16 @@
     //Setup the Passcode Button
     _passcodeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [Appearance applySkinToSettingsButton:_passcodeButton withTitle:nil];
-    _passcodeButton.frame = CGRectMake(20, 20, 280, 50);
+    _passcodeButton.frame = CGRectMake(10, 10, 300, 50);
     if (![defaults boolForKey:@"PasscodeSet"]) {
         [_passcodeButton setTitle:@"Set Passcode" forState:UIControlStateNormal];
         [_passcodeButton setTitle:@"Set Passcode" forState:UIControlStateSelected];
         
-        // Temporary patch to cover up _recoveryButton, it's appearing when it hasnt been added to view. possibly still linked to .xib
+        
+        
+        // Bug with the code, it still links to .XIB file which has a Recovery button
+        // Code cannot remove the button from view
+        
         blockRecoverButtonView = [[UIView alloc] initWithFrame:_recoveryButton.frame];
         blockRecoverButtonView.backgroundColor = kVIEW_BACKGROUND_COLOR;
         [self.view addSubview:blockRecoverButtonView];
@@ -101,7 +107,7 @@
     }
     else
     {
-        [_passcodeButton setBackgroundColor:kVIEW_ALT2_BACKGROUND_COLOR];
+        [_passcodeButton setBackgroundColor:kVIEW_ALT_BACKGROUND_COLOR];
         [_passcodeButton setTitleColor:kVIEW_FOREGROUND_COLOR forState:UIControlStateNormal];
         [_passcodeButton setTitle:@"Change/Remove Passcode" forState:UIControlStateNormal];
         [_passcodeButton setTitle:@"Change/Remove Passcode" forState:UIControlStateSelected];
@@ -113,8 +119,9 @@
     [_passcodeButton addTarget:self action:@selector(setPasscode) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_passcodeButton];
 
-    
+    [Appearance updateSettingsLockedIconToViewController:self.parentViewController];
 }
+
 
 
 - (void)didReceiveMemoryWarning
@@ -166,7 +173,7 @@
                                   delegate:self
                                   cancelButtonTitle:@"Cancel"
                                   otherButtonTitles:@"OK", nil];
-    
+    recoveryAlert.tag = 1;
     textField = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 45.0, 260.0, 25.0)];
     textField.placeholder = @"Enter hint for the passcode";
     [textField becomeFirstResponder];
@@ -189,7 +196,7 @@
                                   delegate:self
                                   cancelButtonTitle:@"Cancel"
                                   otherButtonTitles:@"Reset", nil];
-    
+    displayAlert.tag = 2;
     textField = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 80.0, 260.0, 25.0)];
     textField.placeholder = @"Change hint for the passcode";
     [textField becomeFirstResponder];
@@ -205,26 +212,44 @@
     NSString *recoveryHint = textField.text;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
-    switch (buttonIndex) {
-        case 1:
-            if (textField.text == nil || [textField.text isEqualToString: @""]) {
-            }
-            else{
-                [defaults setValue:recoveryHint forKey:@"RecoveryHint"];
-                [defaults setBool:YES forKey:@"RecoverSet"];
-                [defaults synchronize];
-                [SVProgressHUD showSuccessWithStatus:@"Recovery Hint Set"];
+    if (alertView.tag == 0)
+    {
+        switch (buttonIndex) {
+            case 1:
+                [self setRecoveryHint];
+                break;
                 
-                [self setupButtons];
-            }
-            //NSLog(@"Reset");
-            break;
+            case 2:
+                [self setPasscode];
+                break;
+                
+            default:
+                break;
+        }
+    } else if (alertView.tag == 1){
+        switch (buttonIndex) {
+            case 1:
+                if (textField.text == nil || [textField.text isEqualToString: @""]) {
+                }
+                else{
+                    [defaults setValue:recoveryHint forKey:@"RecoveryHint"];
+                    [defaults setBool:YES forKey:@"RecoverSet"];
+                    [defaults synchronize];
+                    [SVProgressHUD showSuccessWithStatus:@"Recovery Hint Set"];
+                    
+                    [self setupButtons];
+                }
+                //NSLog(@"Reset");
+                break;
             case 0:
-            //NSLog(@"Cancel");
-            break;
-        default:
-            break;
+                //NSLog(@"Cancel");
+                break;
+            default:
+                break;
+        }
     }
+    
+    
 }
 
 
@@ -236,24 +261,17 @@
     [defaults setBool:YES forKey:@"PasscodeSet"];
     [defaults synchronize];
     
-    //Display Alert to user regarding what passcode they entered
-    NSString *message = [[NSString alloc]
-                         initWithFormat:@"Passcode is now set to: %@\n\nYou should also set a Recovery Hint for this passcode",
-                         passCode];
-    
-    //If we want to change it to a message
-    //[SVProgressHUD showSuccessWithStatus:message];
 
     UIAlertView *notifyPasscode = [[UIAlertView alloc]
-                                   initWithTitle:@"Confirmation"
-                                   message:message
+                                   initWithTitle:[NSString stringWithFormat:@"Passcode set to: \n\n%@", passCode]
+                                   message:@"You should also set a Recovery Hint in case you might forget"
                                    delegate:self
-                                   cancelButtonTitle:nil
-                                   otherButtonTitles:@"OK", nil];
+                                   cancelButtonTitle:@"Neither"
+                                   otherButtonTitles:@"Set Passcode Hint", @"Change Passcode", nil];
+    notifyPasscode.tag = 0;
     [notifyPasscode show];
     
     //remove the PasscodeViewController
-//    [controller dismissModalViewControllerAnimated:YES];
     [controller dismissViewControllerAnimated:YES completion:nil];
 
 }

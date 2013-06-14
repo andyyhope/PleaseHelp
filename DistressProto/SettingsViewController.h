@@ -13,5 +13,6 @@
 
 //This is the header file which is defined as an UIViewController.
 @interface SettingsViewController : UIViewController
+<UIAlertViewDelegate>
 
 @end

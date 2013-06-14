@@ -8,7 +8,7 @@
 
 #import "Appearance.h"
 
-#define kCELL_HEADER_FONT           [UIFont fontWithName:@"Arial-BoldMT" size:18]
+#define kCELL_HEADER_FONT           [UIFont fontWithName:@"Arial-BoldMT" size:22]
 #define kCELL_HEADER_FONT_COLOR     [UIColor colorWithRed:7/255.0f green:55/255.0f blue:87/255.0f alpha:1]
 
 #define kCELL_TEXT_FONT             [UIFont boldSystemFontOfSize:14]

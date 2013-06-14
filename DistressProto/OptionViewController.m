@@ -11,6 +11,7 @@
 //#import "Appearance.h"
 #import "OptionViewController.h"
 
+
 @interface OptionViewController ()
 
 @end
@@ -30,7 +31,7 @@
 @synthesize userLatitude;
 @synthesize userLongitude;
 @synthesize recipient;
-
+@synthesize googleMapsString;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -40,7 +41,6 @@
         self.contactImage = [[UIImage alloc] init];
         self.nextContactImage = [[UIImage alloc] init];
         locationHeaderLabel = [[UILabel alloc] init];
-        
     }
     return self;
 }
@@ -55,7 +55,7 @@
     textPersonLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, self.view.frame.size.width, 30)];
     textPersonLabel.font = kLOCATION_HEADER_FONT;
     textPersonLabel.textColor = kVIEW_FOREGROUND_COLOR;
-    textPersonLabel.text = @"TEXT YOUR LOCATION";
+    textPersonLabel.text = @"TEXT MESSAGE";
     textPersonLabel.textAlignment = NSTextAlignmentCenter;
     textPersonLabel.backgroundColor = [UIColor clearColor];
     [self.view addSubview:textPersonLabel];
@@ -103,7 +103,8 @@
     UIView *contactFrame = [[UIView alloc] initWithFrame:CGRectMake(10, 35, self.view.frame.size.width - 20, 110)];
     
     [Appearance applySkinToOptionsContactFrame:contactFrame withName:contactName relation:contactRelation image:contactImage andIcon:[UIImage imageNamed:@"smsIcon"]];
-    
+    //contactFrame.backgroundColor = [UIColor colorWithRed:46/255.0f green:255/255.0f blue:50/255.0f alpha:1];
+
     [self.view addSubview:contactFrame];
     
     UIButton *textButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -152,12 +153,21 @@
         [messageComposeViewController setRecipients:@[recipient]];
 
         //[messageComposeViewController setRecipients:@[@"0421523454"]];
-        NSString *googleMapsString = [[NSString alloc] initWithFormat:@"http://maps.google.com/maps?f=q&hl=em&q=%@,%@&ie=UTF8&z=16&iwloc=addr&om=1", userLatitude, userLongitude];
+        //https://maps.google.com/maps?q=-31.91956,115.86741
         
-        NSString *messageString = [NSString stringWithFormat:@"Im within the vicinity of:\n%@\n\nShow in Maps:\n%@\n\nLatitude: %@\nLongitude: %@", locationAddressLabel.text, googleMapsString, userLatitude, userLongitude];
-                
-        [messageComposeViewController setBody:[NSString stringWithFormat:@"%@ %@",kSMS_MESSAGE_TEXT, messageString]];
+        //NSString *googleMapsString = [[NSString alloc] initWithFormat:@"http://maps.google.com/maps?f=q&hl=em&q=%@,%@&ie=UTF8&z=16&iwloc=addr&om=1", userLatitude, userLongitude];
         
+        
+        
+        
+        //NSString *messageString = [NSString stringWithFormat:@"Im within the vicinity of:\n%@\n\nShow in Maps:\n%@\n\nLatitude: %@\nLongitude: %@", locationAddressLabel.text, googleMapsString, userLatitude, userLongitude];
+        NSString *messageString = [[NSString alloc] initWithFormat:@"Im within the vicinity of:\n%@\n\nShow in Maps:\n%@\n\nLatitude: %@\nLongitude: %@", locationAddressLabel.text, self.googleMapsString, userLatitude, userLongitude];
+        
+        //[messageComposeViewController setBody:[NSString stringWithFormat:@"%@ %@",kSMS_MESSAGE_TEXT, messageString]];
+        NSString *completeString = [[NSString alloc] initWithFormat:@"%@ %@",kSMS_MESSAGE_TEXT, messageString];
+        
+        [messageComposeViewController setBody:completeString];
+
         [self presentViewController:messageComposeViewController animated:YES completion:^{
             NSLog(@"present message");
         }];
@@ -197,15 +207,15 @@
 {
     switch (result) {
         case MessageComposeResultCancelled:
-            [SVProgressHUD showErrorWithStatus:@"Message was cancelled"];
+            [SVProgressHUD showErrorWithStatus:@"Message cancelled"];
             NSLog(@"Cancelled");
             break;
         case MessageComposeResultSent:
-            [SVProgressHUD showSuccessWithStatus:@"Message was sent"];
+            [SVProgressHUD showSuccessWithStatus:@"Message sent"];
             NSLog(@"Sent");
             break;
         case MessageComposeResultFailed:
-            [SVProgressHUD showErrorWithStatus:@"Message did not send"];
+            [SVProgressHUD showErrorWithStatus:@"Message failed"];
             NSLog(@"Failed");
             break;
         default:
@@ -240,7 +250,6 @@
     self.userLongitude = longitude;
     NSLog(@"u:%@<<<%@",self.userLatitude,self.userLongitude);
 }
-
 
 
 

@@ -8,43 +8,30 @@
 
 #import "ContactViewController.h"
 #import "AppDelegate.h"
-@interface ContactViewController () <UIActionSheetDelegate>//, ABPeoplePickerNavigationControllerDelegate>
+@interface ContactViewController () <UIActionSheetDelegate>
 {
     
+    
+    UILabel *footerNoteLabel;
     UIButton *rearrangeContactsButton;
     UIButton *addContactsButton;
-    NSString *tableFooterString;
+
     BOOL isEditing;
 }
 
 @property UIButton *addContactButton;
 @property NSMutableArray *items;
 
-//Import Contacts - AddressBookUI
-/*
- @property NSString *fullName;
-@property NSString *lastName;
-@property NSString *phoneNumber;
-@property NSString *relationship;
-@property UIImage *contactImage;
-*/
-
-//@property (nonatomic, retain) ABPeoplePickerNavigationController *contacts;
 @property ContactAddViewController *contactAddViewController;
 
-// (void)addContact;
+
 -(void)createContact;
 
 @end
 
 
 @implementation ContactViewController
-/*
- @synthesize fullName = _fullName;
-@synthesize phoneNumber = _phoneNumber;
-@synthesize relationship = _relationship;
-@synthesize contactImage = _contactImage;
- */
+
 @synthesize contactAddViewController = _contactAddViewController;
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -61,6 +48,8 @@
     [super viewDidLoad];
     [self loadContacts];
     
+    
+    // Setup the table
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
     [self createTableHeader];
@@ -76,8 +65,6 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    
-    
     [self updateTableFooterString];
 }
 
@@ -114,10 +101,11 @@
 
     UIView *tableFooter = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 100)];
     
-    UILabel *footerNoteLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, self.view.frame.size.width - 40, 100)];
+    footerNoteLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, self.view.frame.size.width - 20, 110)];
     [Appearance applySkinToLocationLabel:footerNoteLabel];
+    
     [self updateTableFooterString];
-    footerNoteLabel.text = tableFooterString;
+    
     
     [tableFooter addSubview:footerNoteLabel];
     self.tableView.tableFooterView = tableFooter;
@@ -127,11 +115,18 @@
 {
     AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if ([appDelegate.contactsArray count] == 0) {
-        tableFooterString = @"To add contacts to the app, press the 'ADD' button";
-    } else
+        footerNoteLabel.text = @"To add contacts to the app, press the 'ADD' button";
+    } else if (isEditing)
     {
-        tableFooterString = @"You can edit a contact's details by tapping on their name. \n\nTo delete or rearrange contacts, \npress the 'ORGANISE' button";
+        footerNoteLabel.text = @"Rearrange contacts by dragging the '≡' icon \n\nDelete contacts by pressing the '-' icon\n\nPress 'SAVE' when complete";
     }
+    else
+    {
+        footerNoteLabel.text = @"You can edit a contact's details by tapping on their name. \n\nTo delete or rearrange contacts, \npress the 'ORGANISE' button";
+    }
+    
+    
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -232,34 +227,6 @@
     
 }
 
-/*
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == 0) {
-        //Import Contact from address book button selected
-        [self importContact];
-    }
-    if (buttonIndex == 1) {
-        //Create New Contact button selected
-        [self createNewContact];
-    }
-}
- */
-
-/*
--(void)addContact
-{
-    [self createNewContact];
-   // ContactAddViewController *contactAddViewController = [[ContactAddViewController alloc] init];
-    //[contactAddViewController createAddView];
-    
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil
-                                 delegate:self
-                        cancelButtonTitle:@"Cancel"
-                   destructiveButtonTitle:nil
-                       otherButtonTitles:@"Import from Contacts", @"Create New", nil];
-    [sheet showInView:self.view];
-     
-}*/
 
 -(void)createContact
 {
@@ -270,79 +237,7 @@
     [self.parentViewController.navigationController presentViewController:navController animated:YES completion:^{
     }];
 }
-/*
--(void)importContact
-{
-    _contacts = [[ABPeoplePickerNavigationController alloc] init];
-    
-    // Set the delegate.
-    [_contacts setPeoplePickerDelegate:self];
-    
-    // Set the phone property as the one that we want to be displayed in the Address Book.
-    [_contacts setDisplayedProperties:[NSArray arrayWithObject:[NSNumber numberWithInt:kABPersonPhoneProperty]]];
-    
-    [self presentViewController:_contacts animated:YES completion:^{
-    }];
-}
 
--(BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier{
-    
-    NSString *firstName = (__bridge NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
-    NSString *lastName = (__bridge NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
-    
-    NSString *fullName = @"";
-    if (firstName != nil) {
-        fullName = [fullName stringByAppendingString:firstName];
-    }
-    if (lastName != nil) {
-        fullName = [fullName stringByAppendingString:@" "];
-        fullName = [fullName stringByAppendingString:lastName];
-    }
-    
-    self.fullName = fullName;
-    
-    CFTypeRef multivalue = ABRecordCopyValue(person, property);
-    CFIndex index = ABMultiValueGetIndexForIdentifier(multivalue, identifier);
-    NSString *phone = (__bridge NSString *)ABMultiValueCopyValueAtIndex(multivalue, index);
-    
-    self.phoneNumber = [phone stringByReplacingOccurrencesOfString:@" " withString:@""];
-    
-    UIImage *image = [UIImage imageWithData:(__bridge NSData *)ABPersonCopyImageDataWithFormat (person, kABPersonImageFormatOriginalSize)];
-    
-    self.contactImage = image;
-    
-    [self importSaveContact];
-
-    [_contacts dismissViewControllerAnimated:YES completion:^{
-        // code
-    }];
-    
-	return NO;
-}
-
-// Implement this delegate method to make the Cancel button of the Address Book working.
--(void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker{
-	[_contacts dismissViewControllerAnimated:YES completion:^{
-        // code
-    }];
-}
-
--(BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person{
-    return YES;
-}
-
--(void)importSaveContact{
-    
-    // Extract User Input
-    NSString *name = self.fullName;
-    NSString *phone = self.phoneNumber;
-    NSString *relation = self.relationship;
-    UIImage *image = self.contactImage;
-    
-    // Notify Delegate: name and phone
-    [self controller:_contactAddViewController didSaveContactWithName:name andPhone:phone andRelation:relation andImage:image];
-}
-*/
 
 - (void)editItems{
     if (isEditing)
@@ -351,38 +246,20 @@
         [rearrangeContactsButton setBackgroundColor:kVIEW_FOREGROUND_COLOR];
         [rearrangeContactsButton setTitleColor:kCELL_HEADER_FONT_COLOR forState:UIControlStateNormal];
         [self.view addSubview:addContactsButton];
-        
         isEditing = FALSE;
     } else
     {
-        [rearrangeContactsButton setTitle:@"DONE" forState:UIControlStateNormal];
+        [rearrangeContactsButton setTitle:@"SAVE" forState:UIControlStateNormal];
         [rearrangeContactsButton setBackgroundColor:kVIEW_ALT2_BACKGROUND_COLOR];
         [rearrangeContactsButton setTitleColor:kVIEW_FOREGROUND_COLOR forState:UIControlStateNormal];
         [addContactsButton removeFromSuperview];
         isEditing = TRUE;
     }
-    
+    [self updateTableFooterString];
     [self.tableView setEditing:![self.tableView isEditing] animated:YES];
     [self saveContacts];
 }
-/*
-#pragma mark Add name/phone Delegate Methods
-- (void)controller:(ContactAddViewController *)controller didSaveContactWithName:(NSString *)name andPhone:(NSString *)phone andRelation:(NSString *)relation {
-    // Create Item
-    ContactItem *item = [ContactItem createUserWithName:name andPhone:phone andRelation:relation];
-    
-    // Add Item to Data Source
-    [self.items addObject:item];
-    
-    // Add Row to Table View
-    NSIndexPath *newIndexPath = [NSIndexPath indexPathForItem:([self.items count] - 1) inSection:0];
-    [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationNone];
-    
-    // Save Items
-    [self saveContacts];
- 
-}
- */
+
 
 #pragma mark Add name/phone/image Delegate Methods
 -(void)controller:(ContactAddViewController *)controller didSaveContactWithName:(NSString *)name andPhone:(NSString *)phone andRelation:(NSString *)relation andImage:(UIImage *)image {
@@ -402,6 +279,7 @@
     
     // Save Items
     [self saveContacts];
+    [self updateTableFooterString];
 }
 
 #pragma mark -
@@ -421,6 +299,7 @@
     
     // Save Items
     [self saveContacts];
+    [self updateTableFooterString];
 }
 
 

@@ -9,6 +9,7 @@
 #import "CallingViewController.h"
 
 @implementation CallingViewController
+@synthesize contactIndex;
 @synthesize contactImage;
 @synthesize contactName;
 @synthesize contactNameLabel;
@@ -42,7 +43,6 @@
     
     // Add a label for Location and skin it
     locationAddressLabel.frame = CGRectMake(0, self.view.frame.size.height - 160, self.view.frame.size.width, 100);
-    
     [Appearance applySkinToLocationLabel:locationAddressLabel];
     [self.view addSubview:locationAddressLabel];
     
@@ -71,10 +71,25 @@
     
     [self.view addSubview:contactFrame];
     
+    // Add transparent button over frame
+    UIButton *contactButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    contactButton.frame = contactFrame.frame;
+    [contactButton addTarget:self action:@selector(contactButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:contactButton];
+    
 }
 
 - (void)updateContactImageWith:(UIImage *)newImage
 {
     contactImageView.image = newImage;
+}
+
+- (void)contactButtonPressed
+{
+    [self dismissViewControllerAnimated:NO completion:^{
+        AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [appDelegate startCallCycleAt:contactIndex withAnimation:NO];
+    }];
+    
 }
 @end

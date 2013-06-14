@@ -25,12 +25,12 @@
         cellBackgroundView.layer.cornerRadius = kCELL_CORNER_RADIUS;
         
         
-        self.contactName = [[UILabel alloc] initWithFrame:CGRectMake(120, 20, 180, 30)];
-        self.contactRelation = [[UILabel alloc] initWithFrame:CGRectMake(120, 60, 180, 30)];
+        self.contactName = [[UILabel alloc] initWithFrame:CGRectMake(120, 20, 180, 60)];
+        self.contactRelation = [[UILabel alloc] initWithFrame:CGRectMake(120, 70, 180, 30)];
         self.contactImage = [[UIImage alloc] init];
         
         
-        self.contactName.numberOfLines = 1;
+        self.contactName.numberOfLines = 0;
         self.contactRelation.numberOfLines = 1;
         
         self.contactName.backgroundColor = [UIColor clearColor];
@@ -44,6 +44,7 @@
 
         self.contactName.textColor = kCELL_HEADER_FONT_COLOR;
         self.contactRelation.textColor = kCELL_TEXT_FONT_COLOR;
+        
         
         self.accessoryType = UITableViewCellAccessoryNone;
         

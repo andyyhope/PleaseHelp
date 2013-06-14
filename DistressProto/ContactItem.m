@@ -45,17 +45,5 @@
     return item;
 }
 
-/*
-+ (ContactItem *)createUserWithName:(NSString *)name andPhone:(NSString *)phone andRelation:(NSString *)relation
-{
-    ContactItem *item = [[ContactItem alloc] init];
-    
-    [item setName:name];
-    [item setPhone:phone];
-    [item setRelation:relation];
-    [item setUuid:[[NSUUID UUID] UUIDString]];
-    
-    return item;
-}
-*/
+
 @end

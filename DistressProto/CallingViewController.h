@@ -25,8 +25,10 @@
     NSString *contactNumber;
     NSString *contactName;
     NSString *contactRelation;
+    
+    NSInteger contactIndex;
 }
-
+@property (nonatomic, readwrite) NSInteger contactIndex;
 @property (nonatomic, retain) UILabel *locationHeaderLabel;
 @property (nonatomic, retain) UILabel *locationAddressLabel;
 @property (nonatomic, retain) UILabel *contactNameLabel;

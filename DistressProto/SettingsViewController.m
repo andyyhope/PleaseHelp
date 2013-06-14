@@ -13,12 +13,17 @@
 #import "PasscodeViewController.h"
 #import "SVProgressHUD.h"
 
+#import "HMSegmentedControl.h"
+#import "Appearance.h"
+
 //Define the private variables for this class
 @interface SettingsViewController ()
 {
     PasscodeViewController *passcodeViewController;
     ContactViewController *contactViewController;
-    SVSegmentedControl *segmentedControl;
+    HMSegmentedControl *segmentedControl;
+    
+    UIAlertView *alertView;
 }
 @end
 
@@ -41,23 +46,23 @@
     //Initialise the two view controller classes - Contacts and Passcode
     contactViewController = [[ContactViewController alloc] initWithStyle:UITableViewStyleGrouped];
     passcodeViewController = [[PasscodeViewController alloc] init];
-
-    //Create the segmented control to switch the views on screen
-    segmentedControl = [[SVSegmentedControl alloc] initWithFrame:CGRectMake(-5, -5, 330, 45)];
+    
+    
+    // Segmented Control
+    segmentedControl = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"Contacts", @"Passcode"]];
+    segmentedControl.backgroundColor = kVIEW_ALT2_BACKGROUND_COLOR;
+    [segmentedControl setSelectionStyle:HMSegmentedControlSelectionStyleFullWidthStrip];
+    [segmentedControl setSelectionLocation:HMSegmentedControlSelectionLocationDown];
+    [segmentedControl setTextColor:kVIEW_ALT_BACKGROUND_COLOR];
+    [segmentedControl setFont:kCELL_TEXT_FONT];
+    [segmentedControl setSelectedTextColor:[UIColor whiteColor]];
+    [segmentedControl setFrame:CGRectMake(0, -10, 320, 50)];
+    [segmentedControl setSelectedTextColor:[UIColor whiteColor]];
     [segmentedControl addTarget:self action:@selector(segmentAction) forControlEvents:UIControlEventValueChanged];
-    [segmentedControl setSectionTitles:@[@"Contacts", @"Passcode"]];
-    [segmentedControl setBackgroundColor:kVIEW_BACKGROUND_COLOR];
-    [segmentedControl setBackgroundTintColor:[UIColor clearColor]];
-    [segmentedControl setInnerShadowColor:[UIColor clearColor]];
-    [segmentedControl setTextShadowColor:[UIColor colorWithWhite:0.0f alpha:0.3f]];
-    [segmentedControl setCornerRadius:kCELL_CORNER_RADIUS];
-    [segmentedControl setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
-    [segmentedControl setBackgroundTintColor:[UIColor clearColor]];
-    [segmentedControl setFont:[UIFont boldSystemFontOfSize:12]];
     [self.view addSubview:segmentedControl];
     
     //Set the size of these views so they fit within the bounds of the current SettingsViewController Class
-    passcodeViewController.view.frame = CGRectMake(0, 39, self.view.frame.size.width, self.view.frame.size.height - 40);
+    passcodeViewController.view.frame = CGRectMake(0, 50, self.view.frame.size.width, self.view.frame.size.height - 40);
     contactViewController.view.frame = passcodeViewController.view.frame;
 	
     //Create Parent/Child relationship between these Classes
@@ -69,8 +74,14 @@
     //Set ContactViewController to be the main view that displays on launch
     [self.view addSubview:contactViewController.view];
     
+    // Create Alert View to get user to set a passcode
+    alertView = [[UIAlertView alloc] initWithTitle:@"Settings Unlocked" message:@"You haven't set a passcode for the settings panel.\n\nIt's highly recommended to set a passcode for the Settings panel." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Set Passcode", @"Proceed Anyway", nil];
+    
     //Add the Custom back button to the settings view
     [Appearance addBackButtonToViewController:self];
+    
+    //Add a lock status icon to navigation bar
+    [Appearance updateSettingsLockedIconToViewController:self];
 }
 
 //This method is regarding memory warnings and is a standard for all view controller classes
@@ -99,8 +110,31 @@
 // This defines the action that the Custom Back button performs
 - (void)dismissView
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"PasscodeSet"])
+    {
+        [alertView show];
+    } else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 2:
+            [self.navigationController popViewControllerAnimated:YES];
+            NSLog(@"00");
+            break;
+        case 1:
+            NSLog(@"01");
+            segmentedControl.selectedSegmentIndex = 1;
+            [self segmentAction];
+            break;
+        default:
+            break;
+    }
+}
 
 @end

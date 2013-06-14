@@ -11,6 +11,9 @@
 #import "BSKeyboardControls.h"
 #import "ContactItem.h"
 #import "SVProgressHUD.h"
+#import "ImportInstructionsViewController.h"
+
+#define     kINSTRUCTION_SHOW_LIMIT 3
 
 @interface ContactAddViewController ()
 <UIActionSheetDelegate, UIAlertViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, BSKeyboardControlsDelegate, ABPeoplePickerNavigationControllerDelegate>
@@ -27,6 +30,9 @@
     BOOL keyboardVisible;
     CGPoint offset;
     CGRect textFieldRect;
+    
+    NSUserDefaults *defaults;
+    
 }
 
 //Import Contacts - AddressBookUI
@@ -61,6 +67,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
+    
+    defaults = [NSUserDefaults standardUserDefaults];
+    if(![defaults objectForKey:@"InstructionShowCount"])
+    {
+        [defaults setInteger:0 forKey:@"InstructionShowCount"];
+        NSLog(@"%i", [defaults integerForKey:@"InstructionShowCount"]);
+    }
+    
     image = [UIImage imageNamed:kIMAGE_PLACEHOLDER];
     self.view.backgroundColor = kVIEW_BACKGROUND_COLOR;
         
@@ -178,9 +194,6 @@
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    //setup Nav bar
-    //[self setupNavBar];
 
     // Register for the events
     [[NSNotificationCenter defaultCenter]
@@ -317,7 +330,7 @@
     NSString *name = [nameTextField text];
     NSString *phone = [[phoneTextField text]stringByReplacingOccurrencesOfString:@" " withString:@""];
         NSString *relation = [relationTextField text];
-    //UIImage *capImage = self.contactImage;
+
     if (!self.contactImage) {
     NSData *jpgData = UIImageJPEGRepresentation(image, 1);
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -357,7 +370,6 @@
 
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    //[picker dismissModalViewControllerAnimated:YES];
     [picker dismissViewControllerAnimated:YES completion:nil];
     image = [self imageWithImage:[info objectForKey:@"UIImagePickerControllerOriginalImage"] scaledToSize:CGSizeMake(200, 200)];
 	imageView.image = image;
@@ -395,8 +407,8 @@
     if (actionSheet.tag == 200) {
     if (buttonIndex == 0) {
         //Import Contact from address book button selected
-        [self importContactGuide];
         [self importContact];
+        
     }
     if (buttonIndex == 1) {
         //Create New Contact button selected
@@ -408,11 +420,7 @@
     }
 }
 
--(void)importContactGuide
-{
-    [SVProgressHUD showImage:[UIImage imageNamed:@"infoIcon.png"] status:@"After picking a contact, select their phone number you wish to import"];
 
-}
 
 -(void)importContact
 {
@@ -424,7 +432,24 @@
     // Set the phone property as the one that we want to be displayed in the Address Book.
     [_contacts setDisplayedProperties:[NSArray arrayWithObject:[NSNumber numberWithInt:kABPersonPhoneProperty]]];
     
+    // Present the Contact Picker or Instructions for Importing
     [self presentViewController:_contacts animated:YES completion:^{
+    
+        // Check to see if the Instructions has been shown less times than the Instruction Limit
+        if ([defaults integerForKey:@"InstructionShowCount"] < kINSTRUCTION_SHOW_LIMIT) {
+            
+            // If it has been shown LESS times than the limit, present the instructions.
+            // Else just show the Contact Picker View as normal
+            ImportInstructionsViewController *importInstructionsViewController = [[ImportInstructionsViewController alloc] init];
+            UINavigationController *instructionsNavController = [[UINavigationController alloc] initWithRootViewController:importInstructionsViewController];
+            
+            [_contacts presentViewController:instructionsNavController animated:YES completion:^{
+                
+                NSInteger count = [defaults integerForKey:@"InstructionShowCount"] + 1;
+                [defaults setInteger:count forKey:@"InstructionShowCount"];
+            
+            }];
+        }
         
     }];
 }
@@ -453,14 +478,10 @@
     
     UIImage *imageImport = [UIImage imageWithData:(__bridge NSData *)ABPersonCopyImageDataWithFormat (person, kABPersonImageFormatOriginalSize)];
     
-    //if (!imageImport && !imageView.image) {
-    //    self.contactImage = [UIImage imageNamed:kIMAGE_PLACEHOLDER];
-    //}
-    //else
-    //{
+
     self.imageView.image = imageImport;
     self.contactImage = imageImport;
-    //}
+
     [self importSaveContact];
     
     [_contacts dismissViewControllerAnimated:YES completion:^{
@@ -494,8 +515,7 @@
     self.phoneTextField.text = phone;
     self.relationTextField.text = relation;
     self.imageView.image = imageSave;
-    
-    //[self.delegate controller:self didSaveContactWithName:name andPhone:phone andRelation:relation andImage:imageSave];
+
 }
 
 - (NSString *)documentsPathForFileName:(NSString *)name

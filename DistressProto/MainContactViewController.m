@@ -200,7 +200,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate startCallCycleAt:indexPath.row];
+    [appDelegate startCallCycleAt:indexPath.row withAnimation:YES];
 }
 
 - (void)createTableHeader
@@ -276,7 +276,7 @@
     if ([passCode isEqualToString:string]) {
         //User authorised
         [self displaySettingsController];
-        [controller resetWithAnimation:KVPasscodeAnimationStyleNone];
+        //[controller resetWithAnimation:KVPasscodeAnimationStyleNone];
         attempt = 0;
         [controller dismissViewControllerAnimated:YES completion:nil];
     }

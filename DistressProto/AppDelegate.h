@@ -11,13 +11,14 @@
 #import <CoreTelephony/CTCallCenter.h>
 #import <CoreLocation/CoreLocation.h>
 #import "ContactItem.h"
+#import "UrlShortener.h"
 
 @class CallingViewController;
 @class OptionViewController;
 @class MainContactViewController;
 
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, UIAlertViewDelegate, CLLocationManagerDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, UIAlertViewDelegate, CLLocationManagerDelegate, UrlShortenerDelegate>
 {
     UINavigationController *navController;
     MainContactViewController *contactsViewController;
@@ -37,6 +38,7 @@
     CLPlacemark *placemark;
     NSString *latitude;
     NSString *longitude;
+    NSString *shortenedURL;
     
     BOOL userHasStartedCall;
     bool phoneHasEnteredBackground;
@@ -59,7 +61,7 @@
 @property (nonatomic, retain) NSMutableArray *contactsArray;
 
 -(void)getCurrentLocation;
--(void)startCallCycleAt:(NSInteger)startIndex;
+-(void)startCallCycleAt:(NSInteger)startIndex withAnimation:(BOOL)animation;
 -(void)callNextPerson;
 -(void)presentOptionViewWithIndex:(NSInteger)positionIndex;
 -(void)endCallCycle;

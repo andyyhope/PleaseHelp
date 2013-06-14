@@ -10,9 +10,11 @@
 #import <QuartzCore/QuartzCore.h>
 #import <MessageUI/MessageUI.h>
 
+
 @interface OptionViewController : UIViewController
 <MFMessageComposeViewControllerDelegate>
 {
+    
     UILabel *locationHeaderLabel;
     UILabel *locationAddressLabel;
     
@@ -37,6 +39,8 @@
     NSString *userLatitude;
     NSString *userLongitude;
     NSString *recipient;
+    
+    NSString *googleMapsString;
 }
 
 @property (nonatomic, retain) UILabel *locationAddressLabel;
@@ -57,7 +61,8 @@
 @property (nonatomic, retain) NSString *userLongitude;
 @property (nonatomic, retain) NSString *recipient;
 
+@property (nonatomic, retain) NSString *googleMapsString;
+
 -(void)updateUserName:(NSString *)name andNumber:(NSString *)number;
 -(void)updateLat:(NSString *)latitude andLong:(NSString *)longitude;
-
 @end

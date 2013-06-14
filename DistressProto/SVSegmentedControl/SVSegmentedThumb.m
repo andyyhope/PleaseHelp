@@ -55,7 +55,7 @@
 		self.textShadowOffset = CGSizeMake(0, -1);
 		self.tintColor = kVIEW_ALT_BACKGROUND_COLOR;
         self.shouldCastShadow = NO;
-        self.backgroundColor = kVIEW_BACKGROUND_COLOR;
+        self.backgroundColor = kVIEW_ALT2_BACKGROUND_COLOR;
         self.gradientIntensity = 0;
         self.font = [UIFont boldSystemFontOfSize:14];
     }
@@ -123,7 +123,7 @@
                                                                                   self.segmentedControl.thumbEdgeInset.top,
                                                                                   self.bounds.size.width-10-self.segmentedControl.thumbEdgeInset.left-self.segmentedControl.thumbEdgeInset.right,
                                                                                   self.backgroundImage.size.height)];
-        _thumbBackgroundImageView.backgroundColor = [UIColor clearColor];
+        _thumbBackgroundImageView.backgroundColor = [UIColor redColor];
         [self insertSubview:_thumbBackgroundImageView atIndex:0];
         
         self.clipsToBounds = NO;

@@ -16,7 +16,7 @@
 @property NSString *relation;
 @property UIImage *image;
 
-//+ (ContactItem *)createUserWithName:(NSString *)name andPhone:(NSString *)phone andRelation:(NSString *)relation;
+
 + (ContactItem *)createUserWithName:(NSString *)name andPhone:(NSString *)phone andRelation:(NSString *)relation andImage:(UIImage *)image;
 
 @end

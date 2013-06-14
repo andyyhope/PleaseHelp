@@ -52,7 +52,7 @@
     if (nameTextField.text == nil || [nameTextField.text isEqualToString:@""]
         ) {
         UIAlertView *errorSaving = [[UIAlertView alloc]
-                                    initWithTitle:@"Error"
+                                    initWithTitle:@"Name Required"
                                     message:@"Please fill in the Name for the contact"
                                     delegate:self
                                     cancelButtonTitle:@"OK"
@@ -61,7 +61,7 @@
     } else if (phoneTextField.text == nil || [phoneTextField.text isEqualToString:@""])
     {
         UIAlertView *errorSaving = [[UIAlertView alloc]
-                                    initWithTitle:@"Error"
+                                    initWithTitle:@"Phone Number Required"
                                     message:@"Please fill in the Phone number for the contact"
                                     delegate:self
                                     cancelButtonTitle:@"OK"
@@ -70,7 +70,7 @@
     } else if(relationTextField.text == nil || [relationTextField.text isEqualToString:@""])
     {
         UIAlertView *errorSaving = [[UIAlertView alloc]
-                                    initWithTitle:@"Error"
+                                    initWithTitle:@"Relation Required"
                                     message:@"Please fill in the Relation for the contact"
                                     delegate:self
                                     cancelButtonTitle:@"OK"

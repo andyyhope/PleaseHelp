@@ -4,21 +4,20 @@
 
 ##############################################
 
-AppearanceConstants
-- use a #define for all colors, strings, or any areas which would help a user modify the app with ease.
+
 
 Source Code
 - Tidy up all source code with correct spaces, indentations etc...
 - Enter comments for all methods
 - Remove uneccessary code
 
-CallingViewController
-- Turn Contact dialog box into button
+
 
 OptionViewController
-- Look at why the message is sending in batches of 3
 
-
+- Changed maps.google.com to maps.apple.com so it will open apple maps on the iOS 6 testing devices, will need to decide how this should go.
+- - I dont see the point in this? Our final release will be Google maps (to work on all smartphones)
+- - - Ive added URL shortenning to the app. It lives inside AppDelegate getCurrentLocation;
 
 ##############################################
 
@@ -28,6 +27,9 @@ OptionViewController
 
 All Views
 - Remove any reference for ios5 iphone versions. 
+
+AppearanceConstants
+- use a #define for all colors, strings, or any areas which would help a user modify the app with ease.
 
 Option View Controller 
 - Message View is broken, i think it has something to do with the iOS Version #ifdef, cannot call [self ] methods from within
@@ -77,13 +79,17 @@ ContactEditViewController
 - Back Button no longer saves.
 - format number string to remove spaces, ie "0421 121 212" - Cannot make calls when the number has spaces
 - Error handling for each textfield, example - you can edit a contact and blank out a field and this is accepted
+- removed "error" from alert views
 
 CallingViewController
 - fix label not showing
+- Turn Contact dialog box into button
 
 Option View Controller 
 - on iPhone 4 devices: the location is in white text and cannot be seen as it gets squashed and overlaps the white call button
 - When last person is called and option view displays, app crashes when a sms or call function is selected
+- Look at why the message is sending in batches of 3
+- - Must of been something with iMessage. it's sending fine now.
 
 Settings Contact View
 - Replace buttons with custom graphics

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <QuartzCore/QuartzCore.h>
+//#import "SVProgressHUD.h"
 
 @interface Appearance : NSObject
 
@@ -21,4 +22,5 @@
 + (void)addCancelButtonToViewController:(UIViewController *)viewController;
 + (void)addSaveButtonToViewController:(UIViewController *)viewController;
 + (void)addSaveButtonToEditViewController:(UIViewController *)viewController;
++ (void)updateSettingsLockedIconToViewController:(UIViewController *)viewController;
 @end

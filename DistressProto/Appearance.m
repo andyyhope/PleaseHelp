@@ -9,15 +9,15 @@
 #import "Appearance.h"
 //#import "AppearanceConstants.h"
 
-#import "AppDelegate.h"
+//#import "AppDelegate.h"
 
 @implementation Appearance
 + (void)addStopButtonToView:(UIViewController *)viewController
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(10, viewController.view.frame.size.height - 10 - 60, 300, 60);
-    button.backgroundColor = [UIColor redColor];
-    [button setTitle:@"RETURN TO CONTACTS" forState:UIControlStateNormal];
+    button.backgroundColor = kVIEW_ALT_BACKGROUND_COLOR;
+    [button setTitle:@"I'M DONE" forState:UIControlStateNormal];
     button.titleLabel.font = kCELL_HEADER_FONT;
     button.layer.cornerRadius = kCELL_CORNER_RADIUS;
     [button addTarget:viewController action:@selector(dismissCallingView) forControlEvents:UIControlEventTouchUpInside];
@@ -54,15 +54,15 @@
     frame.backgroundColor = [UIColor whiteColor];
     frame.layer.cornerRadius = kCELL_CORNER_RADIUS;
     
-    UILabel *contactNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 15, 180, 30)];
+    UILabel *contactNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 10, 180, 60)];
     contactNameLabel.text = name;
-    contactNameLabel.numberOfLines = 1;
+    contactNameLabel.numberOfLines = 0;
     contactNameLabel.backgroundColor = [UIColor clearColor];
     contactNameLabel.font = kCELL_HEADER_FONT;
     contactNameLabel.textColor = kCELL_HEADER_FONT_COLOR;
     contactNameLabel.textAlignment = NSTextAlignmentCenter;
     
-    UILabel *contactRelationLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 45, 180, 30)];
+    UILabel *contactRelationLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 70, 180, 30)];
     contactRelationLabel.text = relation;
     contactRelationLabel.numberOfLines = 1;
     contactRelationLabel.backgroundColor = [UIColor clearColor];
@@ -95,14 +95,14 @@
     UILabel *contactNameLabel = [[UILabel alloc] init];
     contactNameLabel.text = name;
     contactNameLabel.backgroundColor = [UIColor clearColor];
-    contactNameLabel.frame = CGRectMake(110, 20, 180, 30);
-    contactNameLabel.numberOfLines = 1;
+    contactNameLabel.frame = CGRectMake(110, 10, 180, 60);
+    contactNameLabel.numberOfLines = 0;
     contactNameLabel.backgroundColor = [UIColor clearColor];
     contactNameLabel.font = kCELL_HEADER_FONT;
     contactNameLabel.textAlignment = NSTextAlignmentCenter;
     contactNameLabel.textColor = kCELL_HEADER_FONT_COLOR;
     
-    UILabel *contactRelationLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 45, 180, 30)];
+    UILabel *contactRelationLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 70, 180, 30)];
     contactRelationLabel.text = relation;
     contactRelationLabel.numberOfLines = 1;
     contactRelationLabel.backgroundColor = [UIColor clearColor];
@@ -219,6 +219,40 @@
     [saveButtonView addSubview:saveButtonImageView];
     
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:saveButtonView];
+    
+    
+    viewController.navigationItem.rightBarButtonItem = barButtonItem;
+}
+
++ (void)updateSettingsLockedIconToViewController:(UIViewController *)viewController
+{
+    UIView *lockButtonView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    lockButtonView.backgroundColor = [UIColor clearColor];
+    lockButtonView.layer.cornerRadius = kCELL_CORNER_RADIUS;
+    
+    UIButton *lockButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    lockButton.frame = lockButtonView.frame;
+    
+    UIImage* lockIcon;
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if (![defaults boolForKey:@"PasscodeSet"]) // Settings are Unlocked
+    {
+        lockIcon = [UIImage imageNamed:@"unlockIconSmall"];
+    } else // Settings are Locked
+    {
+        lockIcon = [UIImage imageNamed:@"lockIconSmall"];
+    }
+    
+    
+    UIImageView *lockButtonImageView = [[UIImageView alloc] initWithImage:lockIcon];
+    lockButtonImageView.frame = CGRectMake(5, 5, 20, 20);
+    
+    [lockButtonView addSubview:lockButton];
+    [lockButtonView addSubview:lockButtonImageView];
+    
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:lockButtonView];
     
     
     viewController.navigationItem.rightBarButtonItem = barButtonItem;
