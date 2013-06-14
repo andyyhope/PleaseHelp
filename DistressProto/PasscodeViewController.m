@@ -57,6 +57,8 @@
 -(void)setupButtons
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    UILabel *passcodeInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 70, 300, 60)];
+    
     
     //Setup the Recovery Hint Button
     _recoveryButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -71,7 +73,7 @@
         [_recoveryButton setTitle:@"Set A Recovery Hint" forState:UIControlStateNormal];
         [_recoveryButton setTitle:@"Set A Recovery Hint" forState:UIControlStateSelected];
         [self.view addSubview:_recoveryButton];
-        
+        [passcodeInfoLabel removeFromSuperview];
         
         
     } else if ([defaults boolForKey:@"RecoverSet"]){
@@ -94,6 +96,7 @@
         
         
         
+        
         // Bug with the code, it still links to .XIB file which has a Recovery button
         // Code cannot remove the button from view
         
@@ -104,6 +107,11 @@
         _recoveryButton.backgroundColor = [UIColor clearColor];
         _recoveryButton.enabled = false;
         [_recoveryButton removeFromSuperview];
+        
+        
+        [Appearance applySkinToLocationLabel:passcodeInfoLabel];
+        passcodeInfoLabel.text = @"A passcode is recommended to stop a person from entering the settings panel and editing contacts information.";
+        [self.view addSubview:passcodeInfoLabel];
     }
     else
     {
@@ -113,7 +121,7 @@
         [_passcodeButton setTitle:@"Change/Remove Passcode" forState:UIControlStateSelected];
         [blockRecoverButtonView removeFromSuperview];
         [self.view addSubview:_recoveryButton];
-    
+        [passcodeInfoLabel removeFromSuperview];
         
     } 
     [_passcodeButton addTarget:self action:@selector(setPasscode) forControlEvents:UIControlEventTouchUpInside];
@@ -187,7 +195,7 @@
 -(void)displayRecoveryHint
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *recoveryMessage= [[NSString alloc] initWithFormat:@"%@\n\n\n",
+    NSString *recoveryMessage= [[NSString alloc] initWithFormat:@"'%@'\n\n\n",
                                 [defaults valueForKey:@"RecoveryHint"]];
     
     UIAlertView *displayAlert = [[UIAlertView alloc]
@@ -264,7 +272,7 @@
 
     UIAlertView *notifyPasscode = [[UIAlertView alloc]
                                    initWithTitle:[NSString stringWithFormat:@"Passcode set to: \n\n%@", passCode]
-                                   message:@"You should also set a Recovery Hint in case you might forget"
+                                   message:@"You should also set a Recovery Hint in case you forget your passcode"
                                    delegate:self
                                    cancelButtonTitle:@"Neither"
                                    otherButtonTitles:@"Set Passcode Hint", @"Change Passcode", nil];

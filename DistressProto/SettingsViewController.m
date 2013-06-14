@@ -7,7 +7,6 @@
 //
 
 //Import the relavant Class Header files that are linked to this Class
-#import "SVSegmentedControl.h"
 #import "SettingsViewController.h"
 #import "ContactViewController.h"
 #import "PasscodeViewController.h"
@@ -24,6 +23,7 @@
     HMSegmentedControl *segmentedControl;
     
     UIAlertView *alertView;
+    UIScrollView *viewContainer;
 }
 @end
 
@@ -62,8 +62,14 @@
     [self.view addSubview:segmentedControl];
     
     //Set the size of these views so they fit within the bounds of the current SettingsViewController Class
-    passcodeViewController.view.frame = CGRectMake(0, 50, self.view.frame.size.width, self.view.frame.size.height - 40);
-    contactViewController.view.frame = passcodeViewController.view.frame;
+    passcodeViewController.view.frame = CGRectMake(320, 0, self.view.frame.size.width, self.view.frame.size.height - 40);
+    contactViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 40);
+    
+    // Create a view container for better UX
+    viewContainer = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, self.view.frame.size.height - 40)];
+    viewContainer.backgroundColor = [UIColor clearColor];
+    viewContainer.contentSize = CGSizeMake(self.view.frame.size.width * 2, self.view.frame.size.height - 40);
+    [self.view addSubview:viewContainer];
 	
     //Create Parent/Child relationship between these Classes
     [passcodeViewController didMoveToParentViewController:self];
@@ -71,8 +77,9 @@
     [contactViewController didMoveToParentViewController:self];
     [self addChildViewController:contactViewController];
     
-    //Set ContactViewController to be the main view that displays on launch
-    [self.view addSubview:contactViewController.view];
+    //Add the subviews to the Scroll view container
+    [viewContainer addSubview:contactViewController.view];
+    [viewContainer addSubview:passcodeViewController.view];
     
     // Create Alert View to get user to set a passcode
     alertView = [[UIAlertView alloc] initWithTitle:@"Settings Unlocked" message:@"You haven't set a passcode for the settings panel.\n\nIt's highly recommended to set a passcode for the Settings panel." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Set Passcode", @"Proceed Anyway", nil];
@@ -95,15 +102,11 @@
 {
     if (segmentedControl.selectedSegmentIndex == 0)
     {
-        // ContactViewController is displayed to the user and removes PasscodeViewController from view
-        [self.view addSubview:contactViewController.view];
-        [passcodeViewController.view removeFromSuperview];
+        [viewContainer setContentOffset:CGPointMake(0, 0) animated:YES];
     }
     else if (segmentedControl.selectedSegmentIndex == 1)
     {
-        // PasscodeViewController is displayed to the user and removes ContactViewController from view
-        [self.view addSubview:passcodeViewController.view];
-        [contactViewController.view removeFromSuperview];
+        [viewContainer setContentOffset:CGPointMake(320, 0) animated:YES];
     }
 }
 

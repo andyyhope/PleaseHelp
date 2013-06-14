@@ -10,7 +10,7 @@
 #import "KVPasscodeViewController.h"
 
 @interface PasscodeViewController : UIViewController
-<KVPasscodeViewControllerDelegate, UIAlertViewDelegate>
+<KVPasscodeViewControllerDelegate>
 
 -(void)setupButtons;
 @end
