@@ -66,7 +66,8 @@
     contactViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 40);
     
     // Create a view container for better UX
-    viewContainer = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, self.view.frame.size.height - 40)];
+    viewContainer = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 40, self.view.frame.size.width, self.view.frame.size.height - 40)];
+    viewContainer.scrollEnabled = false;
     viewContainer.backgroundColor = [UIColor clearColor];
     viewContainer.contentSize = CGSizeMake(self.view.frame.size.width * 2, self.view.frame.size.height - 40);
     [self.view addSubview:viewContainer];
