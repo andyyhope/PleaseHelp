@@ -1,8 +1,8 @@
 //
 //  AppDelegate.m
-//  DistressProto
+//  Please Help
 //
-//  Created by Adrian Jurcevic on 28/04/13.
+//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
 //
 
@@ -18,10 +18,6 @@
 @synthesize contactsArray;
 @synthesize latitude, longitude;
 
-#define kALERT_VIEW_POLICE 1
-#define kALERT_VIEW_CONTACTS 2
-#define kALERT_VIEW_ERROR 3
-#define kMAPS_URL @"http://maps.apple.com/maps?q=%@,%@"
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {

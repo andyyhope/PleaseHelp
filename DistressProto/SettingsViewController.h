@@ -2,7 +2,7 @@
 //  SettingsViewController.h
 //  Please Help
 //
-//  Created by Andyy Hope & Adrian Jurcevic on 7/05/13.
+//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
 //
 // This file contains the code which relates to the settings section.

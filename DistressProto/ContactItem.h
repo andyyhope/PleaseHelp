@@ -1,8 +1,8 @@
 //
 //  ContactItem.h
-//  DistressProto
+//  Please Help
 //
-//  Created by Adrian Jurcevic on 28/04/13.
+//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
 //
 
@@ -15,7 +15,6 @@
 @property NSString *phone;
 @property NSString *relation;
 @property UIImage *image;
-
 
 + (ContactItem *)createUserWithName:(NSString *)name andPhone:(NSString *)phone andRelation:(NSString *)relation andImage:(UIImage *)image;
 

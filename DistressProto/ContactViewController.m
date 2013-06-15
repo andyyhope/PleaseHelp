@@ -1,29 +1,25 @@
 //
 //  ContactViewController.m
-//  DistressProto
+//  Please Help
 //
-//  Created by Andyy Hope on 6/05/13.
+//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
 //
 
 #import "ContactViewController.h"
 #import "AppDelegate.h"
+
 @interface ContactViewController () <UIActionSheetDelegate>
 {
-    
-    
     UILabel *footerNoteLabel;
     UIButton *rearrangeContactsButton;
     UIButton *addContactsButton;
-
     BOOL isEditing;
 }
 
 @property UIButton *addContactButton;
 @property NSMutableArray *items;
-
 @property ContactAddViewController *contactAddViewController;
-
 
 -(void)createContact;
 
@@ -47,7 +43,6 @@
 {
     [super viewDidLoad];
     [self loadContacts];
-    
     
     // Setup the table
     [self.tableView setDelegate:self];
@@ -93,7 +88,6 @@
     [Appearance applySkinToSettingsButton:rearrangeContactsButton withTitle:@"ORGANISE"];
     [rearrangeContactsButton addTarget:self action:@selector(editItems) forControlEvents:UIControlEventTouchUpInside];
     
-    
     self.tableView.tableHeaderView = tableHeader;
 }
 
@@ -105,7 +99,6 @@
     [Appearance applySkinToLocationLabel:footerNoteLabel];
     
     [self updateTableFooterString];
-    
     
     [tableFooter addSubview:footerNoteLabel];
     self.tableView.tableFooterView = tableFooter;
@@ -124,9 +117,6 @@
     {
         footerNoteLabel.text = @"You can edit a contact's details by tapping on their name. \n\nTo delete or rearrange contacts, \npress the 'ORGANISE' button";
     }
-    
-    
-
 }
 
 - (void)didReceiveMemoryWarning
@@ -188,7 +178,6 @@
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-    
     NSString *item = [self.items objectAtIndex:fromIndexPath.row];
     [self.items removeObject:item];
     [self.items insertObject:item atIndex:toIndexPath.row];
@@ -208,12 +197,10 @@
         
         // Save Changes
         [self saveContacts];
-    
     }
 }
 
 #pragma mark - Table view delegate
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -224,9 +211,7 @@
     contactEditViewController.navigationItem.title = @"Edit Contact";
     
     [self.parentViewController.navigationController pushViewController:contactEditViewController animated:YES];
-    
 }
-
 
 -(void)createContact
 {
@@ -237,7 +222,6 @@
     [self.parentViewController.navigationController presentViewController:navController animated:YES completion:^{
     }];
 }
-
 
 - (void)editItems{
     if (isEditing)
@@ -259,7 +243,6 @@
     [self.tableView setEditing:![self.tableView isEditing] animated:YES];
     [self saveContacts];
 }
-
 
 #pragma mark Add name/phone/image Delegate Methods
 -(void)controller:(ContactAddViewController *)controller didSaveContactWithName:(NSString *)name andPhone:(NSString *)phone andRelation:(NSString *)relation andImage:(UIImage *)image {
@@ -296,12 +279,10 @@
             [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         }
     }
-    
     // Save Items
     [self saveContacts];
     [self updateTableFooterString];
 }
-
 
 #pragma mark -
 #pragma mark Loading
@@ -318,7 +299,6 @@
 - (void)saveContacts {
     NSString *filePath = [self pathForItems];
     [NSKeyedArchiver archiveRootObject:self.items toFile:filePath];
-    
     // Post Notification
     // We need this for other views to use * remove comment later
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ContactListDidChangeNotification" object:self];
@@ -332,10 +312,12 @@
     
     return [documents stringByAppendingPathComponent:@"items.plist"];
 }
+
 - (void)updateContactsList
 {
     AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 
     [appDelegate retrieveContacts];
 }
+
 @end

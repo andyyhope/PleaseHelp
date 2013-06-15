@@ -1,9 +1,9 @@
 //
 //  CallingViewController.h
-//  PhoneCycleTest
+//  Please Help
 //
-//  Created by Andyy Hope on 22/04/13.
-//  Copyright (c) 2013 Andyy Hope. All rights reserved.
+//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
+//  Copyright (c) 2013 ECU. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -12,22 +12,18 @@
 @interface CallingViewController : UIViewController
 {
     UIImageView *contactImageView;
-    
+    UIImage *contactImage;
     UILabel *locationHeaderLabel;
     UILabel *locationAddressLabel;
-    
     UILabel *contactNameLabel;
-    UIImage *contactImage;
-    
     UILabel *stopLabel;
     UIButton *stopButton;
-    
     NSString *contactNumber;
     NSString *contactName;
     NSString *contactRelation;
-    
     NSInteger contactIndex;
 }
+
 @property (nonatomic, readwrite) NSInteger contactIndex;
 @property (nonatomic, retain) UILabel *locationHeaderLabel;
 @property (nonatomic, retain) UILabel *locationAddressLabel;
@@ -36,5 +32,7 @@
 @property (nonatomic, retain) UIImage *contactImage;
 @property (nonatomic, retain) NSString *contactNumber;
 @property (nonatomic, retain) NSString *contactRelation;
+
 - (void)updateContactImageWith:(UIImage *)newImage;
+
 @end

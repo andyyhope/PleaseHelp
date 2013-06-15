@@ -1,16 +1,14 @@
 //
 //  OptionViewController.m
-//  PhoneCycleTest
+//  Please Help
 //
-//  Created by Andyy Hope on 22/04/13.
-//  Copyright (c) 2013 Andyy Hope. All rights reserved.
+//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
+//  Copyright (c) 2013 ECU. All rights reserved.
 //
+
 #import "AppDelegate.h"
-
 #import "SVProgressHUD.h" 
-//#import "Appearance.h"
 #import "OptionViewController.h"
-
 
 @interface OptionViewController ()
 
@@ -60,7 +58,6 @@
     textPersonLabel.backgroundColor = [UIColor clearColor];
     [self.view addSubview:textPersonLabel];
     
-    
     callNextLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 155, self.view.frame.size.width, 30)];
     callNextLabel.font = kLOCATION_HEADER_FONT;
     callNextLabel.textColor = kVIEW_FOREGROUND_COLOR;
@@ -71,7 +68,6 @@
 	
     self.view.backgroundColor = kLOCATION_HEADER_FONT_COLOR;
     
-
     // Add Stop button to bottom of view
     [Appearance addStopButtonToView:self];
     
@@ -90,8 +86,7 @@
 
 - (void) dismissCallingView
 {
-    NSLog(@"Called");
-    
+    //NSLog(@"Called");
     [self dismissViewControllerAnimated:YES completion:^{
         AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         [appDelegate endCallCycle];
@@ -103,7 +98,6 @@
     UIView *contactFrame = [[UIView alloc] initWithFrame:CGRectMake(10, 35, self.view.frame.size.width - 20, 110)];
     
     [Appearance applySkinToOptionsContactFrame:contactFrame withName:contactName relation:contactRelation image:contactImage andIcon:[UIImage imageNamed:@"smsIcon"]];
-    //contactFrame.backgroundColor = [UIColor colorWithRed:46/255.0f green:255/255.0f blue:50/255.0f alpha:1];
 
     [self.view addSubview:contactFrame];
     
@@ -132,18 +126,15 @@
 - (void)callNextContact
 {
     [self dismissViewControllerAnimated:NO completion:^{
-        //
     }];
-    
-    NSLog(@"Call next contact");
+    //NSLog(@"Call next contact");
     AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate callNextPerson];
 }
 
 - (void)messageContact
 {
-    NSLog(@"Message button pressed");
-    
+    //NSLog(@"Message button pressed");
     MFMessageComposeViewController *messageComposeViewController = [[MFMessageComposeViewController alloc] init];
     messageComposeViewController.messageComposeDelegate = self;
     if ([MFMessageComposeViewController canSendText]) {
@@ -152,52 +143,50 @@
         recipient = [[NSString alloc] initWithString:userNumber];
         [messageComposeViewController setRecipients:@[recipient]];
 
-        //[messageComposeViewController setRecipients:@[@"0421523454"]];
-        //https://maps.google.com/maps?q=-31.91956,115.86741
+        NSString *messageString = [[NSString alloc]
+                                   initWithFormat:@"Im within the vicinity of:\n%@\n\nShow in Maps:\n%@\n\nLatitude: %@\nLongitude: %@",
+                                   locationAddressLabel.text,
+                                   self.googleMapsString,
+                                   userLatitude,
+                                   userLongitude];
         
-        //NSString *googleMapsString = [[NSString alloc] initWithFormat:@"http://maps.google.com/maps?f=q&hl=em&q=%@,%@&ie=UTF8&z=16&iwloc=addr&om=1", userLatitude, userLongitude];
-        
-        
-        
-        
-        //NSString *messageString = [NSString stringWithFormat:@"Im within the vicinity of:\n%@\n\nShow in Maps:\n%@\n\nLatitude: %@\nLongitude: %@", locationAddressLabel.text, googleMapsString, userLatitude, userLongitude];
-        NSString *messageString = [[NSString alloc] initWithFormat:@"Im within the vicinity of:\n%@\n\nShow in Maps:\n%@\n\nLatitude: %@\nLongitude: %@", locationAddressLabel.text, self.googleMapsString, userLatitude, userLongitude];
-        
-        //[messageComposeViewController setBody:[NSString stringWithFormat:@"%@ %@",kSMS_MESSAGE_TEXT, messageString]];
-        NSString *completeString = [[NSString alloc] initWithFormat:@"%@ %@",kSMS_MESSAGE_TEXT, messageString];
+        NSString *completeString = [[NSString alloc]
+                                    initWithFormat:@"%@ %@",
+                                    kSMS_MESSAGE_TEXT,
+                                    messageString];
         
         [messageComposeViewController setBody:completeString];
 
         [self presentViewController:messageComposeViewController animated:YES completion:^{
-            NSLog(@"present message");
+            //NSLog(@"present message");
         }];
 
     } else
     {
-        NSLog(@"Cannot send text");
+        //NSLog(@"Cannot send text");
     }
 }
 
 -(void)messageContactAtIndex:(NSInteger)positionIndex
 {
-    
-    NSLog(@"Message button done");
-    
+    //NSLog(@"Message button done");
     MFMessageComposeViewController *messageComposeViewController = [[MFMessageComposeViewController alloc] init];
     messageComposeViewController.messageComposeDelegate = self;
+    
     if ([MFMessageComposeViewController canSendText]) {
         recipient = nil;
-        
         recipient = [[NSString alloc] initWithString:userNumber];
         
         //Recipient needs to be sent across also
         [messageComposeViewController setRecipients:@[recipient]];
+        NSString *messageString = [[NSString alloc]
+                                   initWithFormat:@"http://maps.google.com/maps?f=q&hl=em&q=%@,%@&ie=UTF8&z=16&iwloc=addr&om=1",
+                                   userLatitude,
+                                   userLongitude];
         
-        NSString *messageString = [[NSString alloc] initWithFormat:@"http://maps.google.com/maps?f=q&hl=em&q=%@,%@&ie=UTF8&z=16&iwloc=addr&om=1", userLatitude, userLongitude];
         [messageComposeViewController setBody:[NSString stringWithFormat:@"%@ %@",kSMS_MESSAGE_TEXT, messageString]]; 
 
         [self presentViewController:messageComposeViewController animated:NO completion:^{
-            //code
         }];
 
     }
@@ -208,39 +197,35 @@
     switch (result) {
         case MessageComposeResultCancelled:
             [SVProgressHUD showErrorWithStatus:@"Message cancelled"];
-            NSLog(@"Cancelled");
+            //NSLog(@"Cancelled");
             break;
         case MessageComposeResultSent:
             [SVProgressHUD showSuccessWithStatus:@"Message sent"];
-            NSLog(@"Sent");
+            //NSLog(@"Sent");
             break;
         case MessageComposeResultFailed:
             [SVProgressHUD showErrorWithStatus:@"Message failed"];
-            NSLog(@"Failed");
+            //NSLog(@"Failed");
             break;
         default:
             
             break;
     }
-    
     [controller dismissViewControllerAnimated:YES completion:^{
-        NSLog(@"Message view dismissed");
+        //NSLog(@"Message view dismissed");
         [self dismissViewControllerAnimated:NO completion:^{
             [self dismissCallingView];
             AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
             [appDelegate callNextPerson];
         }];
-        
-        
     }];
-    
 }
 
 -(void)updateUserName:(NSString *)name andNumber:(NSString *)number
 {
     self.userName = name;
     self.userNumber = number;
-    NSLog(@"u:%@<<<%@",self.userName,self.userNumber);
+    //NSLog(@"u:%@<<<%@",self.userName,self.userNumber);
 
 }
 
@@ -248,9 +233,7 @@
 {
     self.userLatitude = latitude;
     self.userLongitude = longitude;
-    NSLog(@"u:%@<<<%@",self.userLatitude,self.userLongitude);
+    //NSLog(@"u:%@<<<%@",self.userLatitude,self.userLongitude);
 }
-
-
 
 @end

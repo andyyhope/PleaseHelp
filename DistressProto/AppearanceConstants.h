@@ -1,9 +1,9 @@
 //
-//  Header.h
-//  PhoneCycleTest
+//  AppearanceConstants
+//  Please Help
 //
-//  Created by Andyy Hope on 30/04/13.
-//  Copyright (c) 2013 Andyy Hope. All rights reserved.
+//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
+//  Copyright (c) 2013 ECU. All rights reserved.
 //
 
 #import "Appearance.h"
@@ -30,16 +30,12 @@
 #define kVIEW_SHADOW_OPACITY        0.5f
 #define kVIEW_SHADOW_OFFSET         CGSizeMake(0,0)
 
-//#define kCLEAR_BACKGROUND_COLOUR      [UIColor clearColor]
 
 #define kCELL_CORNER_RADIUS         3
+#define SCROLLVIEW_CONTENT_HEIGHT   510
 
 #define kSMS_MESSAGE_TEXT           @"I need help, could you please get in contact with me."
-//#define kSMS_MESSAGE_LINK           @"http://maps.google.com/maps?f=q&hl=em&q=-%@,%@&ie=UTF8&z=16&iwloc=addr&om=1"
-
 #define kHELP_MESSAGE_TEXT          @"I'm in the vicinity of %@\n\nLat:%@\nLong%@"
-
-#define SCROLLVIEW_CONTENT_HEIGHT   510
 
 #define kIMAGE_PLACEHOLDER          @"defaultProfile"
 #define kNAVIGATIONBAR_BACKGROUND   @"NavigationBarBG"
@@ -54,7 +50,11 @@
 #define kINCORRECT_ATTEMPTS_ALERT   @"Too many incorrect attempts have been entered.\n\n Please wait until you can try again."
 #define kTIME_INTERVAL_ATTEMPTS     10.0
 
+#define kALERT_VIEW_POLICE          1
+#define kALERT_VIEW_CONTACTS        2
+#define kALERT_VIEW_ERROR           3
+#define kMAPS_URL                   @"http://maps.apple.com/maps?q=%@,%@"
 
-
+#define kINSTRUCTION_SHOW_LIMIT     3
 
 

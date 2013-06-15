@@ -1,8 +1,8 @@
 //
 //  ContactAddViewController.h
-//  DistressProto
+//  Please Help
 //
-//  Created by Andyy Hope on 7/05/13.
+//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
 //
 
@@ -20,7 +20,6 @@
     UITextField *nameTextField;
     UITextField *phoneTextField;
     UITextField *relationTextField;
-    
 }
 
 @property (weak) id<ContactAddViewControllerDelegate> delegate;
@@ -34,7 +33,6 @@
 @end
 
 @protocol ContactAddViewControllerDelegate <NSObject>
-
 
 - (void)controller:(ContactAddViewController *)controller didSaveContactWithName:(NSString *)name andPhone:(NSString *)phone andRelation:(NSString *)relation andImage:(UIImage *)image;
 

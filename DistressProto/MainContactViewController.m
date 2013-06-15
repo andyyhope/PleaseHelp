@@ -1,17 +1,18 @@
 //
 //  MainContactViewController.m
-//  DistressProto
+//  Please Help
 //
-//  Created by Andyy Hope on 22/04/13.
-//  Copyright (c) 2013 Andyy Hope. All rights reserved.
+//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
+//  Copyright (c) 2013 ECU. All rights reserved.
 //
+
 #import "AppDelegate.h"
 #import "ContactsTableViewCell.h"
 #import "CallingViewController.h"
 #import "OptionViewController.h"
 #import "MainContactViewController.h"
 #import "ContactViewController.h"
-#import "PasscodeViewController.h"
+#import "PasscodeSettingsViewController.h"
 #import "SettingsViewController.h"
 #import "ContactItem.h"
 #import "SVProgressHUD.h"
@@ -19,7 +20,6 @@
 @interface MainContactViewController () 
 {
     int attempt;
-    //NSTimer *theTimer;
     NSString *message;
 }
 
@@ -72,7 +72,6 @@
     [settingsButton addTarget:self action:@selector(pushSettingsView) forControlEvents:UIControlEventTouchUpInside];
     settingsButton.frame = settingsButtonView.frame;
     
-
     UIImageView *settingsButtonImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:kSETTING_BUTTON]];
     settingsButtonImageView.frame = CGRectMake(5, 5, 20, 20);
     
@@ -80,8 +79,6 @@
     [settingsButtonView addSubview:settingsButtonImageView];
     
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingsButtonView];
-    
-    
     self.navigationItem.rightBarButtonItem = barButtonItem;
 }
 
@@ -123,14 +120,6 @@
 #pragma mark - Retrieve contacts
 -(void)retrieveContacts
 {
-    
-    /*NSString *filePath = [self pathForItems];
-    //NSLog(@"loading");
-    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-        self.items = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
-    } else {
-        self.items = [NSMutableArray array];
-    }*/
     AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate retrieveContacts];
     
@@ -140,7 +129,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
@@ -154,8 +142,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    //return [contacts count];
-//    return [self.items count];
     AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     return [appDelegate.contactsArray count];
     
@@ -173,12 +159,9 @@
         cell = [[ContactsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         
     }
-    
+    // Fetch Item
     AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     ContactItem *cellItem = [appDelegate.contactsArray objectAtIndex:[indexPath row]];
-
-    // Fetch Item
-   //ContactItem *cellItem = [self.items objectAtIndex:[indexPath row]];
     
     // Configure Cell
     cell.contactName.text = cellItem.name;
@@ -220,7 +203,6 @@
     locationHeaderLabel.shadowOffset = CGSizeMake(1, 1);
     locationHeaderLabel.backgroundColor = [UIColor clearColor];
     
-    
     locationAddressLabel.text = @"Loading...";
     locationAddressLabel.font = kLOCATION_TEXT_FONT;
     locationAddressLabel.textColor = kLOCATION_TEXT_FONT_COLOR;
@@ -232,14 +214,12 @@
     
     [tableHeaderView addSubview:locationHeaderLabel];
     [tableHeaderView addSubview:locationAddressLabel];
-    
-    
+        
     self.tableView.tableHeaderView = tableHeaderView;
     
     UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5)];
     tableFooterView.backgroundColor = [UIColor clearColor];
     self.tableView.tableFooterView = tableFooterView;
-    
 }
 
 - (void)updateLocationLabel
@@ -276,18 +256,15 @@
     if ([passCode isEqualToString:string]) {
         //User authorised
         [self displaySettingsController];
-        //[controller resetWithAnimation:KVPasscodeAnimationStyleNone];
         attempt = 0;
         [controller dismissViewControllerAnimated:YES completion:nil];
     }
     else
     {
         controller.instructionLabel.text = [NSString
-                                            stringWithFormat:NSLocalizedString(@"You entered: '%@'. Please try again.\n\n%@", @""), passCode, message];
+                                            stringWithFormat:@"You entered: '%@'. Please try again.\n\n%@", passCode, message];
         [controller resetWithAnimation:KVPasscodeAnimationStyleInvalid];
         attempt = attempt + 1;
-
-        //NSLog(@"attempts: %d", attempt);
         
         if (attempt >= 3) {
             controller.instructionLabel.text = message;
@@ -303,12 +280,10 @@
      [alertError show];
 }
 
-
 -(void)resetAttempt
 {
     attempt = 0;    
 }
-
 
 #pragma mark -
 #pragma mark Path to items.plist
@@ -319,7 +294,6 @@
     
     return [documents stringByAppendingPathComponent:@"items.plist"];
 }
-
 
 @end
 

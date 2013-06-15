@@ -2,14 +2,14 @@
 //  SettingsViewController.m
 //  Please Help
 //
-//  Created by Andyy Hope & Adrian Jurcevic on 7/05/13.
+//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
 //
 
 //Import the relavant Class Header files that are linked to this Class
 #import "SettingsViewController.h"
 #import "ContactViewController.h"
-#import "PasscodeViewController.h"
+#import "PasscodeSettingsViewController.h"
 #import "SVProgressHUD.h"
 
 #import "HMSegmentedControl.h"
@@ -18,7 +18,7 @@
 //Define the private variables for this class
 @interface SettingsViewController ()
 {
-    PasscodeViewController *passcodeViewController;
+    PasscodeSettingsViewController *passcodeViewController;
     ContactViewController *contactViewController;
     HMSegmentedControl *segmentedControl;
     
@@ -45,7 +45,7 @@
     
     //Initialise the two view controller classes - Contacts and Passcode
     contactViewController = [[ContactViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    passcodeViewController = [[PasscodeViewController alloc] init];
+    passcodeViewController = [[PasscodeSettingsViewController alloc] init];
     
     
     // Segmented Control

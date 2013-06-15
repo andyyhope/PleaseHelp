@@ -1,16 +1,16 @@
 //
 //  ContactsTableViewCell.m
-//  PhoneCycleTest
+//  Please Help
 //
-//  Created by Andyy Hope on 22/04/13.
-//  Copyright (c) 2013 Andyy Hope. All rights reserved.
+//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
+//  Copyright (c) 2013 ECU. All rights reserved.
 //
 
 #import "ContactsTableViewCell.h"
-//#import "AppearanceConstants.h"
 
 @implementation ContactsTableViewCell
-@synthesize contactName, contactRelation;
+@synthesize contactName;
+@synthesize contactRelation;
 @synthesize contactImage;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -24,11 +24,9 @@
         cellBackgroundView.backgroundColor = kCELL_BACKGROUND_COLOR;
         cellBackgroundView.layer.cornerRadius = kCELL_CORNER_RADIUS;
         
-        
         self.contactName = [[UILabel alloc] initWithFrame:CGRectMake(120, 20, 180, 60)];
         self.contactRelation = [[UILabel alloc] initWithFrame:CGRectMake(120, 70, 180, 30)];
         self.contactImage = [[UIImage alloc] init];
-        
         
         self.contactName.numberOfLines = 0;
         self.contactRelation.numberOfLines = 1;
@@ -45,13 +43,11 @@
         self.contactName.textColor = kCELL_HEADER_FONT_COLOR;
         self.contactRelation.textColor = kCELL_TEXT_FONT_COLOR;
         
-        
         self.accessoryType = UITableViewCellAccessoryNone;
         
         [self.contentView addSubview:cellBackgroundView];
         [self.contentView addSubview:self.contactName];
         [self.contentView addSubview:self.contactRelation];
-        //[self.contentView addSubview:contactImage];
     }
     return self;
 }
@@ -60,6 +56,7 @@
 {
     [super setSelected:selected animated:animated];
     
+    // Configure the view for the selected state
     if (self.isSelected == true)
     {
         cellBackgroundView.backgroundColor = [UIColor lightGrayColor];
@@ -67,8 +64,8 @@
     {
         cellBackgroundView.backgroundColor = [UIColor whiteColor];
     }
-    // Configure the view for the selected state
 }
+
 - (void)layoutSubviews
 {
     [super layoutSubviews];

@@ -1,9 +1,9 @@
 //
 //  ContactsTableViewCell.h
-//  PhoneCycleTest
+//  Please Help
 //
-//  Created by Andyy Hope on 22/04/13.
-//  Copyright (c) 2013 Andyy Hope. All rights reserved.
+//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
+//  Copyright (c) 2013 ECU. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -12,12 +12,13 @@
 @interface ContactsTableViewCell : UITableViewCell
 {
     UIView *cellBackgroundView;
-    
     UILabel *contactName;
     UILabel *contactRelation;
     UIImage *contactImage;
 }
+
 @property (nonatomic, retain) UILabel *contactName;
 @property (nonatomic, retain) UILabel *contactRelation;
 @property (nonatomic, retain) UIImage *contactImage;
+
 @end

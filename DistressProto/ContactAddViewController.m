@@ -1,8 +1,8 @@
 //
 //  ContactAddViewController.m
-//  DistressProto
+//  Please Help
 //
-//  Created by Andyy Hope on 7/05/13.
+//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
 //
 
@@ -13,26 +13,19 @@
 #import "SVProgressHUD.h"
 #import "ImportInstructionsViewController.h"
 
-#define     kINSTRUCTION_SHOW_LIMIT 3
-
 @interface ContactAddViewController ()
-<UIActionSheetDelegate, UIAlertViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, BSKeyboardControlsDelegate, ABPeoplePickerNavigationControllerDelegate>
+<UIActionSheetDelegate, UIAlertViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, BSKeyboardControlsDelegate, ABPeoplePickerNavigationControllerDelegate, UIAlertViewDelegate>
 {
     BSKeyboardControls *aKeyboardControls;
     ContactItem *contact;
     ContactEditViewController *contactEditViewController;
-    
     UIButton *addPhotoButton;
-    
     UIScrollView *scrollView;
-    
     UITextField *activeField;
     BOOL keyboardVisible;
     CGPoint offset;
     CGRect textFieldRect;
-    
     NSUserDefaults *defaults;
-    
 }
 
 //Import Contacts - AddressBookUI
@@ -59,7 +52,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         image = [[UIImage alloc] init];
-        
     }
     return self;
 }
@@ -68,13 +60,12 @@
 {
     [super viewDidLoad];
     
-    
-    
     defaults = [NSUserDefaults standardUserDefaults];
+    
     if(![defaults objectForKey:@"InstructionShowCount"])
     {
         [defaults setInteger:0 forKey:@"InstructionShowCount"];
-        NSLog(@"%i", [defaults integerForKey:@"InstructionShowCount"]);
+        //NSLog(@"%i", [defaults integerForKey:@"InstructionShowCount"]);
     }
     
     image = [UIImage imageNamed:kIMAGE_PLACEHOLDER];
@@ -155,12 +146,13 @@
     phoneTextField.delegate = self;
     relationTextField.delegate = self;
     
+    relationTextField.tag = 3;
+    
     // keyboard controls init
     NSArray *keyboardFields = @[self.nameTextField, self.phoneTextField, self.relationTextField];
     [self setKeyboardControls:[[BSKeyboardControls alloc] initWithFields:keyboardFields]];
     [self.keyboardControls setDelegate:self];
     [self setupNavBar];
-    
 }
 
 -(void)setupNavBar
@@ -188,7 +180,6 @@
                                                   otherButtonTitles:@"Import from Contacts", @"Create New", nil];
         sheet.tag = 200;
         [sheet showInView:self.view];
-
     }
 }
 
@@ -210,11 +201,10 @@
     // Setup content size
     scrollView.contentSize = CGSizeMake(self.view.frame.size.width,
                                         SCROLLVIEW_CONTENT_HEIGHT);
-    
     //Initially the keyboard is hidden
     keyboardVisible = NO;
-
 }
+
 -(void) viewWillDisappear:(BOOL)animated {
     // Unregister for keyboard events
     [[NSNotificationCenter defaultCenter]
@@ -222,11 +212,11 @@
 }
 
 -(void) keyboardDidShow: (NSNotification *)notif {
-    NSLog(@"Keyboard is visible");
+    //NSLog(@"Keyboard is visible");
 }
 
 -(void) keyboardDidHide: (NSNotification *)notif {
-    NSLog(@"KeyboardDidHide");
+    //NSLog(@"KeyboardDidHide");
     // Reset the frame scroll view to its original value
     scrollView.contentSize = CGSizeMake(self.view.frame.size.width, SCROLLVIEW_CONTENT_HEIGHT);
     
@@ -235,7 +225,6 @@
     
     // Keyboard is no longer visible
     keyboardVisible = NO;
-    
 }
 
 - (void)didReceiveMemoryWarning
@@ -246,19 +235,24 @@
 
 - (void)cancel
 {
-    NSLog(@"Dismissing view");
-
+    //NSLog(@"Dismissing view");
     [self dismissViewControllerAnimated:YES completion:^{
     }];
-    
 }
 
 #pragma mark - UITextfield Delegate
-
 -(BOOL) textFieldShouldBeginEditing:(UITextField*)textField {
     UIView *keyView = [[UIView alloc] initWithFrame:textField.frame];
     [self keyboardControls:aKeyboardControls selectedField:keyView inDirection:BSKeyboardControlsDirectionNext];
-    [self textFieldDidBeginEditing:textField];
+    
+    //Test
+    if (textField.tag == 3) {
+        
+    } else
+    {
+        [self textFieldDidBeginEditing:textField];
+        //NSLog(@"Not relation");
+    }
     return YES;
 }
 
@@ -272,7 +266,6 @@
     scrollView.contentSize = CGSizeMake(self.view.frame.size.width, SCROLLVIEW_CONTENT_HEIGHT + field.frame.origin.y);
     CGRect scrollRect = CGRectMake(0, field.frame.origin.y, 320, 380);
     [scrollView scrollRectToVisible:scrollRect animated:YES];
-
 }
 
 - (void)keyboardControlsDonePressed:(BSKeyboardControls *)keyboardControls
@@ -281,9 +274,7 @@
 }
 
 #pragma mark - Image Compression
-
 - (UIImage *)imageWithImage:(UIImage *)aImage scaledToSize:(CGSize)newSize {
-    //UIGraphicsBeginImageContext(newSize);
     UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
     [aImage drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -293,8 +284,8 @@
 
 - (void)save
 {
-    if (nameTextField.text == nil || [nameTextField.text isEqualToString:@""]
-        ) {
+    if (nameTextField.text == nil || [nameTextField.text isEqualToString:@""])
+    {
         UIAlertView *errorSaving = [[UIAlertView alloc]
                                     initWithTitle:@"Name Required"
                                     message:@"Please fill in the Name for the contact"
@@ -303,7 +294,8 @@
                                     otherButtonTitles: nil];
         errorSaving.tag = 300;
         [errorSaving show];
-    } else if (phoneTextField.text == nil || [phoneTextField.text isEqualToString:@""])
+    }
+    else if (phoneTextField.text == nil || [phoneTextField.text isEqualToString:@""])
     {
         UIAlertView *errorSaving = [[UIAlertView alloc]
                                     initWithTitle:@"Phone Number Required"
@@ -313,7 +305,8 @@
                                     otherButtonTitles: nil];
         errorSaving.tag = 300;
         [errorSaving show];
-    } else if(relationTextField.text == nil || [relationTextField.text isEqualToString:@""])
+    }
+    else if(relationTextField.text == nil || [relationTextField.text isEqualToString:@""])
     {
         UIAlertView *errorSaving = [[UIAlertView alloc]
                                     initWithTitle:@"Relation Required"
@@ -345,7 +338,6 @@
         capImage = self.contactImage;
     }
         
-        
     // Notify Delegate: name, phone, relation and image
     [self.delegate controller:self didSaveContactWithName:name andPhone:phone andRelation:relation andImage:capImage];
     
@@ -367,15 +359,13 @@
     [actionSheet showInView:self.view];
 }
 
-
-
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [picker dismissViewControllerAnimated:YES completion:nil];
     image = [self imageWithImage:[info objectForKey:@"UIImagePickerControllerOriginalImage"] scaledToSize:CGSizeMake(200, 200)];
 	imageView.image = image;
 }
-#pragma mark - UIActionSheet Delegate
 
+#pragma mark - UIActionSheet Delegate
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     UIImagePickerController * picker = [[UIImagePickerController alloc] init];
@@ -385,20 +375,20 @@
         
     // 0 = Take Photo
     if (buttonIndex == 0) {
-        NSLog(@"Take Photo");
+        //NSLog(@"Take Photo");
         picker.sourceType = UIImagePickerControllerSourceTypeCamera;
         [self presentViewController:picker animated:YES completion:nil];
     }
     // 1 = Choose From Library
     if (buttonIndex == 1) {
-        NSLog(@"Choose From Library");
+        //NSLog(@"Choose From Library");
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         [self presentViewController:picker animated:YES completion:nil];
         
     }
     // 2 = Cancel
     if (buttonIndex == 2) {
-        NSLog(@"Cancel");
+        //NSLog(@"Cancel");
     }
     }
 }
@@ -408,19 +398,15 @@
     if (buttonIndex == 0) {
         //Import Contact from address book button selected
         [self importContact];
-        
     }
     if (buttonIndex == 1) {
-        //Create New Contact button selected
-        //[self createNewContact];
+        //removes the Actionsheet but keeps the ContactAddViewController
     }
         if (buttonIndex == 2) {
             [self cancel];
         }
     }
 }
-
-
 
 -(void)importContact
 {
@@ -478,14 +464,12 @@
     
     UIImage *imageImport = [UIImage imageWithData:(__bridge NSData *)ABPersonCopyImageDataWithFormat (person, kABPersonImageFormatOriginalSize)];
     
-
     self.imageView.image = imageImport;
     self.contactImage = imageImport;
 
     [self importSaveContact];
     
     [_contacts dismissViewControllerAnimated:YES completion:^{
-        // code
     }];
     
 	return NO;
@@ -493,8 +477,8 @@
 
 // Implement this delegate method to make the Cancel button of the Address Book working.
 -(void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker{
-	[_contacts dismissViewControllerAnimated:YES completion:^{
-        // code
+    [peoplePicker dismissViewControllerAnimated:YES completion:^{
+        [self dismissView];
     }];
 }
 
@@ -515,7 +499,6 @@
     self.phoneTextField.text = phone;
     self.relationTextField.text = relation;
     self.imageView.image = imageSave;
-
 }
 
 - (NSString *)documentsPathForFileName:(NSString *)name

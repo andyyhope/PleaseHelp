@@ -1,8 +1,8 @@
 //
 //  ContactEditViewController.m
-//  DistressProto
+//  Please Help
 //
-//  Created by Andyy Hope on 7/05/13.
+//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
 //
 
@@ -43,7 +43,6 @@
         [self.relationTextField setText:[self.contact relation]];
         [self.imageView setImage:[self.contact image]];
     }
-    
 }
 
 #pragma mark Save an Edit
@@ -58,7 +57,8 @@
                                     cancelButtonTitle:@"OK"
                                     otherButtonTitles: nil];
         [errorSaving show];
-    } else if (phoneTextField.text == nil || [phoneTextField.text isEqualToString:@""])
+    }
+    else if (phoneTextField.text == nil || [phoneTextField.text isEqualToString:@""])
     {
         UIAlertView *errorSaving = [[UIAlertView alloc]
                                     initWithTitle:@"Phone Number Required"
@@ -67,7 +67,8 @@
                                     cancelButtonTitle:@"OK"
                                     otherButtonTitles: nil];
         [errorSaving show];
-    } else if(relationTextField.text == nil || [relationTextField.text isEqualToString:@""])
+    }
+    else if(relationTextField.text == nil || [relationTextField.text isEqualToString:@""])
     {
         UIAlertView *errorSaving = [[UIAlertView alloc]
                                     initWithTitle:@"Relation Required"
@@ -104,8 +105,10 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 - (void)dismissView
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 @end

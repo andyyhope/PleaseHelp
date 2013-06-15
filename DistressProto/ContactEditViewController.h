@@ -1,14 +1,13 @@
 //
 //  ContactEditViewController.h
-//  DistressProto
+//  Please Help
 //
-//  Created by Andyy Hope on 7/05/13.
+//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
 //
 
 #import "ContactAddViewController.h"
 #import "ContactItem.h"
-
 
 @class ContactItem;
 @protocol ContactEditViewControllerDelegate;
@@ -20,5 +19,7 @@
 @end
 
 @protocol ContactEditViewControllerDelegate <NSObject>
+
 - (void)controller:(ContactEditViewController *)controller didUpdateContact:(ContactItem *)contact;
+
 @end

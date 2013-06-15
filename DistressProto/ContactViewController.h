@@ -1,8 +1,8 @@
 //
 //  ContactViewController.h
-//  DistressProto
+//  Please Help
 //
-//  Created by Andyy Hope on 6/05/13.
+//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
 //
 

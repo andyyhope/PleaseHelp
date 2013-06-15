@@ -1,9 +1,10 @@
 //
 //  MainContactViewController.h
-//  DistressProto
+//  Please Help
 //
-//  Created by Andyy Hope on 22/04/13.
-//  Copyright (c) 2013 Andyy Hope. All rights reserved.
+//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
+//  Copyright (c) 2013 ECU. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
@@ -13,7 +14,6 @@
 {
     NSString *locationAddressString;
     UILabel *locationAddressLabel;
-    
     NSInteger cycleStartIndex;
     NSInteger cycleCurrentIndex;
 }

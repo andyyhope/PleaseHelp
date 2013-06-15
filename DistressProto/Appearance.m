@@ -1,17 +1,16 @@
 //
 //  Appearance.m
-//  DistressProto
+//  Please Help
 //
-//  Created by Andyy Hope on 11/05/13.
+//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
 //
 
 #import "Appearance.h"
-//#import "AppearanceConstants.h"
-
-//#import "AppDelegate.h"
+#import "AppearanceConstants.h"
 
 @implementation Appearance
+
 + (void)addStopButtonToView:(UIViewController *)viewController
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -28,6 +27,7 @@
     
     [viewController.view addSubview:button];
 }
+
 + (void)applySkinToSettingsButton:(UIButton *)button withTitle:(NSString *)title
 {
     button.backgroundColor = [UIColor whiteColor];
@@ -49,6 +49,7 @@
     label.numberOfLines = 0;
     label.textAlignment = NSTextAlignmentCenter;
 }
+
 + (void)applySkinToContactFrame:(UIView *)frame withName:(NSString *)name  relation:(NSString *)relation andImage:(UIImage *)image
 {
     frame.backgroundColor = [UIColor whiteColor];
@@ -122,8 +123,6 @@
     [frame addSubview:contactRelationLabel];
     [frame addSubview:contactImageView];
     [frame addSubview:contactNameLabel];
-    
-    
 }
 
 + (void)applySkinToTextField:(UITextField *)textField withPlaceHolderText:(NSString *)placeHolderText
@@ -136,6 +135,7 @@
     textField.layer.borderWidth = 1.0f;
     textField.placeholder = placeHolderText;
 }
+
 + (void)addBackButtonToViewController:(UIViewController *)viewController
 {
     UIView *backButtonView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
@@ -145,7 +145,6 @@
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [backButton addTarget:viewController action:@selector(dismissView) forControlEvents:UIControlEventTouchUpInside];
     backButton.frame = backButtonView.frame;
-    
 
     UIImageView *backButtonImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:kBACK_BUTTON]];
     backButtonImageView.frame = CGRectMake(5, 5, 20, 20);
@@ -154,7 +153,6 @@
     [backButtonView addSubview:backButtonImageView];
     
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButtonView];
-    
     
     viewController.navigationItem.leftBarButtonItem = barButtonItem;
 }
@@ -177,7 +175,6 @@
     
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:cancelButtonView];
     
-    
     viewController.navigationItem.leftBarButtonItem = barButtonItem;
 }
 
@@ -199,9 +196,9 @@
     
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:saveButtonView];
     
-    
     viewController.navigationItem.rightBarButtonItem = barButtonItem;
 }
+
 + (void)addSaveButtonToEditViewController:(UIViewController *)viewController
 {
     UIView *saveButtonView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
@@ -219,7 +216,6 @@
     [saveButtonView addSubview:saveButtonImageView];
     
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:saveButtonView];
-    
     
     viewController.navigationItem.rightBarButtonItem = barButtonItem;
 }
@@ -240,11 +236,11 @@
     if (![defaults boolForKey:@"PasscodeSet"]) // Settings are Unlocked
     {
         lockIcon = [UIImage imageNamed:@"unlockIconSmall"];
-    } else // Settings are Locked
+    } else 
     {
+        //Settings are Locked
         lockIcon = [UIImage imageNamed:@"lockIconSmall"];
     }
-    
     
     UIImageView *lockButtonImageView = [[UIImageView alloc] initWithImage:lockIcon];
     lockButtonImageView.frame = CGRectMake(5, 5, 20, 20);
@@ -254,7 +250,7 @@
     
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:lockButtonView];
     
-    
     viewController.navigationItem.rightBarButtonItem = barButtonItem;
 }
+
 @end

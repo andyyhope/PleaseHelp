@@ -4,20 +4,11 @@
 
 ##############################################
 
-
-
 Source Code
 - Tidy up all source code with correct spaces, indentations etc...
 - Enter comments for all methods
 - Remove uneccessary code
 
-
-
-OptionViewController
-
-- Changed maps.google.com to maps.apple.com so it will open apple maps on the iOS 6 testing devices, will need to decide how this should go.
-- - I dont see the point in this? Our final release will be Google maps (to work on all smartphones)
-- - - Ive added URL shortenning to the app. It lives inside AppDelegate getCurrentLocation;
 
 ##############################################
 

@@ -1,10 +1,11 @@
 //
 //  CallingViewController.m
-//  PhoneCycleTest
+//  Please Help
 //
-//  Created by Andyy Hope on 22/04/13.
-//  Copyright (c) 2013 Andyy Hope. All rights reserved.
+//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
+//  Copyright (c) 2013 ECU. All rights reserved.
 //
+
 #import "AppDelegate.h"
 #import "CallingViewController.h"
 
@@ -15,7 +16,8 @@
 @synthesize contactNameLabel;
 @synthesize contactNumber;
 @synthesize contactRelation;
-@synthesize locationAddressLabel, locationHeaderLabel;
+@synthesize locationAddressLabel;
+@synthesize  locationHeaderLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -53,11 +55,10 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 - (void) dismissCallingView
 {
-    NSLog(@"Called");
-    
-    
+    //NSLog(@"Called");
     [self dismissViewControllerAnimated:YES completion:^{
         AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         [appDelegate endCallCycle];
@@ -76,7 +77,6 @@
     contactButton.frame = contactFrame.frame;
     [contactButton addTarget:self action:@selector(contactButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:contactButton];
-    
 }
 
 - (void)updateContactImageWith:(UIImage *)newImage
@@ -92,4 +92,5 @@
     }];
     
 }
+
 @end
