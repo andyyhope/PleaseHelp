@@ -42,6 +42,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    // Load contacts
     [self loadContacts];
     
     // Setup the table
@@ -49,7 +50,6 @@
     [self.tableView setDataSource:self];
     [self createTableHeader];
     [self createTableFooter];
-    
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = kVIEW_BACKGROUND_COLOR;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -60,17 +60,21 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    // Update the Footer to show the right instruction message
     [self updateTableFooterString];
 }
 
 - (void)createTableHeader
 {
+    // Create a Table Header view 
     UIView *tableHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 60)];
     tableHeader.backgroundColor = [UIColor clearColor];
     
+    // Create Add and Organise Buttons
     addContactsButton = [UIButton buttonWithType:UIButtonTypeCustom];
     rearrangeContactsButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
+    // Size and Skin Add Button
     addContactsButton.frame = CGRectMake(10,
                                          10,
                                          self.view.frame.size.width / 2 - 15,
@@ -79,12 +83,12 @@
     [addContactsButton addTarget:self action:@selector(createContact) forControlEvents:UIControlEventTouchUpInside];
     [tableHeader addSubview:addContactsButton];
     
+    // Size and Skin Organise Buttons
     rearrangeContactsButton.frame = CGRectMake(addContactsButton.frame.size.width + addContactsButton.frame.origin.x + 10,
                                                10,
                                                self.view.frame.size.width / 2 - 15,
                                                50);
     [tableHeader addSubview:rearrangeContactsButton];
-
     [Appearance applySkinToSettingsButton:rearrangeContactsButton withTitle:@"ORGANISE"];
     [rearrangeContactsButton addTarget:self action:@selector(editItems) forControlEvents:UIControlEventTouchUpInside];
     
@@ -93,20 +97,29 @@
 
 - (void)createTableFooter {
 
+    // Create a Table Footer view
     UIView *tableFooter = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 100)];
     
+    // Create and Skin Footer Label
     footerNoteLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, self.view.frame.size.width - 20, 110)];
     [Appearance applySkinToLocationLabel:footerNoteLabel];
     
+    // Update the Footer to show the right instruction message
     [self updateTableFooterString];
     
     [tableFooter addSubview:footerNoteLabel];
+    // Assign Table Footer view to table footer
     self.tableView.tableFooterView = tableFooter;
 }
 
 - (void)updateTableFooterString
 {
     AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    // Table Footer Instruction Label
+    // If there are no Contacts - Tell them to add contacts
+    // Else if they are rearranging contacts - tell them how to, as well as how to delete
+    // Else - Tell them they can rearrange contacts
+    
     if ([appDelegate.contactsArray count] == 0) {
         footerNoteLabel.text = @"To add contacts to the app, press the 'ADD' button";
     } else if (isEditing)
@@ -141,6 +154,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // Table row height
     return 50;
 }
 
@@ -161,7 +175,7 @@
     [cell.detailTextLabel setText:[item phone]];
     [cell.imageView setImage:[UIImage imageNamed:@"transparentSquare.png"]];
 
-    // CBF subclassing UITableViewCell to round corners of thumbnail imae >_>
+    // Created a quick workaround for displaying contact image
     UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 40, 40)];
     imgView.backgroundColor=[UIColor clearColor];
     [imgView.layer setCornerRadius:kCELL_CORNER_RADIUS];
@@ -174,16 +188,19 @@
 }
 
 -(BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Enable user row rearrange
     return YES;
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+    // Update rows based on how they were rearranged
     NSString *item = [self.items objectAtIndex:fromIndexPath.row];
     [self.items removeObject:item];
     [self.items insertObject:item atIndex:toIndexPath.row];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Enable user to delete rows
     return YES;
 }
 
@@ -203,27 +220,45 @@
 #pragma mark - Table view delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // Deselect Row
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    // Create instance of selected Contact
     ContactItem *contact = [self.items objectAtIndex:[indexPath row]];
-        
+    
+    // Instantiate Edit Contact view
     ContactEditViewController *contactEditViewController = [[ContactEditViewController alloc] initWithContact:contact andDelegate:self];
     contactEditViewController.navigationItem.title = @"Edit Contact";
     
+    // Push Edit Contact View onto stack
     [self.parentViewController.navigationController pushViewController:contactEditViewController animated:YES];
 }
 
 -(void)createContact
 {
+    // Add Contact Button was pressed
+    // Create Instance of Add Contact View
     ContactAddViewController *contactAddViewController = [[ContactAddViewController alloc] init];
+    
+    // Create Navigatio Controller and place Add Contact view inside
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:contactAddViewController];
+    
+    // Set delegates
     [contactAddViewController setDelegate:self];
+    
+    // Set title
     contactAddViewController.navigationItem.title = @"Add Contact";
+    
+    // Push Add Contact view onto stack
     [self.parentViewController.navigationController presentViewController:navController animated:YES completion:^{
     }];
 }
 
-- (void)editItems{
+- (void)editItems
+{
+    // When Organise button is pressed, it changes its appearance to indicate that the user can revert the table back to normal
+    // If editing - Change button title to Organise
+    // Else - Change button title to "Save"
     if (isEditing)
     {
         [rearrangeContactsButton setTitle:@"ORGANISE" forState:UIControlStateNormal];
@@ -239,8 +274,13 @@
         [addContactsButton removeFromSuperview];
         isEditing = TRUE;
     }
+    // Update the Footer to show the right instruction message
     [self updateTableFooterString];
+    
+    // Revert Table back to normal mode
     [self.tableView setEditing:![self.tableView isEditing] animated:YES];
+    
+    // Update Contacts
     [self saveContacts];
 }
 
@@ -315,8 +355,8 @@
 
 - (void)updateContactsList
 {
+    // Update the Contacts
     AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-
     [appDelegate retrieveContacts];
 }
 

@@ -10,6 +10,7 @@
 #import "SettingsViewController.h"
 #import "ContactViewController.h"
 #import "PasscodeSettingsViewController.h"
+#import "VoiceViewController.h"
 #import "SVProgressHUD.h"
 
 #import "HMSegmentedControl.h"
@@ -20,6 +21,7 @@
 {
     PasscodeSettingsViewController *passcodeViewController;
     ContactViewController *contactViewController;
+    VoiceViewController *voiceViewController;
     HMSegmentedControl *segmentedControl;
     
     UIAlertView *alertView;
@@ -46,10 +48,11 @@
     //Initialise the two view controller classes - Contacts and Passcode
     contactViewController = [[ContactViewController alloc] initWithStyle:UITableViewStyleGrouped];
     passcodeViewController = [[PasscodeSettingsViewController alloc] init];
+    voiceViewController = [[VoiceViewController alloc] init];
     
     
     // Segmented Control
-    segmentedControl = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"Contacts", @"Passcode"]];
+    segmentedControl = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"Contacts", @"Passcode", @"Voice"]];
     segmentedControl.backgroundColor = kVIEW_ALT2_BACKGROUND_COLOR;
     [segmentedControl setSelectionStyle:HMSegmentedControlSelectionStyleFullWidthStrip];
     [segmentedControl setSelectionLocation:HMSegmentedControlSelectionLocationDown];
@@ -62,14 +65,15 @@
     [self.view addSubview:segmentedControl];
     
     //Set the size of these views so they fit within the bounds of the current SettingsViewController Class
-    passcodeViewController.view.frame = CGRectMake(320, 0, self.view.frame.size.width, self.view.frame.size.height - 40);
-    contactViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 40);
+    passcodeViewController.view.frame = CGRectMake(self.view.frame.size.width * 1, 0, self.view.frame.size.width, self.view.frame.size.height - 40);
+    contactViewController.view.frame = CGRectMake(self.view.frame.size.width * 0, 0, self.view.frame.size.width, self.view.frame.size.height - 40);
+    voiceViewController.view.frame = CGRectMake(self.view.frame.size.width * 2, 0, self.view.frame.size.width, self.view.frame.size.height - 40);
     
     // Create a view container for better UX
     viewContainer = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 40, self.view.frame.size.width, self.view.frame.size.height - 40)];
     viewContainer.scrollEnabled = false;
     viewContainer.backgroundColor = [UIColor clearColor];
-    viewContainer.contentSize = CGSizeMake(self.view.frame.size.width * 2, self.view.frame.size.height - 40);
+    viewContainer.contentSize = CGSizeMake(self.view.frame.size.width * 3, self.view.frame.size.height - 40);
     [self.view addSubview:viewContainer];
 	
     //Create Parent/Child relationship between these Classes
@@ -77,10 +81,13 @@
     [self addChildViewController:passcodeViewController];
     [contactViewController didMoveToParentViewController:self];
     [self addChildViewController:contactViewController];
+    [voiceViewController didMoveToParentViewController:self];
+    [self addChildViewController:voiceViewController];
     
     //Add the subviews to the Scroll view container
     [viewContainer addSubview:contactViewController.view];
     [viewContainer addSubview:passcodeViewController.view];
+    [viewContainer addSubview:voiceViewController.view];
     
     // Create Alert View to get user to set a passcode
     alertView = [[UIAlertView alloc] initWithTitle:@"Settings Unlocked" message:@"You haven't set a passcode for the settings panel.\n\nIt's highly recommended to set a passcode for the Settings panel." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Set Passcode", @"Proceed Anyway", nil];
@@ -107,7 +114,11 @@
     }
     else if (segmentedControl.selectedSegmentIndex == 1)
     {
-        [viewContainer setContentOffset:CGPointMake(320, 0) animated:YES];
+        [viewContainer setContentOffset:CGPointMake(self.view.frame.size.width * 1, 0) animated:YES];
+    }
+    else if (segmentedControl.selectedSegmentIndex == 2)
+    {
+        [viewContainer setContentOffset:CGPointMake(self.view.frame.size.width * 2, 0) animated:YES];
     }
 }
 

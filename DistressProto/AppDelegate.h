@@ -15,6 +15,9 @@
 #import <CoreLocation/CoreLocation.h>
 #import "ContactItem.h"
 #import "UrlShortener.h"
+#import "TextToSpeech.h"
+
+
 
 @class CallingViewController;
 @class OptionViewController;
@@ -22,11 +25,15 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, UIAlertViewDelegate, CLLocationManagerDelegate, UrlShortenerDelegate>
 {
+
+    
+    
     UINavigationController *navController;
     MainContactViewController *contactsViewController;
     CallingViewController *callingViewController;
     OptionViewController *optionViewController;
     ContactItem *contactItem;
+    TextToSpeech *textToSpeech;
     CTCallCenter *callCenter;
     NSMutableArray *contactsArray;
     NSDictionary *policeDictionary;
@@ -51,6 +58,7 @@
 @property (nonatomic, readwrite) NSInteger *testInt;
 @property (nonatomic, readonly) NSInteger currentIndex;
 @property (nonatomic, retain) NSMutableArray *contactsArray;
+
 
 //Methods defined here allow other classes to utilise them
 -(void)getCurrentLocation;

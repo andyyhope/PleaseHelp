@@ -183,9 +183,10 @@
     [defaults setBool:NO forKey:@"RecoverSet"];
     [defaults synchronize];
     
+    [SVProgressHUD showImage:[UIImage imageNamed:@"unlockIcon.png"] status:kCLEAR_PASSCODE];
     
     [self dismissViewControllerAnimated:YES completion:^{
-        [SVProgressHUD showImage:[UIImage imageNamed:@"unlockIcon.png"] status:kCLEAR_PASSCODE];
+        
     }];
 }
 

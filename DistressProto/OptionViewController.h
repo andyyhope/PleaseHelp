@@ -14,6 +14,7 @@
 @interface OptionViewController : UIViewController
 <MFMessageComposeViewControllerDelegate>
 {
+   
     UILabel *locationHeaderLabel;
     UILabel *locationAddressLabel;
     UILabel *textPersonLabel;

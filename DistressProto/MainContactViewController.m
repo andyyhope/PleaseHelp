@@ -43,14 +43,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // Setup Appearance
     attempt = 0;
     self.navigationItem.title = @"Please Help";
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = kVIEW_BACKGROUND_COLOR;
     
+    // Create a Settings button
     [self createSettingsButton];
     
-    // create table header
+    // Creatr Table Header
     [self createTableHeader];
     
 }
@@ -64,21 +67,28 @@
 
 - (void)createSettingsButton
 {
+    // Create Settings Button Box
     UIView *settingsButtonView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
     settingsButtonView.backgroundColor = kVIEW_FOREGROUND_COLOR;
     settingsButtonView.layer.cornerRadius = kCELL_CORNER_RADIUS;
     
+    // Create Settings Button
     UIButton *settingsButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [settingsButton addTarget:self action:@selector(pushSettingsView) forControlEvents:UIControlEventTouchUpInside];
     settingsButton.frame = settingsButtonView.frame;
     
+    // Create Settings Button Icon
     UIImageView *settingsButtonImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:kSETTING_BUTTON]];
     settingsButtonImageView.frame = CGRectMake(5, 5, 20, 20);
     
+    // Place Inside Box
     [settingsButtonView addSubview:settingsButton];
     [settingsButtonView addSubview:settingsButtonImageView];
     
+    // Turn Box into Button Item
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingsButtonView];
+    
+    // Place inside Navigation Bar
     self.navigationItem.rightBarButtonItem = barButtonItem;
 }
 
@@ -86,6 +96,8 @@
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
+    // If - no Passcode set, show Settings Panel
+    // Else - display Passcode Panel
     if (![defaults boolForKey:@"PasscodeSet"])
     {
         [self displaySettingsController];
@@ -97,20 +109,26 @@
 }
 
 -(void)displaySettingsController{
+    // Push Settings Panel onto view stack
     SettingsViewController *settingsViewController = [[SettingsViewController alloc]  init];
     [self.navigationController pushViewController:settingsViewController animated:YES];
 }
 
 -(void)enterPasscode
 {
+    // Get User Settings for Admin key
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setBool:NO forKey:@"Admin"];
     [defaults synchronize];
 
+    // Instantiate Passcode Panel
     KVPasscodeViewController *passcodeController = [[KVPasscodeViewController alloc] init];
     passcodeController.passDelegate = self;
+    
+    // Place it inside a Navigation Controller
     UINavigationController *passcodeNavigationController = [[UINavigationController alloc] initWithRootViewController:passcodeController];
     
+    // Present Passcode Panel
     [self presentViewController:passcodeNavigationController animated:YES completion:^{
         //code here
     }];
@@ -120,9 +138,9 @@
 #pragma mark - Retrieve contacts
 -(void)retrieveContacts
 {
+    // Get the Contacts from App Delegate
     AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate retrieveContacts];
-    
     [self.tableView reloadData];
 }
 
@@ -148,6 +166,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // Table Row Height
     return 120;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -167,6 +186,9 @@
     cell.contactName.text = cellItem.name;
     cell.contactRelation.text = cellItem.relation;
     
+    
+    // If - No Image for Contact, show default placeholder
+    // Else - Show the Contact's Image
     if (cellItem.image == nil)
     {
         cell.imageView.image = [UIImage imageNamed:kIMAGE_PLACEHOLDER];
@@ -175,6 +197,7 @@
     {
         cell.imageView.image = cellItem.image;
     }
+    
     return cell;
 }
 
@@ -182,19 +205,25 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // If row was pressed
+    // Start Call Cycle
     AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate startCallCycleAt:indexPath.row withAnimation:YES];
 }
 
 - (void)createTableHeader
 {
+    // Create Table Header View
     UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 100)];
     tableHeaderView.backgroundColor = [UIColor clearColor];
     
+    // Create Location Header Label
     UILabel *locationHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 25)];
     
+    // Create Location Label
     locationAddressLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, locationHeaderLabel.frame.size.height + locationHeaderLabel.bounds.origin.y, self.view.frame.size.width, 70)];
     
+    // Skin Location Header Label
     locationHeaderLabel.text = @"YOU ARE NEAR";
     locationHeaderLabel.font = kLOCATION_HEADER_FONT;
     locationHeaderLabel.textColor = kLOCATION_HEADER_FONT_COLOR;
@@ -203,6 +232,7 @@
     locationHeaderLabel.shadowOffset = CGSizeMake(1, 1);
     locationHeaderLabel.backgroundColor = [UIColor clearColor];
     
+    // Skin Location Label
     locationAddressLabel.text = @"Loading...";
     locationAddressLabel.font = kLOCATION_TEXT_FONT;
     locationAddressLabel.textColor = kLOCATION_TEXT_FONT_COLOR;
@@ -212,11 +242,14 @@
     locationAddressLabel.backgroundColor = [UIColor clearColor];
     locationAddressLabel.numberOfLines = 0;
     
+    // Place Labels inside view container
     [tableHeaderView addSubview:locationHeaderLabel];
     [tableHeaderView addSubview:locationAddressLabel];
-        
+    
+    // Make container view the Table Header
     self.tableView.tableHeaderView = tableHeaderView;
     
+    // Create a Table Footer to create a separation between last row and bottom of screen
     UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5)];
     tableFooterView.backgroundColor = [UIColor clearColor];
     self.tableView.tableFooterView = tableFooterView;

@@ -28,6 +28,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    // Skin View
     self.view.backgroundColor = kVIEW_BACKGROUND_COLOR;
 }
 
@@ -44,9 +45,9 @@
 -(void)setupButtons
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    UILabel *passcodeInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 300, 60)];
+    UILabel *passcodeInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 60)];
     
-    //Setup the Recovery Hint Button
+    //Setup and skin the Recovery Hint Button
     _recoveryButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [Appearance applySkinToSettingsButton:_recoveryButton withTitle:nil];
     _recoveryButton.frame = CGRectMake(10, 90, 300, 50);
@@ -75,7 +76,7 @@
     
     [_recoveryButton addTarget:self action:@selector(checkRecoveryHint) forControlEvents:UIControlEventTouchUpInside];
     
-    //Setup the Passcode Button
+    //Setup and skin the Passcode Button
     _passcodeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [Appearance applySkinToSettingsButton:_passcodeButton withTitle:nil];
     _passcodeButton.frame = CGRectMake(10, 10, 300, 50);
@@ -110,6 +111,7 @@
     [_passcodeButton addTarget:self action:@selector(setPasscode) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_passcodeButton];
 
+    // Update the Passcode Lock icon
     [Appearance updateSettingsLockedIconToViewController:self.parentViewController];
 }
 

@@ -48,6 +48,10 @@
 #pragma mark Save an Edit
 - (void)saveEdit:(id)sender {
     
+    // Data Validation
+    // If Name Text Field is empty - Show Alert
+    // Else If Phone Text Field is empty - Show Alert
+    // Else If Relation Text Field is empty - Show Alert
     if (nameTextField.text == nil || [nameTextField.text isEqualToString:@""]
         ) {
         UIAlertView *errorSaving = [[UIAlertView alloc]
@@ -81,16 +85,14 @@
     else
     {
     
-    NSString *name = [self.nameTextField text];
-    NSString *phone = [[self.phoneTextField text] stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSString *relation = [self.relationTextField text];
-    UIImage *imageEdit = [self.imageView image];
+        
+
     
     // Update Item
-    [self.contact setName:name];
-    [self.contact setPhone:phone];
-    [self.contact setRelation:relation];
-    [self.contact setImage:imageEdit];
+    [self.contact setName:[self.nameTextField text]];
+    [self.contact setPhone:[[self.phoneTextField text] stringByReplacingOccurrencesOfString:@" " withString:@""]]; // Remove White Spaces from phone number 
+    [self.contact setRelation:[self.relationTextField text]];
+    [self.contact setImage:[self.imageView image]];
     
     // Notify Delegate
     [self.delegate controller:self didUpdateContact:self.contact];

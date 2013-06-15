@@ -26,13 +26,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // Add a Back Button
     [Appearance addBackButtonToViewController:self];
     
+    // Set title
     self.title = @"Importing Instructions";
     
+    // Skin view
     [[self navigationController] setNavigationBarHidden:NO animated:YES];
 	self.view.backgroundColor = kVIEW_ALT2_BACKGROUND_COLOR;
     
+    // Create an instruction image and show it
     UIImageView *instructionsImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Instructions.png"]];
     instructionsImage.frame = CGRectMake(0, 0, 320, 415);
     [self.view addSubview:instructionsImage];
@@ -46,6 +51,7 @@
 
 - (void)dismissView
 {
+    // Pop view from stack
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
     }];
 }

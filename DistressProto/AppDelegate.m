@@ -21,34 +21,52 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Check for contacts in saved plist
-    
+
+    // Police Info Dictionary
     policeDictionary = [[NSDictionary alloc] initWithObjects:@[@"Police", @"131444", [UIImage imageNamed:@"PoliceImage.png"]]
                                                      forKeys:@[@"name", @"phone", @"image"]];
    
     
+    // Call Cycle Base Values
     currentIndex = 0;
     phoneHasEnteredBackground = false;
-        
+    
+    // Initialize Call Center
     callCenter = [[CTCallCenter alloc] init];
     
-    // Init location
+    // Initialize Location Objects
     locationManager = [[CLLocationManager alloc]init];
     geocoder = [[CLGeocoder alloc] init];
     [self getCurrentLocation];
     
+    // Initialize Views
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
     contactsViewController = [[MainContactViewController alloc] init];
-    
     navController = [[UINavigationController alloc] initWithRootViewController:contactsViewController];
     
+    // Update UIKit Appearance
     [self updateAppearanceOfUIKit];
+    
+    // Register Default Keys
+    NSDictionary *userDefaultsDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          [NSNumber numberWithBool:YES], @"TextToSpeechEnabled",
+                                          [NSNumber numberWithBool:NO], @"PasscodeSet",
+                                          [NSNumber numberWithBool:NO], @"RecoverSet",
+                                          @"", @"RecoverHint",
+                                          @"", @"Passcode",
+                                          [NSNumber numberWithBool:NO], @"Admin",
+                                          nil];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:userDefaultsDefaults];
+    
 
+    // Set up Window
     self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
     return YES;
 }
+
+
+
 #pragma Contact List
 
 -(void)retrieveContacts
@@ -87,6 +105,7 @@
 #pragma Alert View
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
+    // If there are no contacts set up, force the user to settings panel
     if (alertView.tag == kALERT_VIEW_CONTACTS)
     {
         if (buttonIndex == 0) {
@@ -98,7 +117,6 @@
 -(void)pushToSettings{
     // View is pushed to settings view
     [contactsViewController pushSettingsView];
-    //NSLog(@"Implement push to settings view");
 }
 
 #pragma DocumentDirectory
@@ -111,19 +129,23 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    NSLog(@"Will resign active");
+    NSLog(@"Application: Will resign active");
     [self callStateIdentifier];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    NSLog(@"did enter bg");
+    NSLog(@"Application: Did Enter Background");
     phoneHasEnteredBackground = true;
     [self callStateIdentifier];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
+    NSLog(@"Application: Will Enter Foreground");
+    
+    // If the phone is returning from a Phone Call and Call Cycle has started
+    // Show OptionViewController
     if (phoneHasEnteredBackground && userHasStartedCall) {
         phoneHasEnteredBackground = false;
         NSLog(@"Phone has just come back to view, with call cycle active");
@@ -132,14 +154,12 @@
         }];
     }
     
-    NSLog(@"Will enter foreground");
-    
     [self callStateIdentifier];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    NSLog(@"Did become active");
+    NSLog(@"Application: Did Become Active");
     [self callStateIdentifier];
     [self getCurrentLocation];
     
@@ -172,7 +192,7 @@
 #pragma LOCATION METHODS
 - (void) getCurrentLocation
 {
-    NSLog(@"AppDelegate: getCurrentLocation called");
+    NSLog(@"Location: Updating");
     locationManager.delegate = self;
     locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = true;
@@ -181,7 +201,8 @@
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-    NSLog(@"didFailWithError: %@", error);
+    NSLog(@"Location: Error Message - %@", error);
+    // Show an Error alert
     UIAlertView *errorAlert = [[UIAlertView alloc]
                                initWithTitle:@"Error" message:@"Failed to Get Your Location" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     errorAlert.tag = kALERT_VIEW_ERROR;
@@ -193,8 +214,8 @@
     
     CLLocation *currentLocation = newLocation;
     
-    // Reverse Geocoding
-    NSLog(@"Resolving the Address");
+    // Reverse Geocode the Lat/Long into an address 
+    NSLog(@"Location: Resolving the Address");
     [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         if (error == nil && [placemarks count] > 0) {
             placemark = [placemarks lastObject];
@@ -202,18 +223,23 @@
             NSString *subThoroughfare = @"";
             NSString *thoroughfare = @"";
             
+            // Stop the label from showing (null) when the application cannot find a nearby street
             if (placemark.subThoroughfare) {
                 subThoroughfare = [NSString stringWithFormat:@"%@", placemark.subThoroughfare];
             }
             
+            // Stop the label from showing (null) when the application cannot find a nearby street
             if (placemark.thoroughfare) {
                 thoroughfare = [NSString stringWithFormat:@"%@\n", placemark.thoroughfare];
             }
             
+            // Turn the Lat/Long into a readable address
             locationAddressString = [NSString stringWithFormat:@"%@ %@%@, %@\n%@",
                                      subThoroughfare, thoroughfare,
                                      placemark.locality, placemark.postalCode, 
                                      placemark.administrativeArea];
+            
+            // Update the view to show address
             contactsViewController.locationAddressString = locationAddressString;
             latitude = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
             longitude = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
@@ -221,9 +247,9 @@
             
             // Shorten URL
             UrlShortener *urlShortener = [[UrlShortener alloc] initWithDelegate:self];
-            
             [urlShortener shortenUrl:[[NSString alloc] initWithFormat:@"http://maps.apple.com/maps?q=%@,%@", latitude, longitude] withService:UrlShortenerServiceGoogle];
             
+            // Hide Activity Indicator
             [UIApplication sharedApplication].networkActivityIndicatorVisible = false;
         } else {
             NSLog(@"%@", error.debugDescription);
@@ -234,6 +260,7 @@
     
 
 }
+#pragma URL Shortening
 - (void)urlShortenerSucceededWithShortUrl:(NSString *)shortUrl
 {
     shortenedURL = shortUrl;
@@ -242,23 +269,20 @@
 {
     shortenedURL = [[NSString alloc] initWithFormat:kMAPS_URL, latitude, longitude];
 }
+
+#pragma Call Cycle
 - (void)startCallCycle:(BOOL)boolValue
 {
     userHasStartedCall = boolValue;
-    NSLog(@"startCallCycle");
-    NSLog(@"%d", currentIndex);
     [locationManager startUpdatingLocation];
 }
 
 -(void)startCallCycleAt:(NSInteger)startIndex withAnimation:(BOOL)animation
 {
-
-    contactItem = [contactsArray objectAtIndex:startIndex];
-
-    callingViewController = [[CallingViewController alloc] init];
-     NSLog(@"Start calling cycle\n locationaddressstring: %@", locationAddressString);
-    
+    // Update Calling View
     currentIndex = startIndex;
+    contactItem = [contactsArray objectAtIndex:startIndex];
+    callingViewController = [[CallingViewController alloc] init];
     callingViewController.contactName = contactItem.name;
     callingViewController.locationAddressLabel.text = locationAddressString;
     callingViewController.contactNumber = contactItem.phone;
@@ -267,55 +291,30 @@
     callingViewController.contactIndex = currentIndex;
     [callingViewController updateContactImageWith:contactItem.image];
     
+    // Push Calling View
     [contactsViewController presentViewController:callingViewController animated:animation completion:^{
-        //startingIndex = startIndex;
+        
+        // Text To Speech
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TextToSpeechEnabled"])
+        {
+            __block TextToSpeech *tts = [[TextToSpeech alloc] init];
+            [tts doYouWantToCall:contactItem.name];
+            
+        }
+        
+        // Show the Call dialog
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
                                                     [NSString stringWithFormat:@"telprompt:%@", contactItem.phone]]];
-        
+
     }];
 
 }
 
-- (void)callNextPerson
-{
-    NSLog(@"Current Index: %d, \ncontactsArray count: %d", currentIndex, [contactsArray count]);
-    
-    // Check all contacts have been cycled through
-    if ((currentIndex + 1) < [contactsArray count])
-    {
-        // Contacts remain in cycle.
-        NSLog(@"Still contacts left in cycle");
-        currentIndex++;
-        [self startCallCycleAt:currentIndex withAnimation:YES];
-        NSLog(@"%d", currentIndex);
-    } else {
-        // No contacts remaining
-        // Call the police
-        [self callPolice];
-        NSLog(@"Call the police");
-    }
-    
-}
-
--(void)callPolice
-{
-    UIAlertView *policeAlert = [[UIAlertView alloc]
-                               initWithTitle:@"Call Police"
-                               message:@"This feature has been disabled for the testing devices."
-                               delegate:self
-                               cancelButtonTitle:@"OK"
-                               otherButtonTitles: nil];
-    policeAlert.tag = kALERT_VIEW_POLICE;
-    [policeAlert show];
-}
-
 -(void)presentOptionViewWithIndex:(NSInteger)positionIndex
 {
-    //this gets called and then crashes
-    //because police data is not in the contactsArray 
     
+    // Update Option View
     contactItem = [contactsArray objectAtIndex:positionIndex];
-        
     optionViewController = [[OptionViewController alloc] init];
     optionViewController.contactName = contactItem.name;
     optionViewController.contactRelation = contactItem.relation;
@@ -328,28 +327,62 @@
     [optionViewController updateUserName:nameString andNumber:numberString];
     
     if (positionIndex + 1 < [contactsArray count])
-    { // Call cycle still running
+    { 
+        // Call cycle still running
+        // Show next contact
         ContactItem *nextContactItem = [contactsArray objectAtIndex:positionIndex + 1];
-
         optionViewController.nextContactName = nextContactItem.name;
         optionViewController.nextContactRelation = nextContactItem.relation;
         optionViewController.nextContactImage = nextContactItem.image;
         
     } else
-    { // End of call cycle
-        
+    { 
+        // End of call cycle
+        // Show Police option
         optionViewController.nextContactName = [policeDictionary objectForKey:@"name"];
         optionViewController.nextContactImage = [policeDictionary objectForKey:@"image"];
-
+        
     }
+    
+    // Present OptionView
     [contactsViewController presentViewController:optionViewController animated:NO completion:^{
-
     }];
 }
 
+- (void)callNextPerson
+{    
+    // Check all contacts have been cycled through
+    if ((currentIndex + 1) < [contactsArray count])
+    {
+        // Contacts remain in cycle.
+        currentIndex++;
+        [self startCallCycleAt:currentIndex withAnimation:YES];
+        NSLog(@"%d", currentIndex);
+    } else {
+        // No contacts remaining
+        // Call the police
+        [self callPolice];
+    }
+}
+
+-(void)callPolice
+{
+    // This feature will be added once WA Police have approved an appropriate number to call
+    UIAlertView *policeAlert = [[UIAlertView alloc]
+                               initWithTitle:@"Call Police"
+                               message:@"This feature has been disabled for the testing devices."
+                               delegate:self
+                               cancelButtonTitle:@"OK"
+                               otherButtonTitles: nil];
+    policeAlert.tag = kALERT_VIEW_POLICE;
+    [policeAlert show];
+}
+
+
+
 - (void)endCallCycle
 {
-    NSLog(@"Calling cycle has ended");
+    // Reset to base values
     userHasStartedCall = false;
     currentIndex = 0;
 }
