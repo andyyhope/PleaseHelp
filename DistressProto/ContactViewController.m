@@ -122,15 +122,15 @@
     // Else - Tell them they can rearrange contacts
     
     if ([self.items count] <= 0) {
-        footerNoteLabel.text = @"To add contacts to the app, press the 'ADD' button";
+        footerNoteLabel.text = @"To add contacts to the app, press the \n'Add Contact' button";
     }
     else if (isEditing)
     {
-        footerNoteLabel.text = @"Rearrange contacts by dragging the '≡' icon \n\nDelete contacts by pressing the '-' icon\n\nPress 'SAVE' when complete";
+        footerNoteLabel.text = @"Rearrange contacts by dragging the '≡' icon \n\nDelete contacts by pressing the '-' icon\n\nPress 'Save' when complete";
     }
     else
     {
-        footerNoteLabel.text = @"You can edit a contact's details by tapping on their name. \n\nTo delete or rearrange contacts, \npress the 'ORGANISE' button";
+        footerNoteLabel.text = @"You can edit a contact's details by tapping on their name. \n\nTo delete or rearrange contacts, \npress the 'Organise/Delete' button";
     }
 }
 
