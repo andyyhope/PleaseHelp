@@ -2,7 +2,7 @@
 //  OptionViewController.m
 //  Please Help
 //
-//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
+//  Created by Adrian Jurcevic & Andyy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
 //
 
@@ -10,7 +10,13 @@
 #import "SVProgressHUD.h" 
 #import "OptionViewController.h"
 #import "TextToSpeech.h"
+#import "Appearance.h"
+
+//Define the private variables for this class
 @interface OptionViewController ()
+{
+    TextToSpeech *textToSpeech;
+}
 
 @end
 
@@ -53,16 +59,10 @@
     // Setup Contact frames
     [self createContactFrame];
     [self createNextContactFrame];
-    
-    // Text To Speech
-    // NOT WORKING
-    TextToSpeech *textToSpeech = [[TextToSpeech alloc] init];
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TextToSpeechEnabled"])
-    {
-        NSLog(@"OPV: Text to speech enabled");
-        [textToSpeech optionWithContact:contactName andNextContact:nextContactName];
-        
-    }
+
+    //Initialise Text to Speech
+    textToSpeech = [[TextToSpeech alloc] init];
+    [textToSpeech optionWithContact:contactName andNextContact:nextContactName];
     
     // Setup Text Labels for Contact and Next Contact
     textPersonLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, self.view.frame.size.width, 30)];
@@ -80,9 +80,7 @@
     callNextLabel.textAlignment = NSTextAlignmentCenter;
     callNextLabel.backgroundColor = [UIColor clearColor];
     [self.view addSubview:callNextLabel];
-	
-    
-    
+        
     // Add Stop button to bottom of view
     [Appearance addStopButtonToView:self];
     
@@ -124,6 +122,7 @@
     [textButton addTarget:self action:@selector(messageContact) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:textButton];
 }
+
 - (void)createNextContactFrame
 {
     // Setup Next Contact frame
@@ -155,15 +154,20 @@
 
 - (void)messageContact
 {
-    //NSLog(@"Message button pressed");
+    //Initilise the message composer view
     MFMessageComposeViewController *messageComposeViewController = [[MFMessageComposeViewController alloc] init];
+    //Set delegate
     messageComposeViewController.messageComposeDelegate = self;
+    //Check if SMS Text can be sent from device
     if ([MFMessageComposeViewController canSendText]) {
+        //If enabled, clear the recipients
         recipient = nil;
-        
+    
+        //Add the recipient of the current contact user
         recipient = [[NSString alloc] initWithString:userNumber];
         [messageComposeViewController setRecipients:@[recipient]];
 
+        //Define the message for assistance to the recipient
         NSString *messageString = [[NSString alloc]
                                    initWithFormat:@"Im within the vicinity of:\n%@\n\nShow in Maps:\n%@\n\nLatitude: %@\nLongitude: %@",
                                    locationAddressLabel.text,
@@ -176,47 +180,24 @@
                                     kSMS_MESSAGE_TEXT,
                                     messageString];
         
+        //Add message defined into the body of the SMS Text
         [messageComposeViewController setBody:completeString];
-
+        //Initiate Text to Speech
+        [textToSpeech say:@"PRESS THE BLUE, SEND BUTTON TO TEXT MESSAGE"];
+        
+        //Present the SMS Message Composer View
         [self presentViewController:messageComposeViewController animated:YES completion:^{
-            //NSLog(@"present message");
+            
         }];
 
     } else
     {
-        //NSLog(@"Cannot send text");
+        //Display Error
+        [SVProgressHUD showErrorWithStatus:@"Cannot send Messages"];
     }
 }
 
--(void)messageContactAtIndex:(NSInteger)positionIndex
-{
-    // Instantiate Message UI View
-    MFMessageComposeViewController *messageComposeViewController = [[MFMessageComposeViewController alloc] init];
-    messageComposeViewController.messageComposeDelegate = self;
-    
-    // Check to see if Phone CAN send Text Messages
-    if ([MFMessageComposeViewController canSendText]) {
-        recipient = nil;
-        // Make the Recipient the Contact (phone number)
-        recipient = [[NSString alloc] initWithString:userNumber];
-        
-        //Set Recpient
-        [messageComposeViewController setRecipients:@[recipient]];
-        
-        // Set message Body for URL Shortenning
-        NSString *messageString = [[NSString alloc]
-                                   initWithFormat:@"http://maps.google.com/maps?f=q&hl=em&q=%@,%@&ie=UTF8&z=16&iwloc=addr&om=1",
-                                   userLatitude,
-                                   userLongitude];
-        // Set message Body
-        [messageComposeViewController setBody:[NSString stringWithFormat:@"%@ %@",kSMS_MESSAGE_TEXT, messageString]]; 
-
-        [self presentViewController:messageComposeViewController animated:NO completion:^{
-        }];
-
-    }
-}
-
+//A delegate method when initialising a message composer view
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
 {
     // Show HUD based on Message send status

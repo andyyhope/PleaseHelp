@@ -2,13 +2,14 @@
 //  CallingViewController.m
 //  Please Help
 //
-//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
+//  Created by Adrian Jurcevic & Andyy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
 //
 
 #import "AppDelegate.h"
 #import "CallingViewController.h"
 #import "TextToSpeech.h"
+#import "Appearance.h"
 
 @implementation CallingViewController
 @synthesize contactIndex;
@@ -41,12 +42,8 @@
 	self.view.backgroundColor = kLOCATION_HEADER_FONT_COLOR;
     
     // Text to speech
-    // NOT WORKING
-    TextToSpeech *textToSpeech = [[TextToSpeech alloc] init];
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TextToSpeechEnabled"])
-    {
-        [textToSpeech doYouWantToCall:contactName];
-    }
+    textToSpeech = [[TextToSpeech alloc] init];
+    [textToSpeech doYouWantToCall:contactName];
     
     // Add a Stop button to bottom of screen
     [Appearance addStopButtonToView:self];
@@ -54,10 +51,7 @@
     // Add a label for Location and skin it
     locationAddressLabel.frame = CGRectMake(0, self.view.frame.size.height - 160, self.view.frame.size.width, 100);
     [Appearance applySkinToLocationLabel:locationAddressLabel];
-    [self.view addSubview:locationAddressLabel];
-    
-    
-    
+    [self.view addSubview:locationAddressLabel];    
 }
 
 - (void)didReceiveMemoryWarning
@@ -104,7 +98,6 @@
         AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         [appDelegate startCallCycleAt:contactIndex withAnimation:NO];
     }];
-    
 }
 
 @end

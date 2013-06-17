@@ -301,6 +301,7 @@
 		3A96BE77172D19470092B2C4 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				D1B425FE176C4C76004BD388 /* TextToSpeech */,
 				D19133F3176AF6710087659E /* HMSegmentedControl */,
 				D12DA0271760E0FD0004EE92 /* UrlShortener */,
 				D1DFEEB317549B1B00FDF5A3 /* SVProgressHUD */,
@@ -367,7 +368,6 @@
 		3AA0FF55176C0E9B00A7A59D /* SourceCode */ = {
 			isa = PBXGroup;
 			children = (
-				D1B425FE176C4C76004BD388 /* TextToSpeech */,
 				3A96BE5C172D171E0092B2C4 /* AppDelegate.h */,
 				3A96BE5D172D171E0092B2C4 /* AppDelegate.m */,
 				3AA0FF56176C0EE700A7A59D /* Appearance */,

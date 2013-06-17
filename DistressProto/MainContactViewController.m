@@ -2,7 +2,7 @@
 //  MainContactViewController.m
 //  Please Help
 //
-//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
+//  Created by Adrian Jurcevic & Andyy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
 //
 
@@ -17,6 +17,7 @@
 #import "ContactItem.h"
 #import "SVProgressHUD.h"
 
+//Define the private variables and methods for this class
 @interface MainContactViewController () 
 {
     int attempt;
@@ -255,11 +256,13 @@
     self.tableView.tableFooterView = tableFooterView;
 }
 
+//Update the users current location text
 - (void)updateLocationLabel
 {
     locationAddressLabel.text = locationAddressString;
 }
 
+//Cycle through the contacts
 - (void) cycleContacts
 {
     AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -274,19 +277,21 @@
 }
 
 #pragma mark - KVPasscodeViewControllerDelegate
-
+//This method refers to when the user enters any passcode, validation occurs and next steps occur based on passcode being valid or not
 -(void)passcodeController:(KVPasscodeViewController *)controller passcodeEntered:(NSString *)passCode{
 
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *string = [defaults valueForKey:@"Passcode"];
     NSString *recoveryString = [defaults valueForKey:@"RecoveryHint"];
-    message = [[NSString alloc] initWithFormat:@"Your recovery hint is: %@", recoveryString];
+    message = [[NSString alloc] initWithFormat:@"Hint: %@", recoveryString];
 
-    if (recoveryString == nil) {
+    if (recoveryString == nil)
+    {
         message = kPASSCODE_NOT_SET;
     }
 
-    if ([passCode isEqualToString:string]) {
+    if ([passCode isEqualToString:string])
+    {
         //User authorised
         [self displaySettingsController];
         attempt = 0;
@@ -299,7 +304,8 @@
         [controller resetWithAnimation:KVPasscodeAnimationStyleInvalid];
         attempt = attempt + 1;
         
-        if (attempt >= 3) {
+        if (attempt >= 3)
+        {
             controller.instructionLabel.text = message;
             [self displayAttemptsAlert];
             [self performSelector:@selector(resetAttempt) withObject:nil afterDelay:kTIME_INTERVAL_ATTEMPTS];
@@ -307,12 +313,14 @@
     }
 }
 
+//Display an alert regarding how many incorrect attempts the user has had
 -(void)displayAttemptsAlert
 {
      UIAlertView *alertError = [[UIAlertView alloc] initWithTitle:nil message:kINCORRECT_ATTEMPTS_ALERT delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
      [alertError show];
 }
 
+//reset the number of attempts
 -(void)resetAttempt
 {
     attempt = 0;    
@@ -320,7 +328,7 @@
 
 #pragma mark -
 #pragma mark Path to items.plist
-
+//Define the path of the list of contacts, list of contacts for user are stored in the items.plist
 - (NSString *)pathForItems {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documents = [paths lastObject];
@@ -329,4 +337,3 @@
 }
 
 @end
-

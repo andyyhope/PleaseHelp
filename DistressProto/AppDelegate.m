@@ -2,7 +2,7 @@
 //  AppDelegate.m
 //  Please Help
 //
-//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
+//  Created by Adrian Jurcevic & Andyy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
 //
 
@@ -21,16 +21,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-
     // Police Info Dictionary
     policeDictionary = [[NSDictionary alloc] initWithObjects:@[@"Police", @"131444", [UIImage imageNamed:@"PoliceImage.png"]]
                                                      forKeys:@[@"name", @"phone", @"image"]];
-   
-    
     // Call Cycle Base Values
     currentIndex = 0;
     phoneHasEnteredBackground = false;
-    
+
     // Initialize Call Center
     callCenter = [[CTCallCenter alloc] init];
     
@@ -49,7 +46,7 @@
     
     // Register Default Keys
     NSDictionary *userDefaultsDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          [NSNumber numberWithBool:YES], @"TextToSpeechEnabled",
+                                          [NSNumber numberWithBool:NO], @"TextToSpeechEnabled",
                                           [NSNumber numberWithBool:NO], @"PasscodeSet",
                                           [NSNumber numberWithBool:NO], @"RecoverSet",
                                           @"", @"RecoverHint",
@@ -58,28 +55,33 @@
                                           nil];
     [[NSUserDefaults standardUserDefaults] registerDefaults:userDefaultsDefaults];
     
-
     // Set up Window
     self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
     return YES;
 }
 
-
-
 #pragma Contact List
-
+//This methods retrieves any contacts within the array to display on the main view
 -(void)retrieveContacts
 {
     NSString *filePath = [self pathForItems];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+    
+    //check if the file path exists, if so unarchive it to a local array
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath])
+    {
         contactsArray = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
         NSLog(@"count of objects: %d", [contactsArray count]);
-    } else {
+    }
+    else
+    // if not then initialise the local array
+    {
         contactsArray = [NSMutableArray array];
     }
     
-    if ([contactsArray count] == 0){
+    //Present an alert advising there is no contacts
+    if ([contactsArray count] == 0)
+    {
         UIAlertView *contactAlert = [[UIAlertView alloc]
                                      initWithTitle:@"Contacts Empty"
                                      message:@"This app requires a contact list to be defined before it can be used."
@@ -89,11 +91,9 @@
         contactAlert.tag = kALERT_VIEW_CONTACTS;
         [contactAlert show];
     }
-
 }
 
-
-
+//Define the path of the list of contacts, list of contacts for user are stored in the items.plist
 - (NSString *)pathForItems {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documents = [paths lastObject];
@@ -101,8 +101,8 @@
     return [documents stringByAppendingPathComponent:@"items.plist"];
 }
 
-
 #pragma Alert View
+//This method defines what actions the buttons in the alertview perform
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     // If there are no contacts set up, force the user to settings panel
@@ -121,7 +121,7 @@
 
 #pragma DocumentDirectory
 - (NSString *)documentsDirectory {
-    // Defines applications document path - NSDocumentDirectory
+    // Defines the applications document path - NSDocumentDirectory
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     return [paths lastObject];
 }
@@ -130,6 +130,7 @@
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     NSLog(@"Application: Will resign active");
+    //Perform the callStateIdentifier method
     [self callStateIdentifier];
 }
 
@@ -137,15 +138,14 @@
 {
     NSLog(@"Application: Did Enter Background");
     phoneHasEnteredBackground = true;
+    //Perform the callStateIdentifier method
     [self callStateIdentifier];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    NSLog(@"Application: Will Enter Foreground");
-    
     // If the phone is returning from a Phone Call and Call Cycle has started
-    // Show OptionViewController
+    // Dismiss the Calling View and show OptionViewController when the App enters foreground
     if (phoneHasEnteredBackground && userHasStartedCall) {
         phoneHasEnteredBackground = false;
         NSLog(@"Phone has just come back to view, with call cycle active");
@@ -153,20 +153,21 @@
             [self presentOptionViewWithIndex:currentIndex];
         }];
     }
-    
     [self callStateIdentifier];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     NSLog(@"Application: Did Become Active");
+    //Perform the callStateIdentifier method
     [self callStateIdentifier];
+    //Gather current location information
     [self getCurrentLocation];
-    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
+    
 }
 
 #pragma mark Calling Functions
@@ -187,7 +188,6 @@
         }
     }];
 }
-
 
 #pragma LOCATION METHODS
 - (void) getCurrentLocation
@@ -211,7 +211,6 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
-    
     CLLocation *currentLocation = newLocation;
     
     // Reverse Geocode the Lat/Long into an address 
@@ -257,9 +256,8 @@
     } ];
     
     [locationManager stopUpdatingLocation];
-    
-
 }
+
 #pragma URL Shortening
 - (void)urlShortenerSucceededWithShortUrl:(NSString *)shortUrl
 {
@@ -290,29 +288,18 @@
     callingViewController.contactRelation = contactItem.relation;
     callingViewController.contactIndex = currentIndex;
     [callingViewController updateContactImageWith:contactItem.image];
-    
+//    [textToSpeech doYouWantToCall:contactItem.name];
     // Push Calling View
     [contactsViewController presentViewController:callingViewController animated:animation completion:^{
-        
-        // Text To Speech
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TextToSpeechEnabled"])
-        {
-            __block TextToSpeech *tts = [[TextToSpeech alloc] init];
-            [tts doYouWantToCall:contactItem.name];
-            
-        }
-        
-        // Show the Call dialog
+
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
                                                     [NSString stringWithFormat:@"telprompt:%@", contactItem.phone]]];
-
     }];
-
 }
+
 
 -(void)presentOptionViewWithIndex:(NSInteger)positionIndex
 {
-    
     // Update Option View
     contactItem = [contactsArray objectAtIndex:positionIndex];
     optionViewController = [[OptionViewController alloc] init];
@@ -388,7 +375,6 @@
 }
 - (void)updateAppearanceOfUIKit
 {
-    
     // Navigation Bar Background Image
     [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:kNAVIGATIONBAR_BACKGROUND] forBarMetrics:UIBarMetricsDefault];
     
@@ -401,6 +387,9 @@
       [UIFont fontWithName:@"HelveticaNeue-CondensedBold" size:22], UITextAttributeFont,
       nil]];
     [[UIBarButtonItem appearance] setTintColor:kVIEW_ALT_BACKGROUND_COLOR];
+    
+    // Green tint for Sending Text
+    [[UINavigationBar appearanceWhenContainedIn:[MFMessageComposeViewController class], nil] setBackgroundImage:[UIImage imageNamed:kNAVIGATIONBAR_BACKGROUND] forBarMetrics:UIBarMetricsDefault];
 }
 
 @end

@@ -2,17 +2,20 @@
 //  ContactAddViewController.m
 //  Please Help
 //
-//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
+//  Created by Adrian Jurcevic & Andyy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
 //
 
+//Import the relavant Class Header files that are linked to this Class
 #import "ContactAddViewController.h"
 #import "ContactEditViewController.h"
 #import "BSKeyboardControls.h"
 #import "ContactItem.h"
 #import "SVProgressHUD.h"
 #import "ImportInstructionsViewController.h"
+#import "Appearance.h"
 
+//Define the private variables and methods for this class
 @interface ContactAddViewController ()
 <UIActionSheetDelegate, UIAlertViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, BSKeyboardControlsDelegate, ABPeoplePickerNavigationControllerDelegate, UIAlertViewDelegate>
 {
@@ -28,7 +31,6 @@
     NSUserDefaults *defaults;
 }
 
-//Import Contacts - AddressBookUI
 @property NSString *fullName;
 @property NSString *lastName;
 @property NSString *phoneNumber;
@@ -50,7 +52,9 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
+    if (self)
+    {
+        //Initilise UIImage variable
         image = [[UIImage alloc] init];
     }
     return self;
@@ -60,59 +64,75 @@
 {
     [super viewDidLoad];
     
+    //Initialise NSUserDefaults
     defaults = [NSUserDefaults standardUserDefaults];
     
+    //If there is no value for InstructionShowCount then set to 0
     if(![defaults objectForKey:@"InstructionShowCount"])
     {
         [defaults setInteger:0 forKey:@"InstructionShowCount"];
         //NSLog(@"%i", [defaults integerForKey:@"InstructionShowCount"]);
     }
     
+    //Set image to default image
     image = [UIImage imageNamed:kIMAGE_PLACEHOLDER];
+    
+    //Set background view to defined colour
     self.view.backgroundColor = kVIEW_BACKGROUND_COLOR;
-        
+    
+    //Create scrollview and add to the view
     scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height)];
     scrollView.contentSize = CGSizeMake(self.view.frame.size.width, SCROLLVIEW_CONTENT_HEIGHT);
     scrollView.showsHorizontalScrollIndicator = YES;
     [self.view addSubview:scrollView];
     
+    //Create each label
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 30, 260, 20)];
     UILabel *phoneLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 110, 260, 20)];
     UILabel *relationLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 190, 260, 20)];
     UILabel *photoLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 270, 260, 20)];
     
+    //Name Label Properties
     nameLabel.font = kLOCATION_TEXT_FONT;
     nameLabel.textColor = kVIEW_FOREGROUND_COLOR;
     nameLabel.backgroundColor = [UIColor clearColor];
     nameLabel.text = @"Name";
     
+    //Phone Label Properties
     phoneLabel.font = nameLabel.font;
     phoneLabel.textColor = nameLabel.textColor;
     phoneLabel.backgroundColor = nameLabel.backgroundColor;
     phoneLabel.text = @"Phone";
     
+    //Relationship Label Properties
     relationLabel.font = nameLabel.font;
     relationLabel.textColor = nameLabel.textColor;
     relationLabel.backgroundColor = nameLabel.backgroundColor;
     relationLabel.text = @"Relation";
     
+    //Photo Label Properties
     photoLabel.font = nameLabel.font;
     photoLabel.textColor = nameLabel.textColor;
     photoLabel.backgroundColor = nameLabel.backgroundColor;
     photoLabel.text = @"Photo";
     
+    //Add these labels to the Scrollview
     [scrollView addSubview:nameLabel];
     [scrollView addSubview:phoneLabel];
     [scrollView addSubview:relationLabel];
     [scrollView addSubview:photoLabel];
     
+    //This creates the button for the Photo Label 
     UIView *photoView = [[UIView alloc] initWithFrame:CGRectMake(30, 295, 260, 110)];
     photoView.backgroundColor = kVIEW_FOREGROUND_COLOR;
     photoView.layer.cornerRadius = kCELL_CORNER_RADIUS;
+    
+    //Create UIImageView for Photo button
     imageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 100, 100)];
     imageView.image = [UIImage imageNamed:kIMAGE_PLACEHOLDER];
     imageView.layer.cornerRadius = kCELL_CORNER_RADIUS;
     
+    //Create label for Photo button  
     UILabel *changeImageLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 0, 150, photoView.frame.size.height)];
     changeImageLabel.font = nameLabel.font;
     changeImageLabel.textColor = kCELL_HEADER_FONT_COLOR;
@@ -120,45 +140,62 @@
     changeImageLabel.text = @"Change Photo";
     changeImageLabel.textAlignment = NSTextAlignmentCenter;
 
+    //Add both UIImage and UILabel to UIView
     [photoView addSubview:changeImageLabel];
     [photoView addSubview:imageView];
     
+    //Add UIView to ScrollView
     [scrollView addSubview:photoView];
     
+    //Create button which performs an action when user selects the photo UIView
     UIButton *photoButton = [UIButton buttonWithType:UIButtonTypeCustom];
     photoButton.frame = photoView.frame;
     [photoButton addTarget:self action:@selector(addPhoto) forControlEvents:UIControlEventTouchUpInside];
     [scrollView addSubview:photoButton];
     
+    //Create the three textfields for user to input data
     nameTextField = [[UITextField alloc] initWithFrame:CGRectMake(30, 55, 260, 30)];
     phoneTextField = [[UITextField alloc] initWithFrame:CGRectMake(30, 135, 260, 30)];
     relationTextField = [[UITextField alloc] initWithFrame:CGRectMake(30, 215, 260, 30)];
 
+    //Apply the skin to text fields
     [Appearance applySkinToTextField:nameTextField withPlaceHolderText:@"Tap here to start typing"];
     [Appearance applySkinToTextField:phoneTextField withPlaceHolderText:@""];
     [Appearance applySkinToTextField:relationTextField withPlaceHolderText:@""];
+    
+    //Define the keyboard type for phone number
     [phoneTextField setKeyboardType:UIKeyboardTypePhonePad];
+    
+    //Add textfields to ScrollView
     [scrollView addSubview:nameTextField];
     [scrollView addSubview:phoneTextField];
     [scrollView addSubview:relationTextField];
     
+    //Set Delegates for each UITextfield
     nameTextField.delegate = self;
     phoneTextField.delegate = self;
     relationTextField.delegate = self;
     
+    //Define the tag number for relationship textfield
     relationTextField.tag = 3;
     
-    // keyboard controls init
+    //Keyboard controls init
     NSArray *keyboardFields = @[self.nameTextField, self.phoneTextField, self.relationTextField];
     [self setKeyboardControls:[[BSKeyboardControls alloc] initWithFields:keyboardFields]];
     [self.keyboardControls setDelegate:self];
+    
+    //Perform the setup nav bar method
     [self setupNavBar];
 }
 
+//Setup the navigation bar at the top for this view
 -(void)setupNavBar
 {
-    if ([self.navigationItem.title isEqualToString:@"Add Contact"]) {
-        // Nav Bar Init
+    //If function is adding a contact then it performs the following
+    if ([self.navigationItem.title isEqualToString:@"Add Contact"])
+    {
+        
+        //Create two buttons at the top (left and right side)
         UIBarButtonItem *saveButton = [[UIBarButtonItem alloc]
                                        initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                        target:self
@@ -170,20 +207,24 @@
         self.navigationItem.leftBarButtonItem = cancelButton;
         self.navigationItem.rightBarButtonItem = saveButton;
         
+        //Change the appearance to icons
         [Appearance addCancelButtonToViewController:self];
         [Appearance addSaveButtonToViewController:self];
-
+        
+        //Alert the user with an actionsheet regarding what they want to perform
         UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil
                                                            delegate:self
                                                   cancelButtonTitle:@"Cancel"
                                              destructiveButtonTitle:nil
                                                   otherButtonTitles:@"Import from Contacts", @"Create New", nil];
         sheet.tag = 200;
+        //show the actionsheet in the view
         [sheet showInView:self.view];
     }
 }
 
-- (void) viewWillAppear:(BOOL)animated {
+- (void) viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
 
     // Register for the events
@@ -205,17 +246,20 @@
     keyboardVisible = NO;
 }
 
--(void) viewWillDisappear:(BOOL)animated {
+-(void) viewWillDisappear:(BOOL)animated
+{
     // Unregister for keyboard events
     [[NSNotificationCenter defaultCenter]
      removeObserver:self];
 }
 
--(void) keyboardDidShow: (NSNotification *)notif {
+-(void) keyboardDidShow: (NSNotification *)notif
+{
     //NSLog(@"Keyboard is visible");
 }
 
--(void) keyboardDidHide: (NSNotification *)notif {
+-(void) keyboardDidHide: (NSNotification *)notif
+{
     //NSLog(@"KeyboardDidHide");
     // Reset the frame scroll view to its original value
     scrollView.contentSize = CGSizeMake(self.view.frame.size.width, SCROLLVIEW_CONTENT_HEIGHT);
@@ -235,32 +279,33 @@
 
 - (void)cancel
 {
-    //NSLog(@"Dismissing view");
+    //Remove view from the stack
     [self dismissViewControllerAnimated:YES completion:^{
     }];
 }
 
-#pragma mark - UITextfield Delegate
--(BOOL) textFieldShouldBeginEditing:(UITextField*)textField {
+#pragma mark - UITextField Delegate
+//This method is a UITextField delegate method for control of the keyboard when texting
+-(BOOL) textFieldShouldBeginEditing:(UITextField*)textField
+{
     UIView *keyView = [[UIView alloc] initWithFrame:textField.frame];
     [self keyboardControls:aKeyboardControls selectedField:keyView inDirection:BSKeyboardControlsDirectionNext];
-    
-    //Test
     if (textField.tag == 3) {
         
     } else
     {
         [self textFieldDidBeginEditing:textField];
-        //NSLog(@"Not relation");
     }
     return YES;
 }
 
+//Keyboard displays to the user
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     [self.keyboardControls setActiveField:textField];
 }
 
+//
 - (void)keyboardControls:(BSKeyboardControls *)keyboardControls selectedField:(UIView *)field inDirection:(BSKeyboardControlsDirection)direction
 {
     scrollView.contentSize = CGSizeMake(self.view.frame.size.width, SCROLLVIEW_CONTENT_HEIGHT + field.frame.origin.y);
@@ -268,13 +313,17 @@
     [scrollView scrollRectToVisible:scrollRect animated:YES];
 }
 
+//Keyboard is removed from view
 - (void)keyboardControlsDonePressed:(BSKeyboardControls *)keyboardControls
 {
     [keyboardControls.activeField resignFirstResponder];
 }
 
+
 #pragma mark - Image Compression
-- (UIImage *)imageWithImage:(UIImage *)aImage scaledToSize:(CGSize)newSize {
+//Image compression for large image files imported or photos taken
+- (UIImage *)imageWithImage:(UIImage *)aImage scaledToSize:(CGSize)newSize
+{
     UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
     [aImage drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -284,6 +333,12 @@
 
 - (void)save
 {
+    /*
+     Data Validation
+     If Name Text Field is empty - Show Alert
+     Else If Phone Text Field is empty - Show Alert
+     Else If Relation Text Field is empty - Show Alert
+     */
     if (nameTextField.text == nil || [nameTextField.text isEqualToString:@""])
     {
         UIAlertView *errorSaving = [[UIAlertView alloc]
@@ -319,16 +374,18 @@
     }
     else
     {
-    // Extract User Input
+    // Extract the data the user entered
     NSString *name = [nameTextField text];
     NSString *phone = [[phoneTextField text]stringByReplacingOccurrencesOfString:@" " withString:@""];
-        NSString *relation = [relationTextField text];
+    NSString *relation = [relationTextField text];
 
-    if (!self.contactImage) {
+    //Check if the image has been provided, if not use default image
+    if (!self.contactImage)
+    {
     NSData *jpgData = UIImageJPEGRepresentation(image, 1);
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsPath = [paths objectAtIndex:0]; //Get the docs directory
-    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"image.jpg"]; //Add the file name
+        NSString *filePath = [documentsPath stringByAppendingPathComponent:@"image.jpg"];
     [jpgData writeToFile:filePath atomically:YES]; //Write the file
     NSData *pData = [NSData dataWithContentsOfFile:filePath];
     capImage = [UIImage imageWithData:pData];
@@ -349,7 +406,9 @@
     }
 }
 
--(IBAction)addPhoto{
+//Provide user with UIalertview to add a new photo options
+-(IBAction)addPhoto
+{
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                              delegate:self
                                                     cancelButtonTitle:@"Cancel"
@@ -359,7 +418,9 @@
     [actionSheet showInView:self.view];
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+//ImagePickerController allows access to users phones Camera Roll to select image from library
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
     [picker dismissViewControllerAnimated:YES completion:nil];
     image = [self imageWithImage:[info objectForKey:@"UIImagePickerControllerOriginalImage"] scaledToSize:CGSizeMake(200, 200)];
 	imageView.image = image;
@@ -371,38 +432,47 @@
     UIImagePickerController * picker = [[UIImagePickerController alloc] init];
     
 	picker.delegate = self;
-    if (actionSheet.tag == 100) {
+    if (actionSheet.tag == 100)
+    {
         
     // 0 = Take Photo
-    if (buttonIndex == 0) {
+    if (buttonIndex == 0)
+    {
         //NSLog(@"Take Photo");
         picker.sourceType = UIImagePickerControllerSourceTypeCamera;
         [self presentViewController:picker animated:YES completion:nil];
     }
     // 1 = Choose From Library
-    if (buttonIndex == 1) {
+    if (buttonIndex == 1)
+    {
         //NSLog(@"Choose From Library");
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         [self presentViewController:picker animated:YES completion:nil];
         
     }
     // 2 = Cancel
-    if (buttonIndex == 2) {
+    if (buttonIndex == 2)
+    {
         //NSLog(@"Cancel");
     }
     }
 }
 
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (actionSheet.tag == 200) {
-    if (buttonIndex == 0) {
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (actionSheet.tag == 200)
+    {
+    if (buttonIndex == 0)
+    {
         //Import Contact from address book button selected
         [self importContact];
     }
-    if (buttonIndex == 1) {
+    if (buttonIndex == 1)
+    {
         //removes the Actionsheet but keeps the ContactAddViewController
     }
-        if (buttonIndex == 2) {
+        if (buttonIndex == 2)
+        {
             [self cancel];
         }
     }
@@ -422,7 +492,8 @@
     [self presentViewController:_contacts animated:YES completion:^{
     
         // Check to see if the Instructions has been shown less times than the Instruction Limit
-        if ([defaults integerForKey:@"InstructionShowCount"] < kINSTRUCTION_SHOW_LIMIT) {
+        if ([defaults integerForKey:@"InstructionShowCount"] < kINSTRUCTION_SHOW_LIMIT)
+        {
             
             // If it has been shown LESS times than the limit, present the instructions.
             // Else just show the Contact Picker View as normal
@@ -440,42 +511,52 @@
     }];
 }
 
+//Method to gather the information about the contact from the users address book
 -(BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier{
     
+    //Define the first and last name
     NSString *firstName = (__bridge NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
     NSString *lastName = (__bridge NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
     
+    //Concatenate first name and last name together
     NSString *fullName = @"";
-    if (firstName != nil) {
+    if (firstName != nil)
+    {
         fullName = [fullName stringByAppendingString:firstName];
     }
-    if (lastName != nil) {
+    if (lastName != nil)
+    {
         fullName = [fullName stringByAppendingString:@" "];
         fullName = [fullName stringByAppendingString:lastName];
     }
     
     self.fullName = fullName;
     
+    //Capture the number of the user
     CFTypeRef multivalue = ABRecordCopyValue(person, property);
     CFIndex index = ABMultiValueGetIndexForIdentifier(multivalue, identifier);
     NSString *phone = (__bridge NSString *)ABMultiValueCopyValueAtIndex(multivalue, index);
     
+    //Remove any spaces in the number
     self.phoneNumber = [phone stringByReplacingOccurrencesOfString:@" " withString:@""];
     
+    //Capture the image if any from the address book of the contact selected
     UIImage *imageImport = [UIImage imageWithData:(__bridge NSData *)ABPersonCopyImageDataWithFormat (person, kABPersonImageFormatOriginalSize)];
     
     self.imageView.image = imageImport;
     self.contactImage = imageImport;
-
+    
+    //perform the importSaveContact method
     [self importSaveContact];
     
+    //Dismiss the addressbook contact selection view
     [_contacts dismissViewControllerAnimated:YES completion:^{
     }];
     
 	return NO;
 }
 
-// Implement this delegate method to make the Cancel button of the Address Book working.
+// Implement this delegate method to make the Cancel button of the Address Book working
 -(void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker{
     [peoplePicker dismissViewControllerAnimated:YES completion:^{
         [self dismissView];
@@ -501,6 +582,7 @@
     self.imageView.image = imageSave;
 }
 
+//Define the location of the documents folder
 - (NSString *)documentsPathForFileName:(NSString *)name
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
@@ -509,6 +591,7 @@
     return [documentsPath stringByAppendingPathComponent:name];
 }
 
+//Dismiss the ContactAddViewController
 - (void)dismissView
 {
     [self.navigationController dismissViewControllerAnimated:YES completion:^{

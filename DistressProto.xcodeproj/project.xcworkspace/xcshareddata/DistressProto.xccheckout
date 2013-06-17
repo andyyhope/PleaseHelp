@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>AFBEB709-EC60-4BB1-B765-554738289B49</string>
+	<key>IDESourceControlProjectName</key>
+	<string>DistressProto</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>778346CF-6C9E-4517-A1CD-AE0D8E705544</key>
+		<string>https://bitbucket.org/agerage/appliedit.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>DistressProto.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>778346CF-6C9E-4517-A1CD-AE0D8E705544</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://bitbucket.org/agerage/appliedit.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>778346CF-6C9E-4517-A1CD-AE0D8E705544</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>778346CF-6C9E-4517-A1CD-AE0D8E705544</string>
+			<key>IDESourceControlWCCName</key>
+			<string>DistressProto</string>
+		</dict>
+	</array>
+</dict>
+</plist>

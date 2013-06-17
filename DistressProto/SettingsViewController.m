@@ -2,7 +2,7 @@
 //  SettingsViewController.m
 //  Please Help
 //
-//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
+//  Created by Adrian Jurcevic & Andyy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
 //
 
@@ -23,7 +23,6 @@
     ContactViewController *contactViewController;
     VoiceViewController *voiceViewController;
     HMSegmentedControl *segmentedControl;
-    
     UIAlertView *alertView;
     UIScrollView *viewContainer;
 }
@@ -50,8 +49,7 @@
     passcodeViewController = [[PasscodeSettingsViewController alloc] init];
     voiceViewController = [[VoiceViewController alloc] init];
     
-    
-    // Segmented Control
+    //Create the Segmented Controller
     segmentedControl = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"Contacts", @"Passcode", @"Voice"]];
     segmentedControl.backgroundColor = kVIEW_ALT2_BACKGROUND_COLOR;
     [segmentedControl setSelectionStyle:HMSegmentedControlSelectionStyleFullWidthStrip];
@@ -65,8 +63,8 @@
     [self.view addSubview:segmentedControl];
     
     //Set the size of these views so they fit within the bounds of the current SettingsViewController Class
-    passcodeViewController.view.frame = CGRectMake(self.view.frame.size.width * 1, 0, self.view.frame.size.width, self.view.frame.size.height - 40);
     contactViewController.view.frame = CGRectMake(self.view.frame.size.width * 0, 0, self.view.frame.size.width, self.view.frame.size.height - 40);
+    passcodeViewController.view.frame = CGRectMake(self.view.frame.size.width * 1, 0, self.view.frame.size.width, self.view.frame.size.height - 40);
     voiceViewController.view.frame = CGRectMake(self.view.frame.size.width * 2, 0, self.view.frame.size.width, self.view.frame.size.height - 40);
     
     // Create a view container for better UX
@@ -90,7 +88,12 @@
     [viewContainer addSubview:voiceViewController.view];
     
     // Create Alert View to get user to set a passcode
-    alertView = [[UIAlertView alloc] initWithTitle:@"Settings Unlocked" message:@"You haven't set a passcode for the settings panel.\n\nIt's highly recommended to set a passcode for the Settings panel." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Set Passcode", @"Proceed Anyway", nil];
+    alertView = [[UIAlertView alloc]
+                 initWithTitle:@"Settings Unlocked"
+                 message:kSETTINGS_ALERT_MSG
+                 delegate:self
+                 cancelButtonTitle:@"Ignore"
+                 otherButtonTitles:@"Set Passcode", nil];
     
     //Add the Custom back button to the settings view
     [Appearance addBackButtonToViewController:self];
@@ -108,6 +111,10 @@
 //This method defines the actions of the segmented control 
 -(void)segmentAction
 {
+    // Depending on what Segmented is selected. It will slide the corresponding view
+    // 00 - Contacts
+    // 01 - Passcode
+    // 02 - Voice
     if (segmentedControl.selectedSegmentIndex == 0)
     {
         [viewContainer setContentOffset:CGPointMake(0, 0) animated:YES];
@@ -125,7 +132,8 @@
 // This defines the action that the Custom Back button performs
 - (void)dismissView
 {
-    
+    // If there is no passcode set - prompt the user to set one before exiting the settings panel
+    // Else - pop the view
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"PasscodeSet"])
     {
         [alertView show];
@@ -135,21 +143,25 @@
     }
 }
 
+// Define the actions that will occur when user is told they have not set a passcode
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     switch (buttonIndex) {
-        case 2:
-            [self.navigationController popViewControllerAnimated:YES];
-            NSLog(@"00");
-            break;
+            // User chooses to set a passcode
+            // Show Passcode panel
         case 1:
-            NSLog(@"01");
             segmentedControl.selectedSegmentIndex = 1;
             [self segmentAction];
             break;
+            
+            // User chooses to ignore the warning
+            // Pop the view
         default:
+            [self.navigationController popViewControllerAnimated:YES];
+            break;
             break;
     }
 }
+
 
 @end

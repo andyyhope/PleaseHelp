@@ -4,17 +4,17 @@
 
 ##############################################
 
-Source Code
-- Tidy up all source code with correct spaces, indentations etc...
-- Enter comments for all methods
-- Remove uneccessary code
-
 
 ##############################################
 
     COMPLETED
     
 ##############################################
+
+Source Code
+- Tidy up all source code with correct spaces, indentations etc...
+- Enter comments for all methods
+- Remove uneccessary code
 
 All Views
 - Remove any reference for ios5 iphone versions. 

@@ -2,7 +2,7 @@
 //  Appearance.m
 //  Please Help
 //
-//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
+//  Created by Adrian Jurcevic & Andyy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
 //
 
@@ -87,8 +87,9 @@
     // Create an Icon representing an Action ie, Phone
     UIImageView *actionIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"callIcon.png"]];
     actionIcon.frame = CGRectMake(frame.frame.size.width - 40, frame.frame.size.height - 40, 30, 30);
-    [frame addSubview:actionIcon];
     
+    // Add these to the frame UIView
+    [frame addSubview:actionIcon];
     [frame addSubview:contactRelationLabel];
     [frame addSubview:contactImageView];
     [frame addSubview:contactNameLabel];
@@ -132,8 +133,9 @@
     // Create an Icon representing an Action ie, Phone
     UIImageView *actionIcon = [[UIImageView alloc] initWithImage:icon];
     actionIcon.frame = CGRectMake(frame.frame.size.width - 40, frame.frame.size.height - 40, 30, 30);
-    [frame addSubview:actionIcon];
     
+    // Add these to the frame UIView
+    [frame addSubview:actionIcon];
     [frame addSubview:contactRelationLabel];
     [frame addSubview:contactImageView];
     [frame addSubview:contactNameLabel];

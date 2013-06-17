@@ -2,8 +2,10 @@
 //  ContactsTableViewCell.h
 //  Please Help
 //
-//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
+//  Created by Adrian Jurcevic & Andyy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
+//
+//  This class file defines the visual construction of a single cell for the Contacts TableView for the MainContactViewController
 //
 
 #import <UIKit/UIKit.h>

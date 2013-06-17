@@ -38,39 +38,53 @@
 	}
 	return slt;
 }
+
+
 - (void)doYouWantToCall:(NSString *)contact
 {
-
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TextToSpeechEnabled"])
+    {
         [self.fliteController say:[NSString stringWithFormat:@"PRESS THE CALL BUTTON, TO PHONE, '%@'", contact] withVoice:self.slt];
-
+    }
     
 }
 - (void)nowCalling:(NSString *)contact
 {
-
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TextToSpeechEnabled"])
+    {
         [self.fliteController say:[NSString stringWithFormat:@"CALLING %@", contact] withVoice:self.slt];
-
+    }
     
 }
 - (void)optionWithContact:(NSString *)contact andNextContact:(NSString *)nextContact
 {
-
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TextToSpeechEnabled"])
+    {
         [self.fliteController say:[NSString stringWithFormat:@"DO YOU WANT TO TEXT MESSAGE, %@, OR CALL, %@", contact, nextContact] withVoice:self.slt];
-
+    }
     
 }
 - (void)textMessageSentTo:(NSString *)contact
 {
-
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TextToSpeechEnabled"])
+    {
         [self.fliteController say:[NSString stringWithFormat:@"TEXT MESSAGE, SENT TO, %@", contact] withVoice:self.slt];
-
+    }
     
 }
 
 -(void)textToSpeechEnabled
 {
     
-        [self.fliteController say:@"TEXT TO SPEECH, HAS BEEN ACTIVATED" withVoice:self.slt];
+        [self.fliteController say:@"VOICE ASSISTANCE, HAS BEEN ACTIVATED" withVoice:self.slt];
 
+}
+
+- (void)say:(NSString *)message
+{
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TextToSpeechEnabled"])
+    {
+        [self.fliteController say:message withVoice:self.slt];
+    }
 }
 @end

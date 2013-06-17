@@ -2,11 +2,11 @@
 //  AppDelegate.h
 //  Please Help
 //
-//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
+//  Created by Adrian Jurcevic & Andyy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
 //
+//  This is the intial class that runs for an iOS application
 //
-// ${PRODUCT_NAME}
 
 //Import the relavant Class Header files that are linked to this Class
 #import <UIKit/UIKit.h>
@@ -15,9 +15,6 @@
 #import <CoreLocation/CoreLocation.h>
 #import "ContactItem.h"
 #import "UrlShortener.h"
-#import "TextToSpeech.h"
-
-
 
 @class CallingViewController;
 @class OptionViewController;
@@ -25,15 +22,12 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, UIAlertViewDelegate, CLLocationManagerDelegate, UrlShortenerDelegate>
 {
-
-    
-    
+    //Define all the variables
     UINavigationController *navController;
     MainContactViewController *contactsViewController;
     CallingViewController *callingViewController;
     OptionViewController *optionViewController;
     ContactItem *contactItem;
-    TextToSpeech *textToSpeech;
     CTCallCenter *callCenter;
     NSMutableArray *contactsArray;
     NSDictionary *policeDictionary;

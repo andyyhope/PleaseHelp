@@ -2,10 +2,10 @@
 //  SettingsViewController.h
 //  Please Help
 //
-//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
+//  Created by Adrian Jurcevic & Andyy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
 //
-// This file contains the code which relates to the settings section.
+// This class file contains the code which relates to the settings section.
 // It will define how the views are controlled by switching between the Contacts and Passcode views.
 //
 

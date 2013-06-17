@@ -2,19 +2,20 @@
 //  OptionViewController.h
 //  Please Help
 //
-//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
+//  Created by Adrian Jurcevic & Andyy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
+//
+//  This class file defines the Option view when a user has finished or cancelled a call within a call cycle
+//  User is able to create a predefined SMS text message and then continue to call the next person in their pre-defined contacts list
 //
 
 #import <UIKit/UIKit.h>
-#import <QuartzCore/QuartzCore.h>
+//#import <QuartzCore/QuartzCore.h>
 #import <MessageUI/MessageUI.h>
-
 
 @interface OptionViewController : UIViewController
 <MFMessageComposeViewControllerDelegate>
 {
-   
     UILabel *locationHeaderLabel;
     UILabel *locationAddressLabel;
     UILabel *textPersonLabel;

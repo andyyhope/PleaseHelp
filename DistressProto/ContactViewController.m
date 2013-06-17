@@ -2,13 +2,15 @@
 //  ContactViewController.m
 //  Please Help
 //
-//  Created by Adrian Jurcevic & Anddy Hope on 28/04/13.
+//  Created by Adrian Jurcevic & Andyy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
 //
 
 #import "ContactViewController.h"
 #import "AppDelegate.h"
+#import "Appearance.h"
 
+//Define the private variables and methods for this class
 @interface ContactViewController () <UIActionSheetDelegate>
 {
     UILabel *footerNoteLabel;
@@ -79,7 +81,7 @@
                                          10,
                                          self.view.frame.size.width / 2 - 15,
                                          50);
-    [Appearance applySkinToSettingsButton:addContactsButton withTitle:@"ADD"];
+    [Appearance applySkinToSettingsButton:addContactsButton withTitle:@"Add Contact"];
     [addContactsButton addTarget:self action:@selector(createContact) forControlEvents:UIControlEventTouchUpInside];
     [tableHeader addSubview:addContactsButton];
     
@@ -89,7 +91,7 @@
                                                self.view.frame.size.width / 2 - 15,
                                                50);
     [tableHeader addSubview:rearrangeContactsButton];
-    [Appearance applySkinToSettingsButton:rearrangeContactsButton withTitle:@"ORGANISE"];
+    [Appearance applySkinToSettingsButton:rearrangeContactsButton withTitle:@"Organise / Delete"];
     [rearrangeContactsButton addTarget:self action:@selector(editItems) forControlEvents:UIControlEventTouchUpInside];
     
     self.tableView.tableHeaderView = tableHeader;
@@ -114,15 +116,15 @@
 
 - (void)updateTableFooterString
 {
-    AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     // Table Footer Instruction Label
     // If there are no Contacts - Tell them to add contacts
     // Else if they are rearranging contacts - tell them how to, as well as how to delete
     // Else - Tell them they can rearrange contacts
     
-    if ([appDelegate.contactsArray count] == 0) {
+    if ([self.items count] <= 0) {
         footerNoteLabel.text = @"To add contacts to the app, press the 'ADD' button";
-    } else if (isEditing)
+    }
+    else if (isEditing)
     {
         footerNoteLabel.text = @"Rearrange contacts by dragging the '≡' icon \n\nDelete contacts by pressing the '-' icon\n\nPress 'SAVE' when complete";
     }
@@ -261,25 +263,28 @@
     // Else - Change button title to "Save"
     if (isEditing)
     {
-        [rearrangeContactsButton setTitle:@"ORGANISE" forState:UIControlStateNormal];
+        [rearrangeContactsButton setTitle:@"Organise / Delete" forState:UIControlStateNormal];
         [rearrangeContactsButton setBackgroundColor:kVIEW_FOREGROUND_COLOR];
         [rearrangeContactsButton setTitleColor:kCELL_HEADER_FONT_COLOR forState:UIControlStateNormal];
         [self.view addSubview:addContactsButton];
         isEditing = FALSE;
     } else
     {
-        [rearrangeContactsButton setTitle:@"SAVE" forState:UIControlStateNormal];
+        [rearrangeContactsButton setTitle:@"Save" forState:UIControlStateNormal];
         [rearrangeContactsButton setBackgroundColor:kVIEW_ALT2_BACKGROUND_COLOR];
         [rearrangeContactsButton setTitleColor:kVIEW_FOREGROUND_COLOR forState:UIControlStateNormal];
+        
+        // Update the Footer to show the right instruction message
+        [self updateTableFooterString];
         [addContactsButton removeFromSuperview];
         isEditing = TRUE;
     }
-    // Update the Footer to show the right instruction message
-    [self updateTableFooterString];
-    
+
     // Revert Table back to normal mode
     [self.tableView setEditing:![self.tableView isEditing] animated:YES];
     
+    [self updateTableFooterString];
+
     // Update Contacts
     [self saveContacts];
 }
@@ -326,27 +331,41 @@
 
 #pragma mark -
 #pragma mark Loading
-- (void)loadContacts {
+- (void)loadContacts
+{
+    // Retrieve the path of the contacts
     NSString *filePath = [self pathForItems];
-    NSLog(@"loading");
-    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+    //NSLog(@"loading");
+    //check if the file path exists, if so unarchive it to a local array
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath])
+    {
         self.items = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
-    } else {
+    }
+    else
+    // if not then initialise the local array
+    {
         self.items = [NSMutableArray array];
     }
 }
 
-- (void)saveContacts {
+- (void)saveContacts
+{
+    // Retrieve the path of the contacts
     NSString *filePath = [self pathForItems];
+    
+    // Archive the contacts in mutablearray to the filepath
     [NSKeyedArchiver archiveRootObject:self.items toFile:filePath];
+    
     // Post Notification
-    // We need this for other views to use * remove comment later
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ContactListDidChangeNotification" object:self];
     
+    // Update the table footer string
     [self updateTableFooterString];
 }
 
-- (NSString *)pathForItems {
+- (NSString *)pathForItems
+{
+    // Define the path of the list of contacts, list of contacts for user are stored in the items.plist
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documents = [paths lastObject];
     
@@ -358,6 +377,7 @@
     // Update the Contacts
     AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate retrieveContacts];
+    
 }
 
 @end

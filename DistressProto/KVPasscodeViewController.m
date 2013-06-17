@@ -32,6 +32,7 @@
 #import "SVProgressHUD.h"
 #import <QuartzCore/QuartzCore.h>
 #import <AudioToolbox/AudioServices.h>
+#import "Appearance.h"
 
 @interface KVPasscodeViewController ()
 
