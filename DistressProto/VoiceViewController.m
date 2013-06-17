@@ -66,7 +66,7 @@
     
     // Create a warning label for Text To Speech
     warningLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 70, 300, 60)];
-    warningLabel.text = @"WARNING: Text To Speech can affect the phone's performance and response time.";
+    warningLabel.text = @"WARNING: Voice Assistance  can affect the phone's performance and response time.";
     [Appearance applySkinToLocationLabel:warningLabel];
     [scrollView addSubview:warningLabel];
     

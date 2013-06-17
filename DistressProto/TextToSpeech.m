@@ -42,49 +42,51 @@
 
 - (void)doYouWantToCall:(NSString *)contact
 {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TextToSpeechEnabled"])
-    {
-        [self.fliteController say:[NSString stringWithFormat:@"PRESS THE CALL BUTTON, TO PHONE, '%@'", contact] withVoice:self.slt];
-    }
+    // Perform Voice on new thread for performance optimization
+    NSString *speechString = [NSString stringWithFormat:@"PRESS THE CALL BUTTON, TO PHONE, '%@'", contact];
+    [NSThread detachNewThreadSelector:@selector(textToSpeech:) toTarget:self withObject:speechString];
     
 }
 - (void)nowCalling:(NSString *)contact
 {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TextToSpeechEnabled"])
-    {
-        [self.fliteController say:[NSString stringWithFormat:@"CALLING %@", contact] withVoice:self.slt];
-    }
+    // Perform Voice on new thread for performance optimization
+    NSString *speechString = [NSString stringWithFormat:@"CALLING %@", contact];
+    [NSThread detachNewThreadSelector:@selector(textToSpeech:) toTarget:self withObject:speechString];
     
 }
 - (void)optionWithContact:(NSString *)contact andNextContact:(NSString *)nextContact
 {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TextToSpeechEnabled"])
-    {
-        [self.fliteController say:[NSString stringWithFormat:@"DO YOU WANT TO TEXT MESSAGE, %@, OR CALL, %@", contact, nextContact] withVoice:self.slt];
-    }
+    // Perform Voice on new thread for performance optimization
+    NSString *speechString = [NSString stringWithFormat:@"DO YOU WANT TO TEXT MESSAGE, %@, OR CALL, %@", contact, nextContact];
+    [NSThread detachNewThreadSelector:@selector(textToSpeech:) toTarget:self withObject:speechString];
     
 }
 - (void)textMessageSentTo:(NSString *)contact
 {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TextToSpeechEnabled"])
-    {
-        [self.fliteController say:[NSString stringWithFormat:@"TEXT MESSAGE, SENT TO, %@", contact] withVoice:self.slt];
-    }
+    // Perform Voice on new thread for performance optimization
+    NSString *speechString = [NSString stringWithFormat:@"TEXT MESSAGE, SENT TO, %@", contact];
+    [NSThread detachNewThreadSelector:@selector(textToSpeech:) toTarget:self withObject:speechString];
     
 }
 
 -(void)textToSpeechEnabled
 {
-    
-        [self.fliteController say:@"VOICE ASSISTANCE, HAS BEEN ACTIVATED" withVoice:self.slt];
+    NSString *speechString = @"VOICE ASSISTANCE, HAS BEEN ACTIVATED";
+    [NSThread detachNewThreadSelector:@selector(textToSpeech:) toTarget:self withObject:speechString];
 
 }
 
 - (void)say:(NSString *)message
 {
+    // Perform Voice on new thread for performance optimization
+    [NSThread detachNewThreadSelector:@selector(textToSpeech:) toTarget:self withObject:message];
+}
+
+-(void)textToSpeech:(NSString *)wholeString
+{
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TextToSpeechEnabled"])
     {
-        [self.fliteController say:message withVoice:self.slt];
+        [self.fliteController say:wholeString withVoice:self.slt];
     }
 }
 @end
