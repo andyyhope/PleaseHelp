@@ -11,4 +11,5 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
+    #import "AppearanceConstants.h" //Added this to allow this class to be used by the entire project
 #endif

@@ -1,142 +1,127 @@
 //
 //  AppDelegate.m
-//  DistressProto
+//  Please Help
 //
-//  Created by Adrian Jurcevic on 28/04/13.
+//  Created by Adrian Jurcevic & Andyy Hope on 28/04/13.
 //  Copyright (c) 2013 ECU. All rights reserved.
 //
 
 #import "AppDelegate.h"
-
-#import "ContactItem.h"
-
 #import "MainContactViewController.h"
 #import "CallingViewController.h"
 #import "OptionViewController.h"
-
-//Constants
-#define kHELP_MESSAGE_TEXT @"I'm in the vicinity of %@\n\nLat:%@\nLong%@"
+#import "ContactItem.h"
 
 @implementation AppDelegate
 
 @synthesize userHasStartedCall, currentIndex;
+@synthesize contactsArray;
+@synthesize latitude, longitude;
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Check for contacts in saved plist
-    [self checkContactItems];
-    
-    contacts = @[@"0488544186", @"0421523454",@"0488544186", @"0421523454",@"0488544186", @"0421523454"];
-    contactsNames = @[@"Adrian Jurcevic", @"Andyy Hope", @"Marissa Mayer", @"Steve Jobs", @"Bill Gates", @"Steve Ballmer"];
-    contactsRelation = @[@"Father", @"Brother", @"Friend", @"Mother", @"Caretaker", @"Sister"];
-    contactsImages = @[[UIImage imageNamed:@"Contact01"],
-                       [UIImage imageNamed:@"Contact02"],
-                       [UIImage imageNamed:@"Contact03"],
-                       [UIImage imageNamed:@"Contact04"],
-                       [UIImage imageNamed:@"Contact05"],
-                       [UIImage imageNamed:@"Contact06"]];
-    
+    // Police Info Dictionary
+    policeDictionary = [[NSDictionary alloc] initWithObjects:@[@"Police", @"131444", [UIImage imageNamed:@"PoliceImage.png"]]
+                                                     forKeys:@[@"name", @"phone", @"image"]];
+    // Call Cycle Base Values
     currentIndex = 0;
     phoneHasEnteredBackground = false;
-    
+
+    // Initialize Call Center
     callCenter = [[CTCallCenter alloc] init];
     
-    // Init location
+    // Initialize Location Objects
     locationManager = [[CLLocationManager alloc]init];
     geocoder = [[CLGeocoder alloc] init];
     [self getCurrentLocation];
     
+    // Initialize Views
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
     contactsViewController = [[MainContactViewController alloc] init];
-    
-    contactsViewController.contacts = contacts;
-    contactsViewController.contactsNames = contactsNames;
-    contactsViewController.contactsRelation = contactsRelation;
-    contactsViewController.contactsImages = contactsImages;
-    
-    callingViewController = [[CallingViewController alloc] init];
-    optionViewController = [[OptionViewController alloc] init];
-    
     navController = [[UINavigationController alloc] initWithRootViewController:contactsViewController];
     
+    // Update UIKit Appearance
     [self updateAppearanceOfUIKit];
     
-    self.window.rootViewController = navController;
-    [self.window makeKeyAndVisible];
-    return YES;
-
+    // Register Default Keys
+    NSDictionary *userDefaultsDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          [NSNumber numberWithBool:NO], @"TextToSpeechEnabled",
+                                          [NSNumber numberWithBool:NO], @"PasscodeSet",
+                                          [NSNumber numberWithBool:NO], @"RecoverSet",
+                                          @"", @"RecoverHint",
+                                          @"", @"Passcode",
+                                          [NSNumber numberWithBool:NO], @"Admin",
+                                          nil];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:userDefaultsDefaults];
     
+    // Set up Window
+    self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
     return YES;
 }
 
 #pragma Contact List
-
--(void)checkContactItems{
-    NSLog(@"checking");
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    if ([ud boolForKey:@"UserDefaultContacts"]) { // change to NOT to make it only occur once
-        
-        // Initialise AlertView
-        UIAlertView *addContact = [[UIAlertView alloc]
-                                   initWithTitle:@"Contacts Empty"
-                                   message:@"In case of an emergency, contacts need to be set beforehand"
-                                   delegate:self
-                                   cancelButtonTitle:nil
-                                   otherButtonTitles:@"Add Contacts", nil];
-        [addContact show];
-        
-        // Load contacts from plist
-        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"contacts" ofType:@"plist"];
-        NSArray *contactItems = [NSArray arrayWithContentsOfFile:filePath];
-        NSLog(@"array: %@", contactItems);
-        
-        // Initiate items array
-        NSMutableArray *items = [NSMutableArray array];
-        
-        // Create list of items
-        for (int i = 0; i < [contactItems count]; i++) {
-            NSDictionary *dictionary = [contactItems objectAtIndex:i];
-            
-            // Create an item
-            // ContactItem *item = [ContactItem createUserWithName:[dictionary objectForKey:@"name"] andPhone:[dictionary objectForKey:@"phone"]];
-            // NSLog(@"items::%@",items);
-            ContactItem *item = [ContactItem createUserWithName:[dictionary objectForKey:@"name"] andPhone:[dictionary objectForKey:@"phone"] andImage:[dictionary objectForKey:@"image"]];
-            NSLog(@"item::%@",item);
-            
-            // Add item to array
-            [items addObject:item];
-            NSLog(@"items::%@",items);
-
-        }
-        
-        // Items directory path
-        NSString *itemsPath = [[self documentsDirectory] stringByAppendingPathComponent:@"items.plist"];
-        
-        // Write to file
-        if ([NSKeyedArchiver archiveRootObject:items toFile:itemsPath]) {
-            [ud setBool:YES forKey:@"UserDefaultContacts"];
-        }
+//This methods retrieves any contacts within the array to display on the main view
+-(void)retrieveContacts
+{
+    NSString *filePath = [self pathForItems];
+    
+    //check if the file path exists, if so unarchive it to a local array
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath])
+    {
+        contactsArray = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+        NSLog(@"count of objects: %d", [contactsArray count]);
+    }
+    else
+    // if not then initialise the local array
+    {
+        contactsArray = [NSMutableArray array];
+    }
+    
+    //Present an alert advising there is no contacts
+    if ([contactsArray count] == 0)
+    {
+        UIAlertView *contactAlert = [[UIAlertView alloc]
+                                     initWithTitle:@"Contacts Empty"
+                                     message:@"This app requires a contact list to be defined before it can be used."
+                                     delegate:self
+                                     cancelButtonTitle:nil
+                                     otherButtonTitles:@"Add Contacts", nil];
+        contactAlert.tag = kALERT_VIEW_CONTACTS;
+        [contactAlert show];
     }
 }
 
+//Define the path of the list of contacts, list of contacts for user are stored in the items.plist
+- (NSString *)pathForItems {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documents = [paths lastObject];
+    
+    return [documents stringByAppendingPathComponent:@"items.plist"];
+}
+
 #pragma Alert View
+//This method defines what actions the buttons in the alertview perform
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == 0) {
-        [self pushToSettings];
-    }
+    
+    // If there are no contacts set up, force the user to settings panel
+    if (alertView.tag == kALERT_VIEW_CONTACTS)
+    {
+        if (buttonIndex == 0) {
+            [self pushToSettings];
+        }
+    } 
 }
 
 -(void)pushToSettings{
     // View is pushed to settings view
     [contactsViewController pushSettingsView];
-    NSLog(@"Implement push to settings view");
 }
 
 #pragma DocumentDirectory
 - (NSString *)documentsDirectory {
-    // Defines applications document path - NSDocumentDirectory
+    // Defines the applications document path - NSDocumentDirectory
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     return [paths lastObject];
 }
@@ -144,19 +129,23 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    NSLog(@"Will resign active");
+    NSLog(@"Application: Will resign active");
+    //Perform the callStateIdentifier method
     [self callStateIdentifier];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    NSLog(@"did enter bg");
+    NSLog(@"Application: Did Enter Background");
     phoneHasEnteredBackground = true;
+    //Perform the callStateIdentifier method
     [self callStateIdentifier];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
+    // If the phone is returning from a Phone Call and Call Cycle has started
+    // Dismiss the Calling View and show OptionViewController when the App enters foreground
     if (phoneHasEnteredBackground && userHasStartedCall) {
         phoneHasEnteredBackground = false;
         NSLog(@"Phone has just come back to view, with call cycle active");
@@ -164,53 +153,24 @@
             [self presentOptionViewWithIndex:currentIndex];
         }];
     }
-    
-    NSLog(@"Will enter foreground");
-    
     [self callStateIdentifier];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    NSLog(@"Did become active");
+    NSLog(@"Application: Did Become Active");
+    //Perform the callStateIdentifier method
     [self callStateIdentifier];
+    //Gather current location information
+    [self getCurrentLocation];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
+    
 }
 
 #pragma mark Calling Functions
-
-- (void)ctCallStateDidChange:(NSNotification *)notification
-{
-    NSString *call = [[notification userInfo] objectForKey:@"callState"];
-    
-    
-    if ([call isEqualToString:CTCallStateDisconnected])
-    {
-        NSLog(@"Call has been disconnected");
-        
-    }
-    else if([call isEqualToString:CTCallStateDialing])
-    {
-        
-        NSLog(@"Call start");
-    }
-    else if ([call isEqualToString:CTCallStateConnected])
-    {
-        NSLog(@"Call has just been connected");
-    }
-    else if([call isEqualToString:CTCallStateIncoming])
-    {
-        NSLog(@"Call is incoming");
-    }
-    else
-    {
-        NSLog(@"None");
-    }
-}
-
 - (void)callStateIdentifier
 {
     __block id selfDelegate = self;
@@ -229,44 +189,67 @@
     }];
 }
 
-
 #pragma LOCATION METHODS
 - (void) getCurrentLocation
 {
-    NSLog(@"AppDelegate: getCurrentLocation called");
+    NSLog(@"Location: Updating");
     locationManager.delegate = self;
     locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = true;
     [locationManager startUpdatingLocation];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-    NSLog(@"didFailWithError: %@", error);
+    NSLog(@"Location: Error Message - %@", error);
+    // Show an Error alert
     UIAlertView *errorAlert = [[UIAlertView alloc]
                                initWithTitle:@"Error" message:@"Failed to Get Your Location" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    errorAlert.tag = kALERT_VIEW_ERROR;
     [errorAlert show];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
-    
     CLLocation *currentLocation = newLocation;
     
-    // Reverse Geocoding
-    NSLog(@"Resolving the Address");
+    // Reverse Geocode the Lat/Long into an address 
+    NSLog(@"Location: Resolving the Address");
     [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
-        NSLog(@"Found placemarks: %@, error: %@", placemarks, error);
         if (error == nil && [placemarks count] > 0) {
             placemark = [placemarks lastObject];
-            locationAddressString = [NSString stringWithFormat:@"%@ %@\n%@ %@\n%@\n%@",
-                                     placemark.subThoroughfare, placemark.thoroughfare,
-                                     placemark.postalCode, placemark.locality,
-                                     placemark.administrativeArea,
-                                     placemark.country];
+            
+            NSString *subThoroughfare = @"";
+            NSString *thoroughfare = @"";
+            
+            // Stop the label from showing (null) when the application cannot find a nearby street
+            if (placemark.subThoroughfare) {
+                subThoroughfare = [NSString stringWithFormat:@"%@", placemark.subThoroughfare];
+            }
+            
+            // Stop the label from showing (null) when the application cannot find a nearby street
+            if (placemark.thoroughfare) {
+                thoroughfare = [NSString stringWithFormat:@"%@\n", placemark.thoroughfare];
+            }
+            
+            // Turn the Lat/Long into a readable address
+            locationAddressString = [NSString stringWithFormat:@"%@ %@%@, %@\n%@",
+                                     subThoroughfare, thoroughfare,
+                                     placemark.locality, placemark.postalCode, 
+                                     placemark.administrativeArea];
+            
+            // Update the view to show address
             contactsViewController.locationAddressString = locationAddressString;
             latitude = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
             longitude = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
             [contactsViewController updateLocationLabel];
+            
+            // Shorten URL
+            UrlShortener *urlShortener = [[UrlShortener alloc] initWithDelegate:self];
+            [urlShortener shortenUrl:[[NSString alloc] initWithFormat:@"http://maps.apple.com/maps?q=%@,%@", latitude, longitude] withService:UrlShortenerServiceGoogle];
+            
+            // Hide Activity Indicator
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = false;
         } else {
             NSLog(@"%@", error.debugDescription);
         }
@@ -275,80 +258,135 @@
     [locationManager stopUpdatingLocation];
 }
 
+#pragma URL Shortening
+- (void)urlShortenerSucceededWithShortUrl:(NSString *)shortUrl
+{
+    shortenedURL = shortUrl;
+}
+- (void)urlShortenerFailedWithError:(NSError *)error
+{
+    shortenedURL = [[NSString alloc] initWithFormat:kMAPS_URL, latitude, longitude];
+}
+
+#pragma Call Cycle
 - (void)startCallCycle:(BOOL)boolValue
 {
     userHasStartedCall = boolValue;
-    NSLog(@"startCallCycle");
-    NSLog(@"%d", currentIndex);
+    [locationManager startUpdatingLocation];
 }
 
--(void)startCallCycleAt:(NSInteger)startIndex
+-(void)startCallCycleAt:(NSInteger)startIndex withAnimation:(BOOL)animation
 {
+    // Update Calling View
     currentIndex = startIndex;
-    callingViewController.contactNameLabel.text = [contactsNames objectAtIndex:startIndex];
-    callingViewController.contactImage = [contactsImages objectAtIndex:startIndex];
+    contactItem = [contactsArray objectAtIndex:startIndex];
+    callingViewController = [[CallingViewController alloc] init];
+    callingViewController.contactName = contactItem.name;
     callingViewController.locationAddressLabel.text = locationAddressString;
-    callingViewController.contactNumber = [contacts objectAtIndex:startIndex];
-    [callingViewController updateContactImageWith:[contactsImages objectAtIndex:startIndex]];
-    [contactsViewController presentViewController:callingViewController animated:YES completion:^{
-        //startingIndex = startIndex;
+    callingViewController.contactNumber = contactItem.phone;
+    callingViewController.contactImage = contactItem.image;
+    callingViewController.contactRelation = contactItem.relation;
+    callingViewController.contactIndex = currentIndex;
+    [callingViewController updateContactImageWith:contactItem.image];
+//    [textToSpeech doYouWantToCall:contactItem.name];
+    // Push Calling View
+    [contactsViewController presentViewController:callingViewController animated:animation completion:^{
+
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
-                                                    [NSString stringWithFormat:@"telprompt:%@", [contacts objectAtIndex:startIndex]]]];
+                                                    [NSString stringWithFormat:@"telprompt:%@", contactItem.phone]]];
+    }];
+}
+
+
+-(void)presentOptionViewWithIndex:(NSInteger)positionIndex
+{
+    // Update Option View
+    contactItem = [contactsArray objectAtIndex:positionIndex];
+    optionViewController = [[OptionViewController alloc] init];
+    optionViewController.contactName = contactItem.name;
+    optionViewController.contactRelation = contactItem.relation;
+    optionViewController.contactImage = contactItem.image;
+    optionViewController.locationAddressLabel.text = locationAddressString;
+    optionViewController.googleMapsString = shortenedURL;
+    NSString *nameString = [[NSString alloc] initWithFormat:@"%@",contactItem.name];
+    NSString *numberString = [[NSString alloc] initWithFormat:@"%@", contactItem.phone];
+    [optionViewController updateLat:self.latitude andLong:self.longitude];
+    [optionViewController updateUserName:nameString andNumber:numberString];
+    
+    if (positionIndex + 1 < [contactsArray count])
+    { 
+        // Call cycle still running
+        // Show next contact
+        ContactItem *nextContactItem = [contactsArray objectAtIndex:positionIndex + 1];
+        optionViewController.nextContactName = nextContactItem.name;
+        optionViewController.nextContactRelation = nextContactItem.relation;
+        optionViewController.nextContactImage = nextContactItem.image;
         
+    } else
+    { 
+        // End of call cycle
+        // Show Police option
+        optionViewController.nextContactName = [policeDictionary objectForKey:@"name"];
+        optionViewController.nextContactImage = [policeDictionary objectForKey:@"image"];
+        
+    }
+    
+    // Present OptionView
+    [contactsViewController presentViewController:optionViewController animated:NO completion:^{
     }];
 }
 
 - (void)callNextPerson
-{
+{    
     // Check all contacts have been cycled through
-    if (currentIndex < [contacts count])
+    if ((currentIndex + 1) < [contactsArray count])
     {
         // Contacts remain in cycle.
-        NSLog(@"Still contacts left in cycle");
         currentIndex++;
-        [self startCallCycleAt:currentIndex];
+        [self startCallCycleAt:currentIndex withAnimation:YES];
         NSLog(@"%d", currentIndex);
     } else {
         // No contacts remaining
         // Call the police
-        NSLog(@"Call the police");
+        [self callPolice];
     }
-    
 }
 
--(void)presentOptionViewWithIndex:(NSInteger)positionIndex
+-(void)callPolice
 {
-    optionViewController.contactNameLabel.text = [contactsNames objectAtIndex:positionIndex];
-    optionViewController.nextContactNameLabel.text = [contactsNames objectAtIndex:positionIndex + 1];
-    optionViewController.locationAddressLabel.text = locationAddressString;
-    
-    [optionViewController updateContactImageWith:[contactsImages objectAtIndex:positionIndex]
-                         andNextContactImageWith:[contactsImages objectAtIndex:positionIndex + 1]];
-    
-    [contactsViewController presentViewController:optionViewController animated:YES completion:^{
-        
-    }];
+    // This feature will be added once WA Police have approved an appropriate number to call
+    UIAlertView *policeAlert = [[UIAlertView alloc]
+                               initWithTitle:@"Call Police"
+                               message:@"This feature has been disabled for the testing devices."
+                               delegate:self
+                               cancelButtonTitle:@"OK"
+                               otherButtonTitles: nil];
+    policeAlert.tag = kALERT_VIEW_POLICE;
+    [policeAlert show];
 }
+
+
 
 - (void)endCallCycle
 {
-    NSLog(@"Calling cycle has ended");
+    // Reset to base values
     userHasStartedCall = false;
     currentIndex = 0;
 }
 - (void)updateAppearanceOfUIKit
 {
     // Navigation Bar Background Image
-    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"NavigationBarBG"] forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:kNAVIGATIONBAR_BACKGROUND] forBarMetrics:UIBarMetricsDefault];
     
     // Navigation Bar Text
     [[UINavigationBar appearance] setTitleTextAttributes:
      [NSDictionary dictionaryWithObjectsAndKeys:
       [UIColor whiteColor], UITextAttributeTextColor,
-      [UIColor colorWithWhite:0 alpha:0.5], UITextAttributeTextShadowColor,
-      [NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
       [UIFont fontWithName:@"HelveticaNeue-CondensedBold" size:22], UITextAttributeFont,
       nil]];
+    
+    // Green tint for Sending Text
+    [[UINavigationBar appearanceWhenContainedIn:[MFMessageComposeViewController class], nil] setBackgroundImage:[UIImage imageNamed:kNAVIGATIONBAR_BACKGROUND] forBarMetrics:UIBarMetricsDefault];
 }
 
 @end
