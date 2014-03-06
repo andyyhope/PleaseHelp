@@ -22,6 +22,7 @@
 {
     int attempt;
     NSString *message;
+    UIActivityIndicatorView *_activityIndicator;
 }
 
 @property NSMutableArray *items;
@@ -45,10 +46,13 @@
 {
     [super viewDidLoad];
     
+    [self setNeedsStatusBarAppearanceUpdate];
+    
     // Setup Appearance
     attempt = 0;
     self.navigationItem.title = @"Please Help";
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    self.tableView.separatorInset = UIEdgeInsetsZero;
     self.tableView.backgroundColor = kVIEW_BACKGROUND_COLOR;
     
     // Create a Settings button
@@ -68,27 +72,10 @@
 
 - (void)createSettingsButton
 {
-    // Create Settings Button Box
-    UIView *settingsButtonView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-    settingsButtonView.backgroundColor = kVIEW_FOREGROUND_COLOR;
-    settingsButtonView.layer.cornerRadius = kCELL_CORNER_RADIUS;
-    
-    // Create Settings Button
-    UIButton *settingsButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [settingsButton addTarget:self action:@selector(pushSettingsView) forControlEvents:UIControlEventTouchUpInside];
-    settingsButton.frame = settingsButtonView.frame;
-    
-    // Create Settings Button Icon
-    UIImageView *settingsButtonImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:kSETTING_BUTTON]];
-    settingsButtonImageView.frame = CGRectMake(5, 5, 20, 20);
-    
-    // Place Inside Box
-    [settingsButtonView addSubview:settingsButton];
-    [settingsButtonView addSubview:settingsButtonImageView];
     
     // Turn Box into Button Item
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingsButtonView];
-    
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:kSETTING_BUTTON] style:UIBarButtonItemStyleBordered target:self action:@selector(pushSettingsView)];
+    barButtonItem.tintColor = [UIColor whiteColor];
     // Place inside Navigation Bar
     self.navigationItem.rightBarButtonItem = barButtonItem;
 }
@@ -219,7 +206,7 @@
     tableHeaderView.backgroundColor = [UIColor clearColor];
     
     // Create Location Header Label
-    UILabel *locationHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 25)];
+    UILabel *locationHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, self.view.frame.size.width, 25)];
     
     // Create Location Label
     locationAddressLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, locationHeaderLabel.frame.size.height + locationHeaderLabel.bounds.origin.y, self.view.frame.size.width, 70)];
@@ -229,19 +216,23 @@
     locationHeaderLabel.font = kLOCATION_HEADER_FONT;
     locationHeaderLabel.textColor = kLOCATION_HEADER_FONT_COLOR;
     locationHeaderLabel.textAlignment = NSTextAlignmentCenter;
-    locationHeaderLabel.shadowColor = [UIColor colorWithWhite:255.0f alpha:0.2f];
-    locationHeaderLabel.shadowOffset = CGSizeMake(1, 1);
+//    locationHeaderLabel.shadowColor = [UIColor colorWithWhite:255.0f alpha:0.2f];
+//    locationHeaderLabel.shadowOffset = CGSizeMake(1, 1);
     locationHeaderLabel.backgroundColor = [UIColor clearColor];
     
     // Skin Location Label
-    locationAddressLabel.text = @"Loading...";
+    locationAddressLabel.text = @"";
     locationAddressLabel.font = kLOCATION_TEXT_FONT;
     locationAddressLabel.textColor = kLOCATION_TEXT_FONT_COLOR;
     locationAddressLabel.textAlignment = NSTextAlignmentCenter;
-    locationAddressLabel.shadowColor = [UIColor colorWithWhite:0.0f alpha:0.2f];
-    locationAddressLabel.shadowOffset = CGSizeMake(1, 1);
+//    locationAddressLabel.shadowColor = [UIColor colorWithWhite:0.0f alpha:0.2f];
+//    locationAddressLabel.shadowOffset = CGSizeMake(1, 1);
     locationAddressLabel.backgroundColor = [UIColor clearColor];
     locationAddressLabel.numberOfLines = 0;
+    
+    _activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:locationAddressLabel.frame];
+    [_activityIndicator startAnimating];
+    [tableHeaderView addSubview:_activityIndicator];
     
     // Place Labels inside view container
     [tableHeaderView addSubview:locationHeaderLabel];
@@ -259,7 +250,9 @@
 //Update the users current location text
 - (void)updateLocationLabel
 {
+    [_activityIndicator removeFromSuperview];
     locationAddressLabel.text = locationAddressString;
+    
 }
 
 //Cycle through the contacts
@@ -334,6 +327,10 @@
     NSString *documents = [paths lastObject];
     
     return [documents stringByAppendingPathComponent:@"items.plist"];
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
 }
 
 @end

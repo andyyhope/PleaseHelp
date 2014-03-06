@@ -33,6 +33,8 @@
 //This is the first method run in this class which is launched when the view loads.
 - (void)viewDidLoad
 {
+    [self setNeedsStatusBarAppearanceUpdate];
+    
     [super viewDidLoad];
 
     //Remove any ProgressHUD from view
@@ -161,6 +163,10 @@
             break;
             break;
     }
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
 }
 
 

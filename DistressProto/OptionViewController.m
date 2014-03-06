@@ -65,7 +65,7 @@
     [textToSpeech optionWithContact:contactName andNextContact:nextContactName];
     
     // Setup Text Labels for Contact and Next Contact
-    textPersonLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, self.view.frame.size.width, 30)];
+    textPersonLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5  + 20, self.view.frame.size.width, 30)];
     textPersonLabel.font = kLOCATION_HEADER_FONT;
     textPersonLabel.textColor = kVIEW_FOREGROUND_COLOR;
     textPersonLabel.text = @"TEXT MESSAGE";
@@ -73,7 +73,7 @@
     textPersonLabel.backgroundColor = [UIColor clearColor];
     [self.view addSubview:textPersonLabel];
     
-    callNextLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 155, self.view.frame.size.width, 30)];
+    callNextLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 155 + 20, self.view.frame.size.width, 30)];
     callNextLabel.font = kLOCATION_HEADER_FONT;
     callNextLabel.textColor = kVIEW_FOREGROUND_COLOR;
     callNextLabel.text = @"CALL NEXT PERSON";
@@ -109,7 +109,7 @@
 - (void)createContactFrame
 {
     // Setup Contact frame
-    UIView *contactFrame = [[UIView alloc] initWithFrame:CGRectMake(10, 35, self.view.frame.size.width - 20, 110)];
+    UIView *contactFrame = [[UIView alloc] initWithFrame:CGRectMake(10, 35 + 20, self.view.frame.size.width - 20, 110)];
     
     // Apply skin to Contact frame
     [Appearance applySkinToOptionsContactFrame:contactFrame withName:contactName relation:contactRelation image:contactImage andIcon:[UIImage imageNamed:@"smsIcon"]];
@@ -126,7 +126,7 @@
 - (void)createNextContactFrame
 {
     // Setup Next Contact frame
-    UIView *contactFrame = [[UIView alloc] initWithFrame:CGRectMake(10, 185, self.view.frame.size.width - 20, 110)];
+    UIView *contactFrame = [[UIView alloc] initWithFrame:CGRectMake(10, 185 + 20, self.view.frame.size.width - 20, 110)];
     
     // Apply skin to Next Contact frame
     [Appearance applySkinToOptionsContactFrame:contactFrame withName:nextContactName relation:nextContactRelation image:nextContactImage andIcon:[UIImage imageNamed:@"callIcon"]];
@@ -155,10 +155,17 @@
 - (void)messageContact
 {
     //Initilise the message composer view
+    [[UINavigationBar appearance] setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    NSDictionary *titleTextAttr = @{[UIColor greenColor]: NSForegroundColorAttributeName};
+    [[UINavigationBar appearance] setTitleTextAttributes:titleTextAttr];
     MFMessageComposeViewController *messageComposeViewController = [[MFMessageComposeViewController alloc] init];
+    
     //Set delegate
     messageComposeViewController.messageComposeDelegate = self;
+    
+    messageComposeViewController.navigationBar.tintColor = [UIColor redColor];
     //Check if SMS Text can be sent from device
+
     if ([MFMessageComposeViewController canSendText]) {
         //If enabled, clear the recipients
         recipient = nil;
@@ -222,7 +229,11 @@
             [self dismissCallingView];
             // Call Next Contact
             AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+
+
+//            [appDelegate updateAppearanceOfUIKit];
             [appDelegate callNextPerson];
+            
         }];
     }];
 }
@@ -239,6 +250,11 @@
     // Update Lat/Long
     self.userLatitude = latitude;
     self.userLongitude = longitude;
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
 }
 
 @end

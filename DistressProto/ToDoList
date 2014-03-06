@@ -5,6 +5,10 @@
 ##############################################
 
 
+- enable police calling
+
+
+
 ##############################################
 
     COMPLETED
@@ -26,6 +30,7 @@ Option View Controller
 - Message View is broken, i think it has something to do with the iOS Version #ifdef, cannot call [self ] methods from within
 - need to push the lat/long to this view controller to populate the pre-defined message correctly
 - need to push the number of the recipient and possibly the name for the message.
+- remove status bar from Option View
 
 App Delegate
 - Location string: where street name says "(null)", replace with empty string

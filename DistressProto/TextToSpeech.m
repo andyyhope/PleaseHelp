@@ -9,34 +9,14 @@
 #import "TextToSpeech.h"
 
 @implementation TextToSpeech
-@synthesize fliteController;
-@synthesize slt;
+
 -(id)init
 {
     if (self = [super init])
     {
-        
-        self.fliteController=[[FliteController alloc] init];
-        self.slt = [[Slt alloc] init];
-        
-        self.fliteController.duration_stretch = 1.1f;
+
     }
     return self;
-}
-
-
-- (FliteController *)fliteController {
-	if (fliteController == nil) {
-		fliteController = [[FliteController alloc] init];
-	}
-	return fliteController;
-}
-
-- (Slt *)slt {
-	if (slt == nil) {
-		slt = [[Slt alloc] init];
-	}
-	return slt;
 }
 
 
@@ -44,49 +24,48 @@
 {
     // Perform Voice on new thread for performance optimization
     NSString *speechString = [NSString stringWithFormat:@"PRESS THE CALL BUTTON, TO PHONE, '%@'", contact];
-    [NSThread detachNewThreadSelector:@selector(textToSpeech:) toTarget:self withObject:speechString];
-    
+    [self textToSpeech:speechString];
 }
 - (void)nowCalling:(NSString *)contact
 {
     // Perform Voice on new thread for performance optimization
     NSString *speechString = [NSString stringWithFormat:@"CALLING %@", contact];
-    [NSThread detachNewThreadSelector:@selector(textToSpeech:) toTarget:self withObject:speechString];
-    
+  [self textToSpeech:speechString];
 }
 - (void)optionWithContact:(NSString *)contact andNextContact:(NSString *)nextContact
 {
     // Perform Voice on new thread for performance optimization
     NSString *speechString = [NSString stringWithFormat:@"DO YOU WANT TO TEXT MESSAGE, %@, OR CALL, %@", contact, nextContact];
-    [NSThread detachNewThreadSelector:@selector(textToSpeech:) toTarget:self withObject:speechString];
-    
+    [self textToSpeech:speechString];
 }
 - (void)textMessageSentTo:(NSString *)contact
 {
     // Perform Voice on new thread for performance optimization
     NSString *speechString = [NSString stringWithFormat:@"TEXT MESSAGE, SENT TO, %@", contact];
-    [NSThread detachNewThreadSelector:@selector(textToSpeech:) toTarget:self withObject:speechString];
-    
+    [self textToSpeech:speechString];
 }
 
 -(void)textToSpeechEnabled
 {
     NSString *speechString = @"VOICE ASSISTANCE, HAS BEEN ACTIVATED";
-    [NSThread detachNewThreadSelector:@selector(textToSpeech:) toTarget:self withObject:speechString];
-
+    [self textToSpeech:speechString];
 }
 
 - (void)say:(NSString *)message
 {
     // Perform Voice on new thread for performance optimization
-    [NSThread detachNewThreadSelector:@selector(textToSpeech:) toTarget:self withObject:message];
+    [self textToSpeech:message];
 }
 
 -(void)textToSpeech:(NSString *)wholeString
 {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TextToSpeechEnabled"])
     {
-        [self.fliteController say:wholeString withVoice:self.slt];
+        AVSpeechSynthesizer *synthesizer = [[AVSpeechSynthesizer alloc]init];
+        AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:wholeString];
+        [utterance setRate:0.1f];
+        [synthesizer speakUtterance:utterance];
+
     }
 }
 @end

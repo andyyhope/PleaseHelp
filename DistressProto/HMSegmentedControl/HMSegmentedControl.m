@@ -201,7 +201,7 @@
         
         if (self.type == HMSegmentedControlTypeText) {
             for (NSString *titleString in self.sectionTitles) {
-                CGFloat stringWidth = [titleString sizeWithFont:self.font].width + self.segmentEdgeInset.left + self.segmentEdgeInset.right;
+                CGFloat stringWidth = [titleString sizeWithAttributes:@{NSFontAttributeName:self.font}].width + self.segmentEdgeInset.left + self.segmentEdgeInset.right;
                 self.segmentWidth = MAX(stringWidth, self.segmentWidth);
             }
             self.bounds = CGRectMake(0, 0, self.segmentWidth * self.sectionTitles.count, self.height);

@@ -7,20 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-
-#import <Slt/Slt.h>
-#import <OpenEars/FliteController.h>
+#import <AVFoundation/AVFoundation.h>
 
 @interface TextToSpeech : NSObject
 {
-
-    FliteController *fliteController;
-    Slt *slt;
     
 }
-
-@property (strong, nonatomic) FliteController *fliteController;
-@property (strong, nonatomic) Slt *slt;
 
 - (void)doYouWantToCall:(NSString *)contact;
 - (void)nowCalling:(NSString *)contact;

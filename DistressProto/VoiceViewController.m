@@ -60,8 +60,8 @@
     textToSpeechLabel.textColor = kCELL_HEADER_FONT_COLOR;
     
     // Create On/Off Switch
-    onOffSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(210, 11, 30, 30)];
-    [onOffSwitch addTarget:self action:@selector(toggleSpeach) forControlEvents:UIControlEventAllEvents];
+    onOffSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(textToSpeechView.frame.size.width - 60, 11, 30, 30)];
+    [onOffSwitch addTarget:self action:@selector(toggleSpeach) forControlEvents:UIControlEventValueChanged];
     [textToSpeechView addSubview:onOffSwitch];
     
     // Create a warning label for Text To Speech

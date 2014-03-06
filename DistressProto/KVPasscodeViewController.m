@@ -80,7 +80,7 @@
     
     // Do any additional setup after loading the view from its nib.
     self.navigationItem.title = NSLocalizedString(@"Passcode", @"");
-    self.view.backgroundColor = kVIEW_ALT2_BACKGROUND_COLOR;
+    self.view.backgroundColor = kVIEW_BACKGROUND_COLOR;
     
     [self applySkinToBulletField:bulletField0];
     [self applySkinToBulletField:bulletField1];

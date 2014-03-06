@@ -181,21 +181,15 @@
     //UIAlertview to display to user
     UIAlertView *recoveryAlert = [[UIAlertView alloc]
                                   initWithTitle:@"Set Passcode Hint"
-                                  message:@"\n"
+                                  message:@""
                                   delegate:self
                                   cancelButtonTitle:@"Cancel"
                                   otherButtonTitles:@"OK", nil];
     recoveryAlert.tag = 1;
     
-    //Embeded an UITextField into the UIalertview for a user to input a recovery hint
-    textField = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 45.0, 260.0, 25.0)];
-    textField.placeholder = @"Enter hint for the passcode";
-    [textField becomeFirstResponder];
-    textField.backgroundColor = kVIEW_FOREGROUND_COLOR;
-    textField.textAlignment = NSTextAlignmentCenter;
+    recoveryAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
     
-    //Add TextField to UIAlertview
-    [recoveryAlert addSubview:textField];
+
     
     //Display the UIAlertview
     [recoveryAlert show];
@@ -235,8 +229,9 @@
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSString *recoveryHint = textField.text;
+
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
     
     //Define the notify passcode alertview
     if (alertView.tag == 0)
@@ -244,6 +239,7 @@
         switch (buttonIndex)
         {
             case 1:
+                
                 [self setRecoveryHint];
                 break;
                 
@@ -258,16 +254,18 @@
     //Define the set recovery hint alertview
     else if (alertView.tag == 1)
     {
+        UITextField *recoverTextField = [alertView textFieldAtIndex:0];
         switch (buttonIndex)
         {
             case 1:
-                if (textField.text == nil || [textField.text isEqualToString: @""])
+                if (recoverTextField.text == nil || [recoverTextField.text isEqualToString: @""])
                 {
                     
                 }
                 else
                 {
-                    [defaults setValue:recoveryHint forKey:@"RecoveryHint"];
+                    
+                    [defaults setValue:recoverTextField.text forKey:@"RecoveryHint"];
                     [defaults setBool:YES forKey:@"RecoverSet"];
                     [defaults synchronize];
                     
