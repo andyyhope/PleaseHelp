@@ -152,7 +152,7 @@
     {
         // Switch is On
         [defaults setBool:TRUE forKey:@"TextMsgOnly"];
-        [textToSpeech textToSpeechEnabled];
+
         
     } else
     {
