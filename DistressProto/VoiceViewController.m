@@ -16,6 +16,7 @@
     UIScrollView *scrollView;
     TextToSpeech *textToSpeech;
     UISwitch *onOffSwitch;
+    UISwitch *txtOnOffSwitch;
     UILabel *warningLabel;
 }
 @end
@@ -51,6 +52,8 @@
     textToSpeechView.layer.cornerRadius = kCELL_CORNER_RADIUS;
     [scrollView addSubview:textToSpeechView];
     
+    
+    
     // Create Label
     UILabel *textToSpeechLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 300, 50)];
     textToSpeechLabel.text = @"Voice Assistance";
@@ -69,6 +72,32 @@
     warningLabel.text = @"WARNING: Voice Assistance  can affect the phone's performance and response time.";
     [Appearance applySkinToLocationLabel:warningLabel];
     [scrollView addSubview:warningLabel];
+    
+    
+    // Create View for Button
+    UIView *textMsgOnlyView = [[UIView alloc] initWithFrame:CGRectMake(10, 140, 300, 50)];
+    textMsgOnlyView.backgroundColor = [UIColor whiteColor];
+    textMsgOnlyView.layer.cornerRadius = kCELL_CORNER_RADIUS;
+    [scrollView addSubview:textMsgOnlyView];
+    
+    // Create Label
+    UILabel *textOnlyLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 300, 50)];
+    textOnlyLabel.text = @"Text Message Only";
+    [textMsgOnlyView addSubview:textOnlyLabel];
+    textOnlyLabel.backgroundColor = [UIColor clearColor];
+    textOnlyLabel.font = kCELL_TEXT_FONT;
+    textOnlyLabel.textColor = kCELL_HEADER_FONT_COLOR;
+    
+    // Create a info label for Text Message Only
+    UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(10,200, 300, 60)];
+    infoLabel.text = @"This feature will disable calling and skip directly to the text message screen.";
+    [Appearance applySkinToLocationLabel:infoLabel];
+    [scrollView addSubview:infoLabel];
+    
+    // Create On/Off Switch
+    txtOnOffSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(textMsgOnlyView.frame.size.width - 60, 11, 30, 30)];
+    [txtOnOffSwitch addTarget:self action:@selector(toggleTextMessage) forControlEvents:UIControlEventValueChanged];
+    [textMsgOnlyView addSubview:txtOnOffSwitch];
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TextToSpeechEnabled"])
     {
@@ -102,7 +131,25 @@
     {
         // Switch is Off
         [defaults setBool:FALSE forKey:@"TextToSpeechEnabled"];
-        warningLabel.hidden = TRUE;
+    }
+}
+
+-(void)toggleTextMessage
+{
+    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+    
+    // Update Switch based on User Settings
+    if (txtOnOffSwitch.on)
+    {
+        warningLabel.hidden = FALSE;
+        // Switch is On
+        [defaults setBool:TRUE forKey:@"TextMsgOnly"];
+        [textToSpeech textToSpeechEnabled];
+        
+    } else
+    {
+        // Switch is Off
+        [defaults setBool:FALSE forKey:@"TextMsgOnly"];
     }
 }
 

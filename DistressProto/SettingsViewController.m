@@ -52,7 +52,7 @@
     voiceViewController = [[VoiceViewController alloc] init];
     
     //Create the Segmented Controller
-    segmentedControl = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"Contacts", @"Passcode", @"Voice"]];
+    segmentedControl = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"Contacts", @"Passcode", @"Other"]];
     segmentedControl.backgroundColor = kVIEW_ALT2_BACKGROUND_COLOR;
     [segmentedControl setSelectionStyle:HMSegmentedControlSelectionStyleFullWidthStrip];
     [segmentedControl setSelectionLocation:HMSegmentedControlSelectionLocationDown];
