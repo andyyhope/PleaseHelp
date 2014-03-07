@@ -182,6 +182,8 @@
     //Keyboard controls init
     NSArray *keyboardFields = @[self.nameTextField, self.phoneTextField, self.relationTextField];
     [self setKeyboardControls:[[BSKeyboardControls alloc] initWithFields:keyboardFields]];
+    [self.keyboardControls setSegmentedControlTintControl:[UIColor whiteColor]];
+    [self.keyboardControls setDoneTintColor:[UIColor greenColor]];
     [self.keyboardControls setDelegate:self];
     
     //Perform the setup nav bar method

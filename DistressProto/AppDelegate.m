@@ -382,8 +382,11 @@
     [[UINavigationBar appearance] setTitleTextAttributes:
      [NSDictionary dictionaryWithObjectsAndKeys:
       [UIColor whiteColor], UITextAttributeTextColor,
-      [UIFont fontWithName:@"HelveticaNeue-CondensedBold" size:22], UITextAttributeFont,
+      [UIFont fontWithName:@"Avenir-Book" size:22], UITextAttributeFont,
       nil]];
+    
+    [[UIBarButtonItem appearance] setTintColor:[UIColor whiteColor]];
+
     
     // Green tint for Sending Text
     [[UINavigationBar appearanceWhenContainedIn:[MFMessageComposeViewController class], nil] setBackgroundImage:[UIImage imageNamed:kNAVIGATIONBAR_BACKGROUND] forBarMetrics:UIBarMetricsDefault];
