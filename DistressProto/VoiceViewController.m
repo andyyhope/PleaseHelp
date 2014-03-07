@@ -46,6 +46,7 @@
     // Instantiate TextToSpeech class
     textToSpeech = [[TextToSpeech alloc] init];
     
+    
     // Create View for Button
     UIView *textToSpeechView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 300, 50)];
     textToSpeechView.backgroundColor = [UIColor whiteColor];
@@ -69,7 +70,7 @@
     
     // Create a warning label for Text To Speech
     warningLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 70, 300, 60)];
-    warningLabel.text = @"WARNING: Voice Assistance  can affect the phone's performance and response time.";
+    warningLabel.text = @"WARNING: Voice Assistance  can affect the phone's performance and response time.\nThe phone must also be OFF 'Silent' mode.";
     [Appearance applySkinToLocationLabel:warningLabel];
     [scrollView addSubview:warningLabel];
     
@@ -99,13 +100,21 @@
     [txtOnOffSwitch addTarget:self action:@selector(toggleTextMessage) forControlEvents:UIControlEventValueChanged];
     [textMsgOnlyView addSubview:txtOnOffSwitch];
     
+    
+    // Update switches based on NSUserDefaults
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TextToSpeechEnabled"])
     {
         onOffSwitch.on = TRUE;
-        warningLabel.hidden = FALSE;
     } else
     {
         onOffSwitch.on = FALSE;
+    }
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TextMsgOnly"]) {
+        txtOnOffSwitch.on = TRUE;
+    } else
+    {
+        txtOnOffSwitch.on = FALSE;
     }
 }
 
@@ -141,7 +150,6 @@
     // Update Switch based on User Settings
     if (txtOnOffSwitch.on)
     {
-        warningLabel.hidden = FALSE;
         // Switch is On
         [defaults setBool:TRUE forKey:@"TextMsgOnly"];
         [textToSpeech textToSpeechEnabled];

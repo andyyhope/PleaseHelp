@@ -18,6 +18,7 @@
 - (void)nowCalling:(NSString *)contact;
 - (void)optionWithContact:(NSString *)contact andNextContact:(NSString *)nextContact;
 - (void)textMessageSentTo:(NSString *)contact;
+- (void)textMessageInstructionToContact:(NSString *)contact;
 - (void)say:(NSString *)message;
--(void)textToSpeechEnabled;
+- (void)textToSpeechEnabled;
 @end

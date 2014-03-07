@@ -56,5 +56,6 @@
 
 -(void)updateUserName:(NSString *)name andNumber:(NSString *)number;
 -(void)updateLat:(NSString *)latitude andLong:(NSString *)longitude;
+- (void)messageContact;
 
 @end

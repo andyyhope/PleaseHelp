@@ -11,6 +11,7 @@
 #import "CallingViewController.h"
 #import "OptionViewController.h"
 #import "ContactItem.h"
+#import "SVProgressHUD.h"
 
 @implementation AppDelegate
 
@@ -72,6 +73,7 @@
     {
         contactsArray = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
         NSLog(@"count of objects: %d", [contactsArray count]);
+        contactsViewController.contactsArray = contactsArray;
     }
     else
     // if not then initialise the local array
@@ -242,6 +244,8 @@
             contactsViewController.locationAddressString = locationAddressString;
             latitude = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
             longitude = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
+            contactsViewController.userLatitude = latitude;
+            contactsViewController.userLongitude = longitude;
             [contactsViewController updateLocationLabel];
             
             // Shorten URL
@@ -262,10 +266,12 @@
 - (void)urlShortenerSucceededWithShortUrl:(NSString *)shortUrl
 {
     shortenedURL = shortUrl;
+    contactsViewController.googleMapsString = shortenedURL;
 }
 - (void)urlShortenerFailedWithError:(NSError *)error
 {
     shortenedURL = [[NSString alloc] initWithFormat:kMAPS_URL, latitude, longitude];
+    contactsViewController.googleMapsString = shortenedURL;
 }
 
 #pragma Call Cycle
@@ -280,21 +286,58 @@
     // Update Calling View
     currentIndex = startIndex;
     contactItem = [contactsArray objectAtIndex:startIndex];
-    callingViewController = [[CallingViewController alloc] init];
-    callingViewController.contactName = contactItem.name;
-    callingViewController.locationAddressLabel.text = locationAddressString;
-    callingViewController.contactNumber = contactItem.phone;
-    callingViewController.contactImage = contactItem.image;
-    callingViewController.contactRelation = contactItem.relation;
-    callingViewController.contactIndex = currentIndex;
-    [callingViewController updateContactImageWith:contactItem.image];
-//    [textToSpeech doYouWantToCall:contactItem.name];
-    // Push Calling View
-    [contactsViewController presentViewController:callingViewController animated:animation completion:^{
 
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
-                                                    [NSString stringWithFormat:@"telprompt:%@", contactItem.phone]]];
-    }];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TextMsgOnly"]) { // Text Message Only
+        
+//        TextMessage *textMessage = [[TextMessage alloc] init];
+//        textMessage.delegate = self;
+//        textMessage.locationAddressString = locationAddressString;
+//        textMessage.userNumber = contactItem.phone;
+//        textMessage.googleMapsString = shortenedURL;
+//        textMessage.userLongitude = self.longitude;
+//        textMessage.userLatitude = self.latitude;
+//        textMessage.viewController = contactsViewController;
+//        [textMessage messageContactWithViewController];
+        
+//        contactItem = [contactsArray objectAtIndex:startIndex];
+//        optionViewController = [[OptionViewController alloc] init];
+//        optionViewController.contactName = contactItem.name;
+//        optionViewController.contactRelation = contactItem.relation;
+//        optionViewController.contactImage = contactItem.image;
+//        optionViewController.locationAddressLabel.text = locationAddressString;
+//        optionViewController.googleMapsString = shortenedURL;
+//        NSString *nameString = [[NSString alloc] initWithFormat:@"%@",contactItem.name];
+//        NSString *numberString = [[NSString alloc] initWithFormat:@"%@", contactItem.phone];
+//        [optionViewController updateLat:self.latitude andLong:self.longitude];
+//        [optionViewController updateUserName:nameString andNumber:numberString];
+//        [contactsViewController presentViewController:optionViewController animated:NO completion:^{
+//            optionViewController.view.alpha = 0;
+//            [optionViewController messageContact];
+//        }];
+        
+        
+        
+    } else // Call Contact
+    {
+        callingViewController = [[CallingViewController alloc] init];
+        callingViewController.contactName = contactItem.name;
+        callingViewController.locationAddressLabel.text = locationAddressString;
+        callingViewController.contactNumber = contactItem.phone;
+        callingViewController.contactImage = contactItem.image;
+        callingViewController.contactRelation = contactItem.relation;
+        callingViewController.contactIndex = currentIndex;
+        [callingViewController updateContactImageWith:contactItem.image];
+        //    [textToSpeech doYouWantToCall:contactItem.name];
+        // Push Calling View
+        
+        [contactsViewController presentViewController:callingViewController animated:animation completion:^{
+            
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
+                                                        [NSString stringWithFormat:@"telprompt:%@", contactItem.phone]]];
+        }];
+    }
+
 }
 
 
@@ -321,14 +364,12 @@
         optionViewController.nextContactName = nextContactItem.name;
         optionViewController.nextContactRelation = nextContactItem.relation;
         optionViewController.nextContactImage = nextContactItem.image;
-        
     } else
     { 
         // End of call cycle
         // Show Police option
         optionViewController.nextContactName = [policeDictionary objectForKey:@"name"];
         optionViewController.nextContactImage = [policeDictionary objectForKey:@"image"];
-        
     }
     
     // Present OptionView
@@ -390,6 +431,49 @@
     
     // Green tint for Sending Text
     [[UINavigationBar appearanceWhenContainedIn:[MFMessageComposeViewController class], nil] setBackgroundImage:[UIImage imageNamed:kNAVIGATIONBAR_BACKGROUND] forBarMetrics:UIBarMetricsDefault];
+}
+
+-(void)messageComposeViewSendButtonPressed
+{
+    NSLog(@"send button was pressed");
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{
+    NSLog(@"BEING CALLED");
+    // Show HUD based on Message send status
+    switch (result) {
+        case MessageComposeResultCancelled:
+            [SVProgressHUD showErrorWithStatus:@"Message cancelled"];
+            
+            break;
+        case MessageComposeResultSent:
+            [SVProgressHUD showSuccessWithStatus:@"Message sent"];
+            break;
+        case MessageComposeResultFailed:
+            [SVProgressHUD showErrorWithStatus:@"Message failed"];
+            break;
+        default:
+            
+            break;
+    }
+    // Dismiss Message UI View
+    [controller dismissViewControllerAnimated:YES completion:^{
+        // Dismiss Option View
+        NSLog(@"Dismised");
+        
+        
+//        [self.viewController dismissViewControllerAnimated:NO completion:^{
+//            [self dismissCallingView];
+//            // Call Next Contact
+//            AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+//
+//
+//            [appDelegate updateAppearanceOfUIKit];
+//            [appDelegate callNextPerson];
+//            
+//        }];
+    }];
 }
 
 @end

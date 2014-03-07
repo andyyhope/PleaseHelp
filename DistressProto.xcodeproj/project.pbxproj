@@ -17,6 +17,8 @@
 		3ADFBBC417395B9B00F04BF1 /* KVPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ADFBBC217395B9B00F04BF1 /* KVPasscodeViewController.m */; };
 		3ADFBBC517395B9B00F04BF1 /* KVPasscodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3ADFBBC317395B9B00F04BF1 /* KVPasscodeViewController.xib */; };
 		662E59A918C8C9EF00264CC4 /* Images-2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 662E59A818C8C9EF00264CC4 /* Images-2.xcassets */; };
+		66EB20BA18C9A612006A69A6 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 66EB20B718C9A612006A69A6 /* SVProgressHUD.bundle */; };
+		66EB20BB18C9A612006A69A6 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EB20B918C9A612006A69A6 /* SVProgressHUD.m */; };
 		D00227691730198D00755C5A /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D00227671730198C00755C5A /* AddressBook.framework */; };
 		D002276A1730198D00755C5A /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D00227681730198D00755C5A /* AddressBookUI.framework */; };
 		D002276C17326F9E00755C5A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D002276B17326F9E00755C5A /* CoreLocation.framework */; };
@@ -53,8 +55,6 @@
 		D1D1933D17427F5A001B7A55 /* smsIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D1D1933917427F5A001B7A55 /* smsIcon@2x.png */; };
 		D1D19340174283C9001B7A55 /* defaultProfile.png in Resources */ = {isa = PBXBuildFile; fileRef = D1D1933E174283C8001B7A55 /* defaultProfile.png */; };
 		D1D19341174283C9001B7A55 /* defaultProfile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D1D1933F174283C9001B7A55 /* defaultProfile@2x.png */; };
-		D1DFEEB717549B1B00FDF5A3 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D1DFEEB417549B1B00FDF5A3 /* SVProgressHUD.bundle */; };
-		D1DFEEB817549B1B00FDF5A3 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D1DFEEB617549B1B00FDF5A3 /* SVProgressHUD.m */; };
 		D1DFEEBF1754C46700FDF5A3 /* infoIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = D1DFEEBD1754C46600FDF5A3 /* infoIcon.png */; };
 		D1DFEEC01754C46700FDF5A3 /* infoIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D1DFEEBE1754C46700FDF5A3 /* infoIcon@2x.png */; };
 		D1F513251737D58700510CBF /* ContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1F513241737D58700510CBF /* ContactViewController.m */; };
@@ -86,6 +86,10 @@
 		3ADFBBC217395B9B00F04BF1 /* KVPasscodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KVPasscodeViewController.m; sourceTree = "<group>"; };
 		3ADFBBC317395B9B00F04BF1 /* KVPasscodeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KVPasscodeViewController.xib; sourceTree = "<group>"; };
 		662E59A818C8C9EF00264CC4 /* Images-2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "Images-2.xcassets"; path = "DistressProto/Images-2.xcassets"; sourceTree = "<group>"; };
+		66EB20B618C9A612006A69A6 /* SVProgressHUD-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD-Prefix.pch"; sourceTree = "<group>"; };
+		66EB20B718C9A612006A69A6 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
+		66EB20B818C9A612006A69A6 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		66EB20B918C9A612006A69A6 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		D00227671730198C00755C5A /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		D00227681730198D00755C5A /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		D002276B17326F9E00755C5A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -133,9 +137,6 @@
 		D1D1933917427F5A001B7A55 /* smsIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "smsIcon@2x.png"; sourceTree = "<group>"; };
 		D1D1933E174283C8001B7A55 /* defaultProfile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultProfile.png; sourceTree = "<group>"; };
 		D1D1933F174283C9001B7A55 /* defaultProfile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "defaultProfile@2x.png"; sourceTree = "<group>"; };
-		D1DFEEB417549B1B00FDF5A3 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
-		D1DFEEB517549B1B00FDF5A3 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
-		D1DFEEB617549B1B00FDF5A3 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		D1DFEEBD1754C46600FDF5A3 /* infoIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = infoIcon.png; sourceTree = "<group>"; };
 		D1DFEEBE1754C46700FDF5A3 /* infoIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "infoIcon@2x.png"; sourceTree = "<group>"; };
 		D1F513231737D58600510CBF /* ContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactViewController.h; sourceTree = "<group>"; };
@@ -245,7 +246,6 @@
 				D1B425FE176C4C76004BD388 /* TextToSpeech */,
 				D19133F3176AF6710087659E /* HMSegmentedControl */,
 				D12DA0271760E0FD0004EE92 /* UrlShortener */,
-				D1DFEEB317549B1B00FDF5A3 /* SVProgressHUD */,
 				3ADFBBC017395B9000F04BF1 /* KVPasscode */,
 				D1F513271737F14600510CBF /* Categories */,
 				D1F513441738BA4500510CBF /* BSKeyboardControls */,
@@ -256,6 +256,7 @@
 		3A96BE78172D19590092B2C4 /* Passcode */ = {
 			isa = PBXGroup;
 			children = (
+				66EB20B518C9A612006A69A6 /* SVProgressHUD */,
 				3A96BE81172D1A9D0092B2C4 /* PasscodeSettingsViewController.h */,
 				3A96BE82172D1A9D0092B2C4 /* PasscodeSettingsViewController.m */,
 			);
@@ -271,8 +272,8 @@
 				D1F5133A1738A68B00510CBF /* ContactEditViewController.m */,
 				D19133E2176AD5460087659E /* ImportInstructionsViewController.h */,
 				D19133E3176AD5470087659E /* ImportInstructionsViewController.m */,
-				3A96BE8A172D1AD50092B2C4 /* ContactItem.h */,
 				3A96BE8B172D1AD50092B2C4 /* ContactItem.m */,
+				3A96BE8A172D1AD50092B2C4 /* ContactItem.h */,
 				D1F513231737D58600510CBF /* ContactViewController.h */,
 				D1F513241737D58700510CBF /* ContactViewController.m */,
 			);
@@ -338,6 +339,17 @@
 			name = KVPasscode;
 			sourceTree = "<group>";
 		};
+		66EB20B518C9A612006A69A6 /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				66EB20B618C9A612006A69A6 /* SVProgressHUD-Prefix.pch */,
+				66EB20B718C9A612006A69A6 /* SVProgressHUD.bundle */,
+				66EB20B818C9A612006A69A6 /* SVProgressHUD.h */,
+				66EB20B918C9A612006A69A6 /* SVProgressHUD.m */,
+			);
+			path = SVProgressHUD;
+			sourceTree = "<group>";
+		};
 		D002277A1732701C00755C5A /* UIImages */ = {
 			isa = PBXGroup;
 			children = (
@@ -400,16 +412,6 @@
 				D1B42609176C543C004BD388 /* VoiceViewController.m */,
 			);
 			name = Voice;
-			sourceTree = "<group>";
-		};
-		D1DFEEB317549B1B00FDF5A3 /* SVProgressHUD */ = {
-			isa = PBXGroup;
-			children = (
-				D1DFEEB417549B1B00FDF5A3 /* SVProgressHUD.bundle */,
-				D1DFEEB517549B1B00FDF5A3 /* SVProgressHUD.h */,
-				D1DFEEB617549B1B00FDF5A3 /* SVProgressHUD.m */,
-			);
-			path = SVProgressHUD;
 			sourceTree = "<group>";
 		};
 		D1F513271737F14600510CBF /* Categories */ = {
@@ -493,12 +495,12 @@
 				3ADFBBC517395B9B00F04BF1 /* KVPasscodeViewController.xib in Resources */,
 				D1D193291742192C001B7A55 /* PoliceImage@2x.png in Resources */,
 				D1D1933A17427F5A001B7A55 /* callIcon.png in Resources */,
+				66EB20BA18C9A612006A69A6 /* SVProgressHUD.bundle in Resources */,
 				D1D1933B17427F5A001B7A55 /* callIcon@2x.png in Resources */,
 				D1D1933C17427F5A001B7A55 /* smsIcon.png in Resources */,
 				D1D1933D17427F5A001B7A55 /* smsIcon@2x.png in Resources */,
 				D1D19340174283C9001B7A55 /* defaultProfile.png in Resources */,
 				D1D19341174283C9001B7A55 /* defaultProfile@2x.png in Resources */,
-				D1DFEEB717549B1B00FDF5A3 /* SVProgressHUD.bundle in Resources */,
 				D1DFEEBF1754C46700FDF5A3 /* infoIcon.png in Resources */,
 				662E59A918C8C9EF00264CC4 /* Images-2.xcassets in Resources */,
 				D1DFEEC01754C46700FDF5A3 /* infoIcon@2x.png in Resources */,
@@ -529,13 +531,13 @@
 				D00227BC1732742F00755C5A /* ContactsTableViewCell.m in Sources */,
 				D00227BF1732747000755C5A /* MainContactViewController.m in Sources */,
 				D1F513251737D58700510CBF /* ContactViewController.m in Sources */,
+				66EB20BB18C9A612006A69A6 /* SVProgressHUD.m in Sources */,
 				D1F5132E173893E300510CBF /* SettingsViewController.m in Sources */,
 				D1F5133817389A7F00510CBF /* ContactAddViewController.m in Sources */,
 				D1F5133B1738A68B00510CBF /* ContactEditViewController.m in Sources */,
 				D1F5134A1738BA4500510CBF /* BSKeyboardControls.m in Sources */,
 				3ADFBBC417395B9B00F04BF1 /* KVPasscodeViewController.m in Sources */,
 				D12A6634173E947D001A31B5 /* Appearance.m in Sources */,
-				D1DFEEB817549B1B00FDF5A3 /* SVProgressHUD.m in Sources */,
 				D12DA0371760E0FD0004EE92 /* UrlShortener.m in Sources */,
 				D19133E4176AD5470087659E /* ImportInstructionsViewController.m in Sources */,
 				D19133F6176AF6710087659E /* HMSegmentedControl.m in Sources */,

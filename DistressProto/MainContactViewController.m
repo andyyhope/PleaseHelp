@@ -15,6 +15,7 @@
 #import "PasscodeSettingsViewController.h"
 #import "SettingsViewController.h"
 #import "ContactItem.h"
+#import "TextToSpeech.h"
 #import "SVProgressHUD.h"
 
 //Define the private variables and methods for this class
@@ -23,6 +24,7 @@
     int attempt;
     NSString *message;
     UIActivityIndicatorView *_activityIndicator;
+    ContactItem *contact;
 }
 
 @property NSMutableArray *items;
@@ -194,9 +196,22 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // If row was pressed
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TextMsgOnly"]) { // Text Message Only
+        contact = [self.contactsArray objectAtIndex:indexPath.row];
+        [self messageContact];
+        
+
+    } else
+    {
+        AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [appDelegate startCallCycleAt:indexPath.row withAnimation:YES];
+        
+    }
     // Start Call Cycle
-    AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate startCallCycleAt:indexPath.row withAnimation:YES];
+    
+    
+
 }
 
 - (void)createTableHeader
@@ -216,8 +231,6 @@
     locationHeaderLabel.font = kLOCATION_HEADER_FONT;
     locationHeaderLabel.textColor = kLOCATION_HEADER_FONT_COLOR;
     locationHeaderLabel.textAlignment = NSTextAlignmentCenter;
-//    locationHeaderLabel.shadowColor = [UIColor colorWithWhite:255.0f alpha:0.2f];
-//    locationHeaderLabel.shadowOffset = CGSizeMake(1, 1);
     locationHeaderLabel.backgroundColor = [UIColor clearColor];
     
     // Skin Location Label
@@ -225,8 +238,6 @@
     locationAddressLabel.font = kLOCATION_TEXT_FONT;
     locationAddressLabel.textColor = kLOCATION_TEXT_FONT_COLOR;
     locationAddressLabel.textAlignment = NSTextAlignmentCenter;
-//    locationAddressLabel.shadowColor = [UIColor colorWithWhite:0.0f alpha:0.2f];
-//    locationAddressLabel.shadowOffset = CGSizeMake(1, 1);
     locationAddressLabel.backgroundColor = [UIColor clearColor];
     locationAddressLabel.numberOfLines = 0;
     
@@ -331,6 +342,88 @@
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
+}
+
+- (void)messageContact
+{
+    //Initilise the message composer view
+    [[UINavigationBar appearance] setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    NSDictionary *titleTextAttr = @{[UIColor greenColor]: NSForegroundColorAttributeName};
+    [[UINavigationBar appearance] setTitleTextAttributes:titleTextAttr];
+    MFMessageComposeViewController *messageComposeViewController = [[MFMessageComposeViewController alloc] init];
+    
+    //Set delegate
+    messageComposeViewController.messageComposeDelegate = self;
+    
+    messageComposeViewController.navigationBar.tintColor = [UIColor redColor];
+    //Check if SMS Text can be sent from device
+    
+    if ([MFMessageComposeViewController canSendText]) {
+        //If enabled, clear the recipients
+        recipient = nil;
+        
+        //Add the recipient of the current contact user
+        recipient = [[NSString alloc] initWithString:contact.phone];
+        [messageComposeViewController setRecipients:@[recipient]];
+        
+        //Define the message for assistance to the recipient
+        NSString *messageString = [[NSString alloc]
+                                   initWithFormat:@"Im within the vicinity of:\n%@\n\nShow in Maps:\n%@\n\nLatitude: %@\nLongitude: %@",
+                                   locationAddressLabel.text,
+                                   self.googleMapsString,
+                                   self.userLatitude,
+                                   self.userLongitude];
+        
+        NSString *completeString = [[NSString alloc]
+                                    initWithFormat:@"%@ %@",
+                                    kSMS_MESSAGE_TEXT,
+                                    messageString];
+        
+        //Add message defined into the body of the SMS Text
+        [messageComposeViewController setBody:completeString];
+        //Initiate Text to Speech
+        TextToSpeech *texToSpeech = [[TextToSpeech alloc] init];
+        [texToSpeech textMessageInstructionToContact:contact.name];
+
+        
+        //Present the SMS Message Composer View
+        [self presentViewController:messageComposeViewController animated:YES completion:^{
+            
+        }];
+        
+    } else
+    {
+        //Display Error
+        [SVProgressHUD showErrorWithStatus:@"Cannot send Messages"];
+    }
+}
+
+//A delegate method when initialising a message composer view
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{
+    // Show HUD based on Message send status
+    switch (result) {
+        case MessageComposeResultCancelled:
+            [SVProgressHUD showErrorWithStatus:@"Message cancelled"];
+            break;
+        case MessageComposeResultSent:
+            [SVProgressHUD showSuccessWithStatus:@"Message sent"];
+            break;
+        case MessageComposeResultFailed:
+            [SVProgressHUD showErrorWithStatus:@"Message failed"];
+            break;
+        default:
+            
+            break;
+    }
+    AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate updateAppearanceOfUIKit];
+    
+    // Dismiss Message UI View
+    [controller dismissViewControllerAnimated:YES completion:^{
+
+
+    }];
 }
 
 @end
