@@ -190,7 +190,7 @@
         //Add message defined into the body of the SMS Text
         [messageComposeViewController setBody:completeString];
         //Initiate Text to Speech
-        [textToSpeech say:@"PRESS THE BLUE, SEND BUTTON TO TEXT MESSAGE"];
+        [textToSpeech say:@"PRESS THE GREEN, SEND BUTTON TO TEXT MESSAGE"];
         
         //Present the SMS Message Composer View
         [self presentViewController:messageComposeViewController animated:YES completion:^{
@@ -230,7 +230,7 @@
             // Call Next Contact
             AppDelegate* appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 
-
+            self.view.alpha = 1;
             [appDelegate updateAppearanceOfUIKit];
             [appDelegate callNextPerson];
             

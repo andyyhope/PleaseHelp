@@ -12,18 +12,29 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "KVPasscodeViewController.h"
+#import <MessageUI/MessageUI.h>
 
-@interface MainContactViewController : UITableViewController <KVPasscodeViewControllerDelegate>
+@interface MainContactViewController : UITableViewController <KVPasscodeViewControllerDelegate, MFMessageComposeViewControllerDelegate>
 {
     NSString *locationAddressString;
     UILabel *locationAddressLabel;
     NSInteger cycleStartIndex;
     NSInteger cycleCurrentIndex;
+    
+    NSString *recipient;
+    
 }
 
 @property (nonatomic, retain) NSString *locationAddressString;
 @property (nonatomic, readwrite) NSInteger cycleStartIndex;
 @property (nonatomic, readwrite) NSInteger cycleCurrentIndex;
+
+@property (nonatomic, retain) NSString *userNumber;
+@property (nonatomic, retain) NSString *googleMapsString;
+@property (nonatomic, retain) NSString *userLongitude;
+@property (nonatomic, retain) NSString *userLatitude;
+@property (nonatomic, retain) NSMutableArray *contactsArray;
+
 
 - (void)updateLocationLabel;
 - (void) pushSettingsView;

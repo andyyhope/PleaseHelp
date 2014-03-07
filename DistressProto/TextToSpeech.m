@@ -57,6 +57,12 @@
     [self textToSpeech:message];
 }
 
+- (void)textMessageInstructionToContact:(NSString *)contact
+{
+    NSString *message = [NSString stringWithFormat:@"PRESS THE GREEN, SEND BUTTON TO TEXT MESSAGE, %@", contact];
+    [self textToSpeech:message];
+}
+
 -(void)textToSpeech:(NSString *)wholeString
 {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"TextToSpeechEnabled"])
